@@ -203,7 +203,7 @@
         </li>
     </ul>
     <br />
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover align-middle">
         <caption>{{ weapons_count }} total de armas disponibles</caption>
         <thead>
             <tr>
@@ -274,13 +274,12 @@
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Peso:</td>
-                                                            <td>{{ weapon.weight|stringformat:"1.1f" }}</td>
+                                                            <td>{{ weapon.weight|stringformat:"1.1f" }} kgs</td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Precio:</td>
                                                             <td>{{ weapon.cost|stringformat:"3d" }} creds</td>
                                                         </tr>
-
                                                     </tbody>
                                                 </table>
                                             </div>
