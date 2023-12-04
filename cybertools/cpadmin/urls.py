@@ -6,7 +6,7 @@ urlpatterns = [
     path('', views.index, name='index'),
 
     # Routes to characters
-    path('characters/', views.equipment_home, name='characters'),
+    path('characters/', views.characters_home, name='characters'),
 
     # Routes to equipment
     path('equipment/', views.equipment_home, name='equipment'),
@@ -19,14 +19,14 @@ urlpatterns = [
     path('equipment/weapons/refresh', views.weapons_refresh),
 
     # Routes to drugs
-    path('drugs/', views.equipment_home, name='drugs'),
+    path('drugs/', views.drugs_home, name='drugs'),
 
     # Routes to vehicles
-    path('vehicles/', views.equipment_home, name='vehicles'),
+    path('vehicles/', views.vehicles_home, name='vehicles'),
 
     # Routes to netrunning
-    path('netrunning/', views.equipment_home, name='netrunning'),
+    path('netrunning/', views.netrunning_home, name='netrunning'),
 
     # Routes to complements
-    path('complements/', views.equipment_home, name='complements'),
+    path('complements/', views.complements_home, name='complements'),
 ]

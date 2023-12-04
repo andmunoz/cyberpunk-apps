@@ -1,4 +1,87 @@
 {% extends "template.html" %}
 
 {% block section_content %}
+{% load static %}
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4 mb-3 mb-sm-0">
+            <div class="card text-center align-middle border-warning">
+                <div class="card-header">
+                    <h5>Personajes</h5>
+                </div>
+                <img src="{% static 'images/characters.jpg' %}" class="card-img-top" alt="Personajes">
+                <div class="card-body">
+                    <p class="card-text">En esta sección podrás encontrar personajes creados, tanto jugadores como no jugadores.</p>
+                    <a href="{% url 'characters' %}" class="btn btn-danger disabled">Acceder</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card text-center align-middle border-warning">
+                <div class="card-header">
+                    <h5>Armas y Equipo</h5>
+                </div>
+                <img src="{% static 'images/equipment.jpg' %}" class="card-img-top" alt="Armas y Equipo">
+                <div class="card-body">
+                    <p class="card-text">En esta sección podrás encontrar listas con armamento, blindaje y equipo para tus personajes.</p>
+                    <a href="{% url 'equipment' %}" class="btn btn-danger">Acceder</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card text-center align-middle border-warning">
+                <div class="card-header">
+                    <h5>Medicina y Drogas</h5>
+                </div>
+                <img src="{% static 'images/drugs.jpg' %}" class="card-img-top" alt="Medicina Drogas">
+                <div class="card-body">
+                    <p class="card-text">En esta sección podrás encontrar un compendio de drogas para tus partidas.</p>
+                    <a href="{% url 'drugs' %}" class="btn btn-danger disabled">Acceder</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 mb-3 mb-sm-0">&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4 mb-3 mb-sm-0">
+            <div class="card text-center align-middle border-warning">
+                <div class="card-header">
+                    <h5>Vehículos</h5>
+                </div>
+                <img src="{% static 'images/vehicles.jpg' %}" class="card-img-top" alt="Vehículos">
+                <div class="card-body">
+                    <p class="card-text">En esta sección podrás encontrar un maestro de vehículos que puedes utilizar y comprar.</p>
+                    <a href="{% url 'vehicles' %}" class="btn btn-danger disabled">Acceder</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card text-center align-middle border-warning">
+                <div class="card-header">
+                    <h5>Netrunning</h5>
+                </div>
+                <img src="{% static 'images/netrunning.jpg' %}" class="card-img-top" alt="Netrunning">
+                <div class="card-body">
+                    <p class="card-text">En esta sección podrás encontrarás reglas y material para los netrunners.</p>
+                    <a href="{% url 'netrunning' %}" class="btn btn-danger disabled">Acceder</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card text-center align-middle border-warning">
+                <div class="card-header">
+                    <h5>Complementos</h5>
+                </div>
+                <img src="{% static 'images/complements.jpg' %}" class="card-img-top" alt="Complementos">
+                <div class="card-body">
+                    <p class="card-text">En esta sección podrás encontrarás otros documentos y complementos para tus partidas.</p>
+                    <a href="{% url 'complements' %}" class="btn btn-danger disabled">Acceder</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
