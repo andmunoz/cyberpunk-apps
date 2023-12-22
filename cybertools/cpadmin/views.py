@@ -108,6 +108,7 @@ def weapons_upload(request):
                 damage=row['damage'],
                 weight=float(row['weight']),
                 cost=int(row['cost']),
+                image=row['image'],
             )
         )
 
@@ -181,6 +182,7 @@ def weapons_refresh(request):
                     damage=weapon.damage,
                     weight=weapon.weight,
                     cost=weapon.cost,
+                    image=weapon.image,
                 ),
             )
             
