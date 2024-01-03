@@ -1,0 +1,407 @@
+{% extends "equipment.html" %}
+
+{% block section_content_content %}
+    <ul class="nav justify-content-end">
+        <li class="nav-item">
+            <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#uploadArmorModal">
+                Subir CSV <i class="fa-solid fa-upload"></i>
+            </a>
+            <div class="modal fade" id="uploadArmorModal" tabindex="-1" aria-labelledby="uploadArmorModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="{% url 'armor' %}/upload" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="uploadArmorModalLabel">Subir CSV</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="csv_file" class="form-label">Archivo CSV:</label>
+                                    <input type="file" name="csv_file" id="csv_file" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Subir</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <a class="btn btn-primary" href="{% url 'armor' %}/download">
+                Descargar CSV <i class="fa-solid fa-download"></i>
+            </a>
+
+            <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#refreshFromArmorModal">
+                Recargar <i class="fa-solid fa-arrows-rotate"></i>
+            </a>
+            <div class="modal fade" id="refreshFromArmorModal" tabindex="-1" aria-labelledby="refreshFromArmorModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="{% url 'armor' %}/refresh" method="POST">
+                            <input type="hidden" name="source" value="firebase"/>
+                            {% csrf_token %}
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="refreshFromArmorModalLabel">Recargar Modelo de Firebase</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    ¿Está seguro que quiere actualizar los datos locales con los que están en la base de datos de la nube?
+                                    Este proceso puede tardar varios minutos
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                <button type="submit" class="btn btn-primary">Sí</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#refreshToArmorModal">
+                Acualizar <i class="fa-solid fa-arrows-rotate"></i>
+            </a>
+            <div class="modal fade" id="refreshToArmorModal" tabindex="-1" aria-labelledby="refreshToArmorModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="{% url 'armor' %}/refresh" method="POST">
+                            <input type="hidden" name="source" value="local"/>
+                            {% csrf_token %}
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="refreshToArmorModalLabel">Recargar Modelo Firebase</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    ¿Está seguro que quiere actualizar los datos de la nube?
+                                    Este proceso puede tardar varios minutos y sobrescribirá los datos existentes.
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                <button type="submit" class="btn btn-primary">Sí</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <a class="btn btn-success" href="#" data-bs-toggle="modal" data-bs-target="#addArmorModal">
+                Nuevo <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+            <div class="modal fade" id="addArmorModal" tabindex="-1" aria-labelledby="addArmorModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <form action="{% url 'armor' %}/create" method="POST">
+                            {% csrf_token %}
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="addArmorModalLabel">Agregar Blindaje</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Nombre del Blindaje:</label>
+                                        <input type="text" name="name" id="name" class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3 col-6">
+                                        <label for="category" class="form-label">Categoría:</label>
+                                        <select name="category" id="category" class="form-select">
+                                            <option selected/>
+                                            {% for category in categories %}
+                                                {% if not category.parent %}
+                                                    <option value="{{ category.id }}">{{ category.name }} ({{ category.description }})</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label for="brand" class="form-label">Marca:</label>
+                                        <select name="brand" id="brand" class="form-select">
+                                            <option selected/>
+                                            {% for brand in brands %}
+                                                <option value="{{ brand.id }}">{{ brand.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3 col-6">
+                                        <label for="type" class="form-label">Tipo:</label>
+                                        <select name="type" id="type" class="form-select">
+                                            <option selected/>
+                                            {% for key, value in armor_types %}
+                                                <option value="{{ key }}">{{ value }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label for="coverage" class="form-label">Cobertura:</label>
+                                        <select name="coverage" id="coverage" class="form-select">
+                                            <option selected/>
+                                            {% for key, value in coverages %}
+                                                <option value="{{ key }}">{{ value }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3 col-3">
+                                        <label for="sp" class="form-label">CP:</label>
+                                        <input type="number" name="sp" id="sp" class="form-control"/>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="ev" class="form-label">CE:</label>
+                                        <input type="number" name="ev" id="ev" class="form-control"/>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label for="availability" class="form-label">Disponibilidad:</label>
+                                        <select name="availability" id="availability" class="form-select">
+                                            <option selected/>
+                                            {% for key, value in availabilities %}
+                                                <option value="{{ key }}">{{ value }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3 col-4 offset-2">
+                                        <label for="weight" class="form-label">Peso (kgs):</label>
+                                        <input type="text" name="weight" id="weight" class="form-control"/>
+                                    </div>
+                                    <div class="mb-3 col-4">
+                                        <label for="cost" class="form-label">Precio (creds):</label>
+                                        <input type="text" name="cost" id="cost" class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <br />
+    <table class="table table-striped table-hover align-middle nowrap" id="dataResults">
+        <caption>{{ armor_count }} total de blindajes disponibles</caption>
+        <thead>
+            <tr>
+                <th scope="col" class="text-center">#</th>
+                <th scope="col" class="text-center">Nombre</th>
+                <th scope="col" class="text-center">Categoría</th>
+                <th scope="col" class="text-center">Precio</th>
+                <th scope="col" class="text-center">&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for armor in armors %}
+                <tr>
+                    <th scope="row" class="text-center">{{ armor.id }}</th>
+                    <td>{{ armor.name }}</td>
+                    <td>{{ armor.category }}</td>
+                    <td class="text-end">{{ armor.cost|stringformat:"3d" }} creds</td>
+                    <td>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#viewArmor{{ armor.id }}Modal"><i class="fa-solid fa-eye"></i></button>
+                        <div class="modal fade" id="viewArmor{{ armor.id }}Modal" tabindex="-1" aria-labelledby="viewArmor{{ armor.id }}ModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="viewArmor{{ armor.id }}ModalLabel">{{ armor.name }}</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <table class="table table-borderless">
+                                                <caption>&nbsp;</caption>
+                                                <tbody>
+                                                    <tr>
+                                                        <td rowspan="11">{{ armor.image }}</td>
+                                                        <th scope="row" class="text-end">Nombre:</td>
+                                                        <td>{{ armor.name }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Marca:</td>
+                                                        <td>{{ armor.brand.name }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Categoría:</td>
+                                                        <td>{{ armor.category.name }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Disponibilidad:</td>
+                                                        <td>{{ armor.availability }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Tipo:</td>
+                                                        <td>{{ armor.coverage }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Cobertura:</td>
+                                                        <td>{{ armor.coverage }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">CP:</td>
+                                                        <td>{{ armor.cp }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">CE:</td>
+                                                        <td>{{ armor.ce }} m</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Peso:</td>
+                                                        <td>{{ armor.weight|stringformat:"1.1f" }} kgs</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Precio:</td>
+                                                        <td>{{ armor.cost|stringformat:"3d" }} creds</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#editArmor{{ armor.id }}Modal"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <div class="modal fade" id="editArmor{{ armor.id }}Modal" tabindex="-1" aria-labelledby="editArmor{{ armor.id }}ModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <form action="{% url 'armor' %}/update" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ armor.id }}"/>
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="editArmor{{ armor.id }}ModalLabel">Actualizar Blindaje</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="mb-3">
+                                                    <label for="name" class="form-label">Nombre del Blindaje:</label>
+                                                    <input type="text" name="name" id="name" value="{{ armor.name }}" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-3 col-6">
+                                                    <label for="category" class="form-label">Categoría:</label>
+                                                    <select name="category" id="category" class="form-select">
+                                                        <option selected/>
+                                                        {% for category in categories %}
+                                                            {% if not category.parent %}
+                                                                <option value="{{ category.id }}"{% if armor.category.id == category.id %} selected{% endif %}>{{ category.name }} ({{ category.description }})</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3 col-6">
+                                                    <label for="brand" class="form-label">Marca:</label>
+                                                    <select name="brand" id="brand" class="form-select">
+                                                        <option selected/>
+                                                        {% for brand in brands %}
+                                                            <option value="{{ brand.id }}"{% if armor.brand.id == brand.id %} selected{% endif %}>{{ brand.name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-3 col-6">
+                                                    <label for="type" class="form-label">Tipo:</label>
+                                                    <select name="type" id="type" class="form-select">
+                                                        <option selected/>
+                                                        {% for key, value in armor_types %}
+                                                            <option value="{{ key }}"{% if armor.type == key %} selected{% endif %}>{{ value }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3 col-6">
+                                                    <label for="coverage" class="form-label">Cobertura:</label>
+                                                    <select name="coverage" id="coverage" class="form-select">
+                                                        <option selected/>
+                                                        {% for key, value in coverages %}
+                                                            <option value="{{ key }}"{% if armor.coverage == key %} selected{% endif %}>{{ value }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-3 col-3">
+                                                    <label for="shots" class="form-label">Balas:</label>
+                                                    <input type="number" name="shots" id="shots" value="{{ armor.shots }}" class="form-control"/>
+                                                </div>
+                                                <div class="mb-3 col-3">
+                                                    <label for="rof" class="form-label">VD:</label>
+                                                    <input type="number" name="rof" id="rof" value="{{ armor.rof }}" class="form-control"/>
+                                                </div>
+                                                <div class="mb-3 col-6">
+                                                    <label for="availability" class="form-label">Disponibilidad:</label>
+                                                    <select name="availability" id="availability" class="form-select">
+                                                        <option selected/>
+                                                        {% for key, value in availabilities %}
+                                                            <option value="{{ key }}"{% if armor.availability == key %} selected{% endif %}>{{ value }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-3 col-4 offset-2">
+                                                    <label for="weight" class="form-label">Peso (kgs):</label>
+                                                    <input type="text" name="weight" id="weight" value="{{ armor.weight }}" class="form-control"/>
+                                                </div>
+                                                <div class="mb-3 col-4">
+                                                    <label for="cost" class="form-label">Precio (creds):</label>
+                                                    <input type="text" name="cost" id="cost" value="{{ armor.cost }}" class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-primary">Guardar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#removeArmor{{ armor.id }}Modal"><i class="fa-solid fa-trash"></i></button>
+                        <div class="modal fade" id="removeArmor{{ armor.id }}Modal" tabindex="-1" aria-labelledby="removeArmor{{ armor.id }}ModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="{% url 'armor' %}/delete" method="POST">
+                                        <input type="hidden" name="source" value="firebase"/>
+                                        {% csrf_token %}
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="removeArmor{{ armor.id }}ModalLabel">Eliminar {{ armor.name }}</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                ¿Está seguro que quiere eliminar {{ armor.name }}?
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                            <button type="submit" class="btn btn-primary">Sí</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,435 @@
+{% extends "equipment.html" %}
+
+{% block section_content_content %}
+    <ul class="nav justify-content-end">
+        <li class="nav-item">
+            <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#uploadWeaponModal">
+                Subir CSV <i class="fa-solid fa-upload"></i>
+            </a>
+            <div class="modal fade" id="uploadWeaponModal" tabindex="-1" aria-labelledby="uploadWeaponModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="{% url 'weapons' %}/upload" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="uploadWeaponModalLabel">Subir CSV</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="csv_file" class="form-label">Archivo CSV:</label>
+                                    <input type="file" name="csv_file" id="csv_file" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Subir</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <a class="btn btn-primary" href="{% url 'weapons' %}/download">
+                Descargar CSV <i class="fa-solid fa-download"></i>
+            </a>
+
+            <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#refreshFromWeaponModal">
+                Recargar <i class="fa-solid fa-arrows-rotate"></i>
+            </a>
+            <div class="modal fade" id="refreshFromWeaponModal" tabindex="-1" aria-labelledby="refreshFromWeaponModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="{% url 'weapons' %}/refresh" method="POST">
+                            <input type="hidden" name="source" value="firebase"/>
+                            {% csrf_token %}
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="refreshFromWeaponModalLabel">Recargar Modelo de Firebase</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    ¿Está seguro que quiere actualizar los datos locales con los que están en la base de datos de la nube?
+                                    Este proceso puede tardar varios minutos
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                <button type="submit" class="btn btn-primary">Sí</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#refreshToWeaponModal">
+                Acualizar <i class="fa-solid fa-arrows-rotate"></i>
+            </a>
+            <div class="modal fade" id="refreshToWeaponModal" tabindex="-1" aria-labelledby="refreshToWeaponModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="{% url 'weapons' %}/refresh" method="POST">
+                            <input type="hidden" name="source" value="local"/>
+                            {% csrf_token %}
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="refreshToWeaponModalLabel">Recargar Modelo Firebase</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    ¿Está seguro que quiere actualizar los datos de la nube?
+                                    Este proceso puede tardar varios minutos y sobrescribirá los datos existentes.
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                <button type="submit" class="btn btn-primary">Sí</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <a class="btn btn-success" href="#" data-bs-toggle="modal" data-bs-target="#addWeaponModal">
+                Nuevo <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+            <div class="modal fade" id="addWeaponModal" tabindex="-1" aria-labelledby="addWeaponModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <form action="{% url 'weapons' %}/create" method="POST">
+                            {% csrf_token %}
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="addWeaponModalLabel">Agregar Arma</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Nombre del Arma:</label>
+                                        <input type="text" name="name" id="name" class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3 col-6">
+                                        <label for="category" class="form-label">Categoría:</label>
+                                        <select name="category" id="category" class="form-select">
+                                            <option selected/>
+                                            {% for category in categories %}
+                                                {% if not category.parent %}
+                                                    <option value="{{ category.id }}">{{ category.name }} ({{ category.description }})</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label for="brand" class="form-label">Marca:</label>
+                                        <select name="brand" id="brand" class="form-select">
+                                            <option selected/>
+                                            {% for brand in brands %}
+                                                <option value="{{ brand.id }}">{{ brand.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3 col-2">
+                                        <label for="accuracy" class="form-label">Precisión:</label>
+                                        <input type="number" name="accuracy" id="accuracy" class="form-control"/>
+                                    </div>
+                                    <div class="mb-3 col-4">
+                                        <label for="availability" class="form-label">Disponibilidad:</label>
+                                        <select name="availability" id="availability" class="form-select">
+                                            <option selected/>
+                                            {% for key, value in availabilities %}
+                                                <option value="{{ key }}">{{ value }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="concealment" class="form-label">Disimulo:</label>
+                                        <select name="concealment" id="concealment" class="form-select">
+                                            <option selected/>
+                                            {% for key, value in concealments %}
+                                                <option value="{{ key }}">{{ value }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="reliability" class="form-label">Fiabilidad:</label>
+                                        <select name="reliability" id="reliability" class="form-select">
+                                            <option selected/>
+                                            {% for key, value in reliabilities %}
+                                                <option value="{{ key }}">{{ value }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3 col-2">
+                                        <label for="shots" class="form-label">Balas:</label>
+                                        <input type="number" name="shots" id="shots" class="form-control"/>
+                                    </div>
+                                    <div class="mb-3 col-2">
+                                        <label for="rof" class="form-label">VD:</label>
+                                        <input type="number" name="rof" id="rof" class="form-control"/>
+                                    </div>
+                                    <div class="mb-3 col-4">
+                                        <label for="range" class="form-label">Alcance (m):</label>
+                                        <input type="number" name="range" id="range" class="form-control"/>
+                                    </div>
+                                    <div class="mb-3 col-4">
+                                        <label for="damage" class="form-label">Daño:</label>
+                                        <input type="text" name="damege" id="damage" class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3 col-4 offset-2">
+                                        <label for="weight" class="form-label">Peso (kgs):</label>
+                                        <input type="text" name="weight" id="weight" class="form-control"/>
+                                    </div>
+                                    <div class="mb-3 col-4">
+                                        <label for="cost" class="form-label">Precio (creds):</label>
+                                        <input type="text" name="cost" id="cost" class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <br />
+    <table class="table table-striped table-hover align-middle nowrap" id="dataResults">
+        <caption>{{ weapons_count }} total de armas disponibles</caption>
+        <thead>
+            <tr>
+                <th scope="col" class="text-center">#</th>
+                <th scope="col" class="text-center">Nombre</th>
+                <th scope="col" class="text-center">Categoría</th>
+                <th scope="col" class="text-center">Precio</th>
+                <th scope="col" class="text-center">&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for weapon in weapons %}
+                <tr>
+                    <th scope="row" class="text-center">{{ weapon.id }}</th>
+                    <td>{{ weapon.name }}</td>
+                    <td>{{ weapon.category }}</td>
+                    <td class="text-end">{{ weapon.cost|stringformat:"3d" }} creds</td>
+                    <td>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#viewWeapon{{ weapon.id }}Modal"><i class="fa-solid fa-eye"></i></button>
+                        <div class="modal fade" id="viewWeapon{{ weapon.id }}Modal" tabindex="-1" aria-labelledby="viewWeapon{{ weapon.id }}ModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="viewWeapon{{ weapon.id }}ModalLabel">{{ weapon.name }}</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <table class="table table-borderless">
+                                                <caption>&nbsp;</caption>
+                                                <tbody>
+                                                    <tr>
+                                                        <td rowspan="11">{{ weapon.image }}</td>
+                                                        <th scope="row" class="text-end">Nombre:</td>
+                                                        <td>{{ weapon.name }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Marca:</td>
+                                                        <td>{{ weapon.brand.name }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Categoría:</td>
+                                                        <td>{{ weapon.category.name }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Disponibilidad:</td>
+                                                        <td>{{ weapon.availability }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Disimulo:</td>
+                                                        <td>{{ weapon.concealment }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Fiabilidad:</td>
+                                                        <td>{{ weapon.reliability }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Disparos:</td>
+                                                        <td>{{ weapon.rof }}/{{ weapon.shots }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Alcance:</td>
+                                                        <td>{{ weapon.range|stringformat:"3d" }} m</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Daño:</td>
+                                                        <td>{{ weapon.damge }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Peso:</td>
+                                                        <td>{{ weapon.weight|stringformat:"1.1f" }} kgs</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Precio:</td>
+                                                        <td>{{ weapon.cost|stringformat:"3d" }} creds</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#editWeapon{{ weapon.id }}Modal"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <div class="modal fade" id="editWeapon{{ weapon.id }}Modal" tabindex="-1" aria-labelledby="editWeapon{{ weapon.id }}ModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <form action="{% url 'weapons' %}/update" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ weapon.id }}"/>
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="editWeapon{{ weapon.id }}ModalLabel">Actualizar Arma</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="mb-3">
+                                                    <label for="name" class="form-label">Nombre del Arma:</label>
+                                                    <input type="text" name="name" id="name" value="{{ weapon.name }}" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-3 col-6">
+                                                    <label for="category" class="form-label">Categoría:</label>
+                                                    <select name="category" id="category" class="form-select">
+                                                        <option selected/>
+                                                        {% for category in categories %}
+                                                            {% if not category.parent %}
+                                                                <option value="{{ category.id }}"{% if weapon.category.id == category.id %} selected{% endif %}>{{ category.name }} ({{ category.description }})</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3 col-6">
+                                                    <label for="brand" class="form-label">Marca:</label>
+                                                    <select name="brand" id="brand" class="form-select">
+                                                        <option selected/>
+                                                        {% for brand in brands %}
+                                                            <option value="{{ brand.id }}"{% if weapon.brand.id == brand.id %} selected{% endif %}>{{ brand.name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-3 col-2">
+                                                    <label for="accuracy" class="form-label">Precisión:</label>
+                                                    <input type="number" name="accuracy" id="accuracy" value="{{ weapon.accuracy }}" class="form-control"/>
+                                                </div>
+                                                <div class="mb-3 col-4">
+                                                    <label for="availability" class="form-label">Disponibilidad:</label>
+                                                    <select name="availability" id="availability" class="form-select">
+                                                        <option selected/>
+                                                        {% for key, value in availabilities %}
+                                                            <option value="{{ key }}"{% if weapon.availability == key %} selected{% endif %}>{{ value }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3 col-3">
+                                                    <label for="concealment" class="form-label">Disimulo:</label>
+                                                    <select name="concealment" id="concealment" class="form-select">
+                                                        <option selected/>
+                                                        {% for key, value in concealments %}
+                                                            <option value="{{ key }}"{% if weapon.concealment == key %} selected{% endif %}>{{ value }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3 col-3">
+                                                    <label for="reliability" class="form-label">Fiabilidad:</label>
+                                                    <select name="reliability" id="reliability" class="form-select">
+                                                        <option selected/>
+                                                        {% for key, value in reliabilities %}
+                                                            <option value="{{ key }}"{% if weapon.reliability == key %} selected{% endif %}>{{ value }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-3 col-2">
+                                                    <label for="shots" class="form-label">Balas:</label>
+                                                    <input type="number" name="shots" id="shots" value="{{ weapon.shots }}" class="form-control"/>
+                                                </div>
+                                                <div class="mb-3 col-2">
+                                                    <label for="rof" class="form-label">VD:</label>
+                                                    <input type="number" name="rof" id="rof" value="{{ weapon.rof }}" class="form-control"/>
+                                                </div>
+                                                <div class="mb-3 col-4">
+                                                    <label for="range" class="form-label">Alcance (m):</label>
+                                                    <input type="number" name="range" id="range" value="{{ weapon.range }}" class="form-control"/>
+                                                </div>
+                                                <div class="mb-3 col-4">
+                                                    <label for="damage" class="form-label">Daño:</label>
+                                                    <input type="text" name="damege" id="damage" value="{{ weapon.damage }}" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-3 col-4 offset-2">
+                                                    <label for="weight" class="form-label">Peso (kgs):</label>
+                                                    <input type="text" name="weight" id="weight" value="{{ weapon.weight }}" class="form-control"/>
+                                                </div>
+                                                <div class="mb-3 col-4">
+                                                    <label for="cost" class="form-label">Precio (creds):</label>
+                                                    <input type="text" name="cost" id="cost" value="{{ weapon.cost }}" class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-primary">Guardar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#removeWeapon{{ weapon.id }}Modal"><i class="fa-solid fa-trash"></i></button>
+                        <div class="modal fade" id="removeWeapon{{ weapon.id }}Modal" tabindex="-1" aria-labelledby="removeWeapon{{ weapon.id }}ModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="{% url 'weapons' %}/delete" method="POST">
+                                        <input type="hidden" name="source" value="firebase"/>
+                                        {% csrf_token %}
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="removeWeapon{{ weapon.id }}ModalLabel">Eliminar {{ weapon.name }}</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                ¿Está seguro que quiere eliminar {{ weapon.name }}?
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                            <button type="submit" class="btn btn-primary">Sí</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

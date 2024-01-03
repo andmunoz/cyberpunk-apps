@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from . import views, views_equipment
 
 urlpatterns = [
     # Route to home
@@ -10,13 +10,22 @@ urlpatterns = [
 
     # Routes to equipment
     path('equipment/', views.equipment_home, name='equipment'),
-    path('equipment/weapons', views.weapons_list, name='weapons'),
-    path('equipment/weapons/create', views.weapons_create),
-    path('equipment/weapons/update', views.weapons_update),
-    path('equipment/weapons/delete', views.weapons_delete),
-    path('equipment/weapons/download', views.weapons_download),
-    path('equipment/weapons/upload', views.weapons_upload),
-    path('equipment/weapons/refresh', views.weapons_refresh),
+    
+    path('equipment/weapons', views_equipment.weapons_list, name='weapons'),
+    path('equipment/weapons/create', views_equipment.weapons_create),
+    path('equipment/weapons/update', views_equipment.weapons_update),
+    path('equipment/weapons/delete', views_equipment.weapons_delete),
+    path('equipment/weapons/download', views_equipment.weapons_download),
+    path('equipment/weapons/upload', views_equipment.weapons_upload),
+    path('equipment/weapons/refresh', views_equipment.weapons_refresh),
+
+    path('equipment/armor', views_equipment.armor_list, name='armor'),
+    path('equipment/armor/create', views_equipment.armor_create),
+    path('equipment/armor/update', views_equipment.armor_update),
+    path('equipment/armor/delete', views_equipment.armor_delete),
+    path('equipment/armor/download', views_equipment.armor_download),
+    path('equipment/armor/upload', views_equipment.armor_upload),
+    path('equipment/armor/refresh', views_equipment.armor_refresh),
 
     # Routes to drugs
     path('drugs/', views.drugs_home, name='drugs'),

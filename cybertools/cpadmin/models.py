@@ -2,9 +2,22 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
+class ItemType(models.TextChoices):
+    WEAPON = 'WEAPON', _('Armas')
+    ARMOR = 'ARMOR', _('Blindaje')
+    GEAR = 'GEAR', _('Equipo')
+    CYBER = 'CYBER', _('Ciberequipo')
+    CLOTHES = 'CLOTHES', _('Moda')
+    MEDICAL = 'MEDICAL', _('Medicina')
+    VEHICLE = 'VEHICLE', _('Vehículos')
+    HARDWARE = 'HARDWARE', _('Periféricos')
+    SOFTWARE = 'SOFTWARE', _('Programas')
+
+
 class Category(models.Model):
     name = models.CharField(max_length=200)
     code = models.CharField(max_length=5, blank=True)
+    type = models.CharField(max_length=20, choices=ItemType.choices, default=ItemType.WEAPON)
     description = models.CharField(max_length=1000, blank=True)
     parent = models.ForeignKey("Category", on_delete=models.CASCADE, null=True, blank=True)
 
@@ -14,6 +27,7 @@ class Category(models.Model):
     
 class Brand(models.Model):
     name = models.CharField(max_length=200)
+    type = models.CharField(max_length=20, choices=ItemType.choices, default=ItemType.WEAPON)
     description = models.CharField(max_length=1000, blank=True)
 
     def __str__(self):
@@ -56,7 +70,37 @@ class Weapon(models.Model):
     damage = models.CharField(max_length=20)
     weight = models.FloatField()
     cost = models.IntegerField()
+    description = models.CharField(max_length=255, null=True)
     image = models.CharField(max_length=255, null=True)
     
     def __str__(self):
         return self.name
+    
+    
+class Coverage(models.TextChoices): 
+    HEAD = 'HEAD', _('Cabeza')
+    TORSO = 'TORSO', _('Torso')
+    UPPER = 'UPPER', _('Torso y Brazos')
+    LOWER = 'LOWER', _('Piernas')
+    BODY = 'BODY', _('Cuerpo')
+    FULL = 'FULL', _('Todo')
+   
+    
+class ArmorType(models.TextChoices): 
+    LIGHT = 'L', _('Blando')
+    HARD = 'H', _('Duro')
+   
+
+class Armor(models.Model):
+    name = models.CharField(max_length=200)
+    category = models.ForeignKey("Category", on_delete=models.CASCADE)
+    brand = models.ForeignKey("Brand", on_delete=models.CASCADE)
+    availability = models.CharField(max_length=1, choices=Availability.choices, default=Availability.COMMON)
+    coverage = models.CharField(max_length=20, choices=Coverage.choices, default=Coverage.BODY)
+    type = models.CharField(max_length=1, choices=ArmorType.choices, default=ArmorType.HARD)
+    sp = models.IntegerField()
+    ev = models.IntegerField()
+    weight = models.FloatField()
+    cost = models.IntegerField()
+    description = models.CharField(max_length=255, null=True)
+    image = models.CharField(max_length=255, null=True)
