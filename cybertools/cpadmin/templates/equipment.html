@@ -27,7 +27,44 @@
                 {% endblock %}
             </div>
             <div class="col-9">
+                <div class="text-center" id="spinner">
+                    <i class="fa fa-spinner fa-spin fa-3x"></i>
+                    <br />
+                    <h6>Cargando información disponible en la base de datos...</h6>
+                    <br />
+                </div>
+                <script>
+                    $("#spinner").show();
+                </script>
                 {% block section_content_content%}{% endblock %}
+                <script>
+                    $(document).ready(function() {
+                        $('#dataResults').DataTable({
+                            info: true,
+                            ordering: true,
+                            paging: true,
+                            processing: true,
+                            stateSave: true,
+                            pageLength: 50,
+                            language: {
+                                "lengthMenu": "Mostrando _MENU_ registros por página",
+                                "search": "Buscar:",
+                                "zeroRecords": "No se ha encontrado nada",
+                                "info": "Mostrando página _PAGE_ de _PAGES_",
+                                "infoEmpty": "Mostrando 0 de 0 registros",
+                                "infoFiltered": "(filtrado de un total de _MAX_ registros)", 
+                                "paginate": {
+                                    "first":      "Primera",
+                                    "last":       "Última",
+                                    "next":       "Siguiente",
+                                    "previous":   "Anterior"
+                                },
+                                "loadingRecords": "Cargando datos..."
+                            }
+                        });
+                        $("#spinner").hide();
+                    });
+                </script>
             </div>
         </div>
     <div>
