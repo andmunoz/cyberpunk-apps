@@ -39,22 +39,22 @@
                         <a class="nav-link{% if request.path == '/' %} active{% endif %}" href="{% url 'index' %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link{% if '/characters' in request.path %} active{% endif %} disabled" href="{% url 'characters' %}">Personajes</a>
+                        <a class="nav-link{% if '/characters' in request.path %} active{% endif %}" href="{% url 'characters' %}">Personajes</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link{% if '/equipment' in request.path %} active{% endif %}" href="{% url 'equipment' %}">Armas y Equipo</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link{% if '/drugs' in request.path %} active{% endif %} disabled" href="{% url 'drugs' %}">Medicina y Drogas</a>
+                        <a class="nav-link{% if '/drugs' in request.path %} active{% endif %}" href="{% url 'drugs' %}">Medicina y Drogas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link{% if '/vehicles' in request.path %} active{% endif %} disabled" href="{% url 'vehicles' %}">Vehículos</a>
+                        <a class="nav-link{% if '/vehicles' in request.path %} active{% endif %}" href="{% url 'vehicles' %}">Vehículos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link{% if '/netrunning' in request.path %} active{% endif %} disabled" href="{% url 'netrunning' %}">Netrunning</a>
+                        <a class="nav-link{% if '/netrunning' in request.path %} active{% endif %}" href="{% url 'netrunning' %}">Netrunning</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link{% if '/complements' in request.path %} active{% endif %} disabled" href="{% url 'complements' %}">Complementos</a>
+                        <a class="nav-link{% if '/complements' in request.path %} active{% endif %}" href="{% url 'complements' %}">Complementos</a>
                     </li>
                 </ul>
             {% endblock %}

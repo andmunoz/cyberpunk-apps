@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .views_equipment import weapons_list
+from .views_weapons import list as weapons_list
 
 
 ### Function for Home

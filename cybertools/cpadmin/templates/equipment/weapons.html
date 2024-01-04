@@ -34,36 +34,8 @@
                 Descargar CSV <i class="fa-solid fa-download"></i>
             </a>
 
-            <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#refreshFromWeaponModal">
-                Recargar <i class="fa-solid fa-arrows-rotate"></i>
-            </a>
-            <div class="modal fade" id="refreshFromWeaponModal" tabindex="-1" aria-labelledby="refreshFromWeaponModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form action="{% url 'weapons' %}/refresh" method="POST">
-                            <input type="hidden" name="source" value="firebase"/>
-                            {% csrf_token %}
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="refreshFromWeaponModalLabel">Recargar Modelo de Firebase</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    ¿Está seguro que quiere actualizar los datos locales con los que están en la base de datos de la nube?
-                                    Este proceso puede tardar varios minutos
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                                <button type="submit" class="btn btn-primary">Sí</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
             <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#refreshToWeaponModal">
-                Acualizar <i class="fa-solid fa-arrows-rotate"></i>
+                Recargar <i class="fa-solid fa-cloud-arrow-up"></i>
             </a>
             <div class="modal fade" id="refreshToWeaponModal" tabindex="-1" aria-labelledby="refreshToWeaponModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -79,6 +51,34 @@
                                 <div class="mb-3">
                                     ¿Está seguro que quiere actualizar los datos de la nube?
                                     Este proceso puede tardar varios minutos y sobrescribirá los datos existentes.
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                <button type="submit" class="btn btn-primary">Sí</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#refreshFromWeaponModal">
+                Refrescar <i class="fa-solid fa-cloud-arrow-down"></i>
+            </a>
+            <div class="modal fade" id="refreshFromWeaponModal" tabindex="-1" aria-labelledby="refreshFromWeaponModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="{% url 'weapons' %}/refresh" method="POST">
+                            <input type="hidden" name="source" value="firebase"/>
+                            {% csrf_token %}
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="refreshFromWeaponModalLabel">Recargar Modelo de Firebase</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    ¿Está seguro que quiere actualizar los datos locales con los que están en la base de datos de la nube?
+                                    Este proceso puede tardar varios minutos
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -327,6 +327,12 @@
                                                 </div>
                                             </div>
                                             <div class="row">
+                                                <div class="mb-3">
+                                                    <label for="description" class="form-label">Descripción:</label>
+                                                    <input type="text" name="description" id="description" value="{{ weapon.description }}" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
                                                 <div class="mb-3 col-6">
                                                     <label for="category" class="form-label">Categoría:</label>
                                                     <select name="category" id="category" class="form-select">
@@ -396,7 +402,7 @@
                                                 </div>
                                                 <div class="mb-3 col-4">
                                                     <label for="damage" class="form-label">Daño:</label>
-                                                    <input type="text" name="damege" id="damage" value="{{ weapon.damage }}" class="form-control"/>
+                                                    <input type="text" name="damage" id="damage" value="{{ weapon.damage }}" class="form-control"/>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -407,6 +413,12 @@
                                                 <div class="mb-3 col-4">
                                                     <label for="cost" class="form-label">Precio (creds):</label>
                                                     <input type="text" name="cost" id="cost" value="{{ weapon.cost }}" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-3">
+                                                    <label for="image" class="form-label">Imagen:</label>
+                                                    <input type="text" name="image" id="image" value="{{ weapon.image }}" class="form-control"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -424,8 +436,8 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <form action="{% url 'weapons' %}/delete" method="POST">
-                                        <input type="hidden" name="source" value="firebase"/>
                                         {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ weapon.id }}"/>
                                         <div class="modal-header">
                                             <h1 class="modal-title fs-5" id="removeWeapon{{ weapon.id }}ModalLabel">Eliminar {{ weapon.name }}</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>

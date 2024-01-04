@@ -1,15 +1,13 @@
 from django.shortcuts import render, redirect, HttpResponse
 import csv
 from .models import (
-    Weapon, Armor, ItemType, Category, Brand, Availability, Concealment, Reliability, ArmorType, Coverage
+    ItemType, Weapon, Category, Brand, Availability, Concealment, Reliability
 )
 from .config import database
 
 
-### Functions for Weapon Section
-
 # Show weapon List
-def weapons_list(request):
+def list(request):
     weapons = Weapon.objects.all().order_by('name')
     weapons_count = 0
     if weapons:
@@ -35,28 +33,26 @@ def weapons_list(request):
 
 
 # Create a weapon
-def weapons_create(request):
-    row = request.POST
-
-    category = Category.objects.get(id=row['category'])
-    brand = Brand.objects.get(id=row['brand'])
-
+def create(request):
+    form = request.POST
+    category = Category.objects.get(id=form['category'])
+    brand = Brand.objects.get(id=form['brand'])
     weapon = Weapon(
-        name=row['name'],
+        name=form['name'],
         category=category,
         brand=brand,
-        availability=row['availability'],
-        concealment=row['concealment'],
-        accuracy=row['accuracy'],
-        reliability=row['reliability'],
-        range=float(row['range']) if row['range'] != '' else None,
-        shots=int(row['shots']) if row['shots'] != '' else None,
-        rof=int(row['rof']) if row['shots'] != '' else None,
-        damage=row['damage'],
-        weight=float(row['weight']),
-        cost=int(row['cost']),
-        description=row['description'],
-        image=row['image'],
+        availability=form['availability'],
+        concealment=form['concealment'],
+        accuracy=form['accuracy'],
+        reliability=form['reliability'],
+        range=float(form['range']) if form['range'] != '' else None,
+        shots=int(form['shots']) if form['shots'] != '' else None,
+        rof=int(form['rof']) if form['rof'] != '' else None,
+        damage=form['damage'],
+        weight=float(form['weight']),
+        cost=int(form['cost']),
+        description=form['description'],
+        image=form['image'],
     )
     weapon.save()
 
@@ -64,17 +60,41 @@ def weapons_create(request):
 
 
 # Update a weapon
-def weapons_update(request):
+def update(request):
+    form = request.POST
+    weapon = Weapon.objects.get(id=form['id'])
+    category = Category.objects.get(id=form['category'])
+    brand = Brand.objects.get(id=form['brand'])
+    weapon.name = form['name']
+    weapon.category = category
+    weapon.brand = brand
+    weapon.availability = form['availability']
+    weapon.concealment = form['concealment']
+    weapon.accuracy = form['accuracy']
+    weapon.reliability = form['reliability']
+    weapon.range = float(form['range']) if form['range'] != '' else None
+    weapon.shots = int(form['shots']) if form['shots'] != '' else None
+    weapon.rof = int(form['rof']) if form['rof'] != '' else None
+    weapon.damage = form['damage']
+    weapon.weight = float(form['weight'])
+    weapon.cost = int(form['cost'])
+    weapon.description = form['description']
+    weapon.image = form['image']
+    weapon.save()
+
     return redirect('weapons')
 
 
 # Delete a weapon
-def weapons_delete(request):
+def delete(request):
+    form = request.POST
+    weapon = Weapon.objects.get(id=form['id'])
+    weapon.delete()
+
     return redirect('weapons')
 
-
 # Upload weapons list from CSV
-def weapons_upload(request):
+def upload(request):
     csv_file = request.FILES['csv_file'].read().decode('utf-8').splitlines()
     csv_reader = csv.DictReader(csv_file)
 
@@ -96,7 +116,7 @@ def weapons_upload(request):
                 reliability=row['reliability'],
                 range=float(row['range']) if row['range'] != '' else None,
                 shots=int(row['shots']) if row['shots'] != '' else None,
-                rof=int(row['rof']) if row['shots'] != '' else None,
+                rof=int(row['rof']) if row['rof'] != '' else None,
                 damage=row['damage'],
                 weight=float(row['weight']),
                 cost=int(row['cost']),
@@ -109,7 +129,7 @@ def weapons_upload(request):
 
 
 # Download weapon list in CSV
-def weapons_download(request):
+def download(request):
     weapons = Weapon.objects.all().order_by('name').values()
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="weapons.csv"'
@@ -142,15 +162,15 @@ def weapons_download(request):
 
 
 # Refresh weapons list with Firebase
-def weapons_refresh(request):
+def refresh(request):
     source = request.POST['source']
     if source == 'local': 
         weapons_local = Weapon.objects.all().order_by('id').values()
-        database.child('weapons').remove()
+        database.child('Weapon').remove()
         for weapon in weapons_local:
-            database.child('weapons').push(weapon)
+            database.child('Weapon').push(weapon)
     else:
-        weapons_origin = database.child('weapons').get()
+        weapons_origin = database.child('Weapon').get()
         for weapon_id, weapon in weapons_origin:
             category = Category.objects.get(code=weapon.category, parent=None)
             brand, _ = Brand.objects.get_or_create(
@@ -211,16 +231,55 @@ def armor_list(request):
 
 # Create an armor
 def armor_create(request):
+    form = request.POST
+    category = Category.objects.get(id=form['category'])
+    brand = Brand.objects.get(id=form['brand'])
+    armor = Armor(
+        name=form['name'],
+        category=category,
+        brand=brand,
+        availability=form['availability'],
+        coverage=form['coverage'],
+        type=form['type'],
+        sp=int(form['sp']) if form['sp'] != '' else None,
+        ev=int(form['ev']) if form['ev'] != '' else None,
+        weight=float(form['weight']),
+        cost=int(form['cost']),
+        description=form['description'],
+        image=form['image'],
+    )
+    armor.save()
+
     return redirect('armor')
 
 
 # Update an armor
 def armor_update(request):
+    form = request.POST
+    armor = Armor.objects.get(id=form['id'])
+    category = Category.objects.get(id=form['category'])
+    brand = Brand.objects.get(id=form['brand'])
+    armor.name = form['name']
+    armor.category = category
+    armor.brand = brand
+    armor.coverage = form['coverage']
+    armor.type = form['type']
+    armor.sp = int(form['sp']) if form['sp'] != '' else None
+    armor.ev = int(form['ev']) if form['ev'] != '' else None
+    armor.weight = float(form['weight'])
+    armor.cost = int(form['cost'])
+    armor.description = form['description']
+    armor.image = form['image']
+    armor.save()
+    
     return redirect('armor')
 
 
 # Delete an armor
 def armor_delete(request):
+    form = request.POST
+    armor = Armor.objects.get(id=form['id'])
+    armor.delete()
     return redirect('armor')
 
 
@@ -294,11 +353,11 @@ def armor_refresh(request):
     source = request.POST['source']
     if source == 'local': 
         armor_local = Armor.objects.all().order_by('id').values()
-        database.child('armor').remove()
+        database.child('Armor').remove()
         for armor in armor_local:
-            database.child('armor').push(armor)
+            database.child('Armor').push(armor)
     else:
-        armor_origin = database.child('armor').get()
+        armor_origin = database.child('Armor').get()
         for armor_id, armor in armor_origin:
             category = Category.objects.get(code=armor.category, parent=None)
             brand, _ = Brand.objects.get_or_create(
