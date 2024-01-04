@@ -36,6 +36,30 @@ def weapons_list(request):
 
 # Create a weapon
 def weapons_create(request):
+    row = request.POST
+
+    category = Category.objects.get(id=row['category'])
+    brand = Brand.objects.get(id=row['brand'])
+
+    weapon = Weapon(
+        name=row['name'],
+        category=category,
+        brand=brand,
+        availability=row['availability'],
+        concealment=row['concealment'],
+        accuracy=row['accuracy'],
+        reliability=row['reliability'],
+        range=float(row['range']) if row['range'] != '' else None,
+        shots=int(row['shots']) if row['shots'] != '' else None,
+        rof=int(row['rof']) if row['shots'] != '' else None,
+        damage=row['damage'],
+        weight=float(row['weight']),
+        cost=int(row['cost']),
+        description=row['description'],
+        image=row['image'],
+    )
+    weapon.save()
+
     return redirect('weapons')
 
 

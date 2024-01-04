@@ -110,6 +110,12 @@
                                     </div>
                                 </div>
                                 <div class="row">
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">Descripción:</label>
+                                        <input type="text" name="description" id="description" class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="mb-3 col-6">
                                         <label for="category" class="form-label">Categoría:</label>
                                         <select name="category" id="category" class="form-select">
@@ -179,7 +185,7 @@
                                     </div>
                                     <div class="mb-3 col-4">
                                         <label for="damage" class="form-label">Daño:</label>
-                                        <input type="text" name="damege" id="damage" class="form-control"/>
+                                        <input type="text" name="damage" id="damage" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -190,6 +196,12 @@
                                     <div class="mb-3 col-4">
                                         <label for="cost" class="form-label">Precio (creds):</label>
                                         <input type="text" name="cost" id="cost" class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3">
+                                        <label for="image" class="form-label">URL Imagen:</label>
+                                        <input type="text" name="image" id="image" class="form-control"/>
                                     </div>
                                 </div>
                             </div>
@@ -237,7 +249,7 @@
                                                 <caption>&nbsp;</caption>
                                                 <tbody>
                                                     <tr>
-                                                        <td rowspan="11">{{ weapon.image }}</td>
+                                                        <td rowspan="12"><img src="{{ weapon.image }}" /></td>
                                                         <th scope="row" class="text-end">Nombre:</td>
                                                         <td>{{ weapon.name }}</td>
                                                     </tr>
@@ -271,7 +283,7 @@
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="text-end">Daño:</td>
-                                                        <td>{{ weapon.damge }}</td>
+                                                        <td>{{ weapon.damage }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="text-end">Peso:</td>
@@ -280,6 +292,10 @@
                                                     <tr>
                                                         <th scope="row" class="text-end">Precio:</td>
                                                         <td>{{ weapon.cost|stringformat:"3d" }} creds</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Descripción:</td>
+                                                        <td>{{ weapon.description }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
