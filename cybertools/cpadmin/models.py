@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
+### General Models
 class ItemType(models.TextChoices):
     WEAPON = 'WEAPON', _('Armas')
     ARMOR = 'ARMOR', _('Blindaje')
@@ -43,14 +44,15 @@ class Availability(models.TextChoices):
     EXPERIMENTAL = 'X', _('Experimental')
    
 
-class Concealment(models.TextChoices): 
+### Specific Models for Weapons
+class WeaponConcealment(models.TextChoices): 
     POCKET = 'P', _('Bolsillo')
     JACKET = 'J', _('Chaqueta')
     LONG = 'L', _('Chaqueta Larga')
     NONE = 'N', _('No')
    
 
-class Reliability(models.TextChoices): 
+class WeaponReliability(models.TextChoices): 
     VERY = 'VR', _('Muy Fiable')
     STANDARD = 'ST', _('Fiable')
     UNREL = 'UR', _('Poco Fiable')
@@ -62,8 +64,8 @@ class Weapon(models.Model):
     brand = models.ForeignKey("Brand", on_delete=models.CASCADE)
     availability = models.CharField(max_length=1, choices=Availability.choices, default=Availability.COMMON)
     accuracy = models.IntegerField()
-    concealment = models.CharField(max_length=2, choices=Concealment.choices, default=Concealment.JACKET)
-    reliability = models.CharField(max_length=2, choices=Reliability.choices, default=Reliability.STANDARD)
+    concealment = models.CharField(max_length=2, choices=WeaponConcealment.choices, default=WeaponConcealment.JACKET)
+    reliability = models.CharField(max_length=2, choices=WeaponReliability.choices, default=WeaponReliability.STANDARD)
     shots = models.IntegerField(blank=True, null=True)
     rof = models.IntegerField(blank=True, null=True)
     range = models.IntegerField(blank=True, null=True)
@@ -77,26 +79,27 @@ class Weapon(models.Model):
         return self.name
     
     
-class Coverage(models.TextChoices): 
+### Specific Models for Armor
+class ArmorCoverage(models.TextChoices): 
     HEAD = 'HEAD', _('Cabeza')
     TORSO = 'TORSO', _('Torso')
     UPPER = 'UPPER', _('Torso y Brazos')
     LOWER = 'LOWER', _('Piernas')
     BODY = 'BODY', _('Cuerpo')
     FULL = 'FULL', _('Todo')
-   
-    
+
+
 class ArmorType(models.TextChoices): 
     SOFT = 'S', _('Blando')
-    HARD = 'H', _('Duro')
-       
-
+    HARD = 'H', _('Duro')       
+  
+    
 class Armor(models.Model):
     name = models.CharField(max_length=200)
     category = models.ForeignKey("Category", on_delete=models.CASCADE)
     brand = models.ForeignKey("Brand", on_delete=models.CASCADE)
     availability = models.CharField(max_length=1, choices=Availability.choices, default=Availability.COMMON)
-    coverage = models.CharField(max_length=20, choices=Coverage.choices, default=Coverage.BODY)
+    coverage = models.CharField(max_length=20, choices=ArmorCoverage.choices, default=ArmorCoverage.BODY)
     type = models.CharField(max_length=1, choices=ArmorType.choices, default=ArmorType.HARD)
     sp = models.IntegerField()
     ev = models.IntegerField()
@@ -107,3 +110,22 @@ class Armor(models.Model):
     
     def __str__(self):
         return self.name
+
+
+### Specific Models for Gear
+class GearType(models.TextChoices): 
+    SOFT = 'S', _('Blando')
+    HARD = 'H', _('Duro')
+       
+
+class Gear(models.Model):
+    
+    name = models.CharField(max_length=200)
+    category = models.ForeignKey("Category", on_delete=models.CASCADE)
+    brand = models.ForeignKey("Brand", on_delete=models.CASCADE)
+    availability = models.CharField(max_length=1, choices=Availability.choices, default=Availability.COMMON)
+    type = models.CharField(max_length=1, choices=GearType.choices, default=GearType.HARD)
+    weight = models.FloatField()
+    cost = models.IntegerField()
+    description = models.CharField(max_length=255, null=True)
+    image = models.CharField(max_length=255, null=True)

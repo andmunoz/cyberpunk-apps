@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 import csv
 from .models import (
-    ItemType, Armor, Category, Brand, Availability, ArmorType, Coverage
+    ItemType, Armor, Category, Brand, Availability, ArmorCoverage, ArmorType
 )
 from .config import database
 
@@ -17,7 +17,7 @@ def list(request):
     brands = Brand.objects.filter(type='ARMOR').order_by('name')
     availabilities = Availability.choices
     armor_types = ArmorType.choices
-    coverages = Coverage.choices
+    coverages = ArmorCoverage.choices
 
     context = {
         'armor_count': armor_count,
@@ -154,13 +154,14 @@ def download(request):
 # Refresh armor list with Firebase
 def refresh(request):
     source = request.POST['source']
+    firebase_object = database.child('Catalog/Armor')
     if source == 'local': 
         armor_local = Armor.objects.all().order_by('id').values()
-        database.child('Catalog/Armor').remove()
+        firebase_object.remove()
         for armor in armor_local:
-            database.child('Catalog/Armor').push(armor)
+            firebase_object.push(armor)
     else:
-        armor_origin = database.child('Catalog/Armor').get()
+        armor_origin = firebase_object.get()
         for armor_id, armor in armor_origin:
             category = Category.objects.get(code=armor.category, parent=None)
             brand, _ = Brand.objects.get_or_create(

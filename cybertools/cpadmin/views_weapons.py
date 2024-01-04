@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 import csv
 from .models import (
-    ItemType, Weapon, Category, Brand, Availability, Concealment, Reliability
+    ItemType, Weapon, Category, Brand, Availability, WeaponConcealment, WeaponReliability
 )
 from .config import database
 
@@ -16,8 +16,8 @@ def list(request):
     categories = Category.objects.filter(type='WEAPON').order_by('name')
     brands = Brand.objects.filter(type='WEAPON').order_by('name')
     availabilities = Availability.choices
-    concealments = Concealment.choices
-    reliabilities = Reliability.choices
+    concealments = WeaponConcealment.choices
+    reliabilities = WeaponReliability.choices
 
     context = {
         'weapons_count': weapons_count,
@@ -164,13 +164,14 @@ def download(request):
 # Refresh weapons list with Firebase
 def refresh(request):
     source = request.POST['source']
+    firebase_object = database.child('Catalog/Weapon')
     if source == 'local': 
         weapons_local = Weapon.objects.all().order_by('id').values()
-        database.child('Catalog/Weapon').remove()
+        firebase_object.remove()
         for weapon in weapons_local:
-            database.child('Catalog/Weapon').push(weapon)
+            firebase_object.push(weapon)
     else:
-        weapons_origin = database.child('Catalog/Weapon').get()
+        weapons_origin = firebase_object.get()
         for weapon_id, weapon in weapons_origin:
             category = Category.objects.get(code=weapon.category, parent=None)
             brand, _ = Brand.objects.get_or_create(
