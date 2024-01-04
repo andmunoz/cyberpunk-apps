@@ -8,3 +8,7 @@ h1, h2, h3, h4, h5, h6, .nav-link {
     color: yellow;
     font-weight: 600;
 }
+
+.nav-link:active {
+    color: white;
+}

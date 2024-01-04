@@ -3,7 +3,7 @@ from . import views, views_weapons, views_armor, views_gear
 
 urlpatterns = [
     # Route to home
-    path('', views.index, name='index'),
+    path('', views.index, name='home'),
 
     # Routes to characters
     path('characters/', views.characters_home, name='characters'),

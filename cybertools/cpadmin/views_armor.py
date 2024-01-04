@@ -20,6 +20,7 @@ def list(request):
     coverages = ArmorCoverage.choices
 
     context = {
+        'page_title': 'Blindaje',
         'armor_count': armor_count,
         'armors': armors,
         'categories': categories,
@@ -53,7 +54,7 @@ def create(request):
     )
     armor.save()
 
-    return redirect('armor')
+    return redirect('blindaje')
 
 
 # Update an armor
@@ -75,7 +76,7 @@ def update(request):
     armor.image = form['image']
     armor.save()
     
-    return redirect('armor')
+    return redirect('blindaje')
 
 
 # Delete an armor
@@ -83,7 +84,7 @@ def delete(request):
     form = request.POST
     armor = Armor.objects.get(id=form['id'])
     armor.delete()
-    return redirect('armor')
+    return redirect('blindaje')
 
 
 # Upload armor list from CSV
@@ -115,7 +116,7 @@ def upload(request):
             )
         )
         
-    return redirect('armor')
+    return redirect('blindaje')
 
 
 # Download armor list in CSV
@@ -185,4 +186,4 @@ def refresh(request):
                 ),
             )
 
-    return redirect('armor')
+    return redirect('blindaje')

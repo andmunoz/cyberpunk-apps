@@ -1,32 +1,35 @@
 {% extends "template.html" %}
 
+{% load cpadmin_extras %}
+
 {% block section_content %}
     <div class="container">
         <br />
-        <h2>Armas y Equipo</h2>
         <div class="row">
             <div class="col-3">
                 {% block section_content_navigator %}
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link{% if '/weapons' in request.path %} active{% endif %}" href="{% url 'weapons' %}">Armas</a>
+                            <a class="nav-link{% if 'weapons' in request.path %} active{% endif %}" href="{% url 'weapons' %}">Armas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link{% if '/armor' in request.path %} active{% endif %}" href="armor">Blindaje</a>
+                            <a class="nav-link{% if 'armor' in request.path %} active{% endif %}" href="{% url 'armor' %}">Blindaje</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link{% if '/gear' in request.path %} active{% endif %}" href="gear">Equipo</a>
+                            <a class="nav-link{% if 'gear' in request.path %} active{% endif %}" href="{% url 'gear' %}">Equipo</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link{% if '/cyberware' in request.path %} active{% endif %}" href="cyberware">Ciberequipo</a>
+                            <a class="nav-link{% if 'cyberware' in request.path %} active{% endif %}" href="{% url 'cyberware' %}">Ciberequipo</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link{% if '/clothes' in request.path %} active{% endif %}" href="clothes">Moda</a>
+                            <a class="nav-link{% if 'clothes' in request.path %} active{% endif %}" href="{% url 'clothes' %}">Moda</a>
                         </li>
                     </ul>
                 {% endblock %}
             </div>
             <div class="col-9">
+                <h3>{{ page_title }}</h3>
+                <br/>
                 <div class="text-center" id="spinner">
                     <i class="fa fa-spinner fa-spin fa-3x"></i>
                     <br />
@@ -36,7 +39,9 @@
                 <script>
                     $("#spinner").show();
                 </script>
-                {% block section_content_content%}{% endblock %}
+                <div id="pageContent" style="display:none">
+                    {% block section_content_content%}{% endblock %}
+                </div>
                 <script>
                     $(document).ready(function() {
                         $('#dataResults').DataTable({
@@ -63,6 +68,7 @@
                             }
                         });
                         $("#spinner").hide();
+                        $("#pageContent").show();
                     });
                 </script>
             </div>

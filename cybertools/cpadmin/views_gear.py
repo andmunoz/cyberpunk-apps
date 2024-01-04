@@ -19,6 +19,7 @@ def list(request):
     gear_types = GearType.choices
 
     context = {
+        'page_title': 'Equipo',
         'gear_count': gear_count,
         'gears': gears,
         'categories': categories,
@@ -48,7 +49,7 @@ def create(request):
     )
     gear.save()
 
-    return redirect('gear')
+    return redirect('equipo')
 
 
 # Update an gear
@@ -67,7 +68,7 @@ def update(request):
     gear.image = form['image']
     gear.save()
     
-    return redirect('gear')
+    return redirect('equipo')
 
 
 # Delete an gear
@@ -75,7 +76,7 @@ def delete(request):
     form = request.POST
     gear = Gear.objects.get(id=form['id'])
     gear.delete()
-    return redirect('gear')
+    return redirect('equipo')
 
 
 # Upload gear list from CSV
@@ -104,7 +105,7 @@ def upload(request):
             )
         )
         
-    return redirect('gear')
+    return redirect('equipo')
 
 
 # Download gear list in CSV
@@ -171,4 +172,4 @@ def refresh(request):
                 ),
             )
 
-    return redirect('gear')
+    return redirect('equipo')
