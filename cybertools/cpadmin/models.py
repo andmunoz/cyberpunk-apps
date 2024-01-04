@@ -87,9 +87,9 @@ class Coverage(models.TextChoices):
    
     
 class ArmorType(models.TextChoices): 
-    LIGHT = 'L', _('Blando')
+    SOFT = 'S', _('Blando')
     HARD = 'H', _('Duro')
-   
+       
 
 class Armor(models.Model):
     name = models.CharField(max_length=200)
@@ -104,3 +104,6 @@ class Armor(models.Model):
     cost = models.IntegerField()
     description = models.CharField(max_length=255, null=True)
     image = models.CharField(max_length=255, null=True)
+    
+    def __str__(self):
+        return self.name

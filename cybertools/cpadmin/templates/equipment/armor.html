@@ -208,7 +208,7 @@
                 <tr>
                     <th scope="row" class="text-center">{{ armor.id }}</th>
                     <td>{{ armor.name }}</td>
-                    <td>{{ armor.category }}</td>
+                    <td>{{ armor.category.name }}</td>
                     <td class="text-end">{{ armor.cost|stringformat:"3d" }} creds</td>
                     <td>
                         <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#viewArmor{{ armor.id }}Modal"><i class="fa-solid fa-eye"></i></button>
@@ -243,7 +243,7 @@
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="text-end">Tipo:</td>
-                                                        <td>{{ armor.coverage }}</td>
+                                                        <td>{{ armor.type }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="text-end">Cobertura:</td>
