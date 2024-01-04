@@ -23,7 +23,7 @@ class Category(models.Model):
     parent = models.ForeignKey("Category", on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return self.name + " (" + self.code + ")"
+        return "[" + self.type + "] " + self.name + " (" + self.code + ")"
     
     
 class Brand(models.Model):
@@ -32,7 +32,7 @@ class Brand(models.Model):
     description = models.CharField(max_length=1000, blank=True)
 
     def __str__(self):
-        return self.name
+        return "[" + self.type + "] " + self.name
 
 
 class Availability(models.TextChoices): 
@@ -114,17 +114,15 @@ class Armor(models.Model):
 
 ### Specific Models for Gear
 class GearType(models.TextChoices): 
-    SOFT = 'S', _('Blando')
-    HARD = 'H', _('Duro')
-       
+    OPTIONAL = 'OPT', _('Opcional')
+
 
 class Gear(models.Model):
-    
     name = models.CharField(max_length=200)
     category = models.ForeignKey("Category", on_delete=models.CASCADE)
     brand = models.ForeignKey("Brand", on_delete=models.CASCADE)
     availability = models.CharField(max_length=1, choices=Availability.choices, default=Availability.COMMON)
-    type = models.CharField(max_length=1, choices=GearType.choices, default=GearType.HARD)
+    type = models.CharField(max_length=3, choices=GearType.choices, default=GearType.OPTIONAL)
     weight = models.FloatField()
     cost = models.IntegerField()
     description = models.CharField(max_length=255, null=True)

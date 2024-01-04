@@ -164,14 +164,13 @@ def download(request):
 # Refresh weapons list with Firebase
 def refresh(request):
     source = request.POST['source']
-    firebase_object = database.child('Catalog/Weapon')
     if source == 'local': 
         weapons_local = Weapon.objects.all().order_by('id').values()
-        firebase_object.remove()
+        database.child('Catalog/Weapon').remove()
         for weapon in weapons_local:
-            firebase_object.push(weapon)
+            database.child('Catalog/Weapon').push(weapon)
     else:
-        weapons_origin = firebase_object.get()
+        weapons_origin = database.child('Catalog/Weapon').get()
         for weapon_id, weapon in weapons_origin:
             category = Category.objects.get(code=weapon.category, parent=None)
             brand, _ = Brand.objects.get_or_create(
