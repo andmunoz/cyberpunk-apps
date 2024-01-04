@@ -54,7 +54,7 @@ def create(request):
     )
     armor.save()
 
-    return redirect('blindaje')
+    return redirect('armor')
 
 
 # Update an armor
@@ -76,7 +76,7 @@ def update(request):
     armor.image = form['image']
     armor.save()
     
-    return redirect('blindaje')
+    return redirect('armor')
 
 
 # Delete an armor
@@ -84,7 +84,7 @@ def delete(request):
     form = request.POST
     armor = Armor.objects.get(id=form['id'])
     armor.delete()
-    return redirect('blindaje')
+    return redirect('armor')
 
 
 # Upload armor list from CSV
@@ -116,7 +116,7 @@ def upload(request):
             )
         )
         
-    return redirect('blindaje')
+    return redirect('armor')
 
 
 # Download armor list in CSV
@@ -186,4 +186,4 @@ def refresh(request):
                 ),
             )
 
-    return redirect('blindaje')
+    return redirect('armor')

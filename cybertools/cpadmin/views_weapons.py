@@ -57,7 +57,7 @@ def create(request):
     )
     weapon.save()
 
-    return redirect('armas')
+    return redirect('weapons')
 
 
 # Update a weapon
@@ -83,7 +83,7 @@ def update(request):
     weapon.image = form['image']
     weapon.save()
 
-    return redirect('armas')
+    return redirect('weapons')
 
 
 # Delete a weapon
@@ -92,7 +92,7 @@ def delete(request):
     weapon = Weapon.objects.get(id=form['id'])
     weapon.delete()
 
-    return redirect('armas')
+    return redirect('weapons')
 
 # Upload weapons list from CSV
 def upload(request):
@@ -126,7 +126,7 @@ def upload(request):
             )
         )
 
-    return redirect('armas')
+    return redirect('weapons')
 
 
 # Download weapon list in CSV
@@ -199,4 +199,4 @@ def refresh(request):
                 ),
             )
             
-    return redirect('armas')
+    return redirect('weapons')

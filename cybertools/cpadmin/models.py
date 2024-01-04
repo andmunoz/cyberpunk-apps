@@ -23,7 +23,7 @@ class Category(models.Model):
     parent = models.ForeignKey("Category", on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return "[" + self.type + "] " + self.name + " (" + self.code + ")"
+        return "[" + ItemType(self.type).label + "] " + self.name + " (" + self.code + ")"
     
     
 class Brand(models.Model):
@@ -32,7 +32,7 @@ class Brand(models.Model):
     description = models.CharField(max_length=1000, blank=True)
 
     def __str__(self):
-        return "[" + self.type + "] " + self.name
+        return "[" + ItemType(self.type).label + "] " + self.name
 
 
 class Availability(models.TextChoices): 
@@ -127,3 +127,53 @@ class Gear(models.Model):
     cost = models.IntegerField()
     description = models.CharField(max_length=255, null=True)
     image = models.CharField(max_length=255, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+### Specific Models for Cyberware
+class CyberType(models.TextChoices): 
+    IMPLANT = 'IMP', _('Implante')
+    MODULE = 'MOD', _('Módulo')
+    MRAM = 'MRAM', _('Chip de Memoria')
+    CPART = 'CPART', _('Chip de Reflejos')
+
+
+class SurgeryTypes(models.TextChoices): 
+    NO = 'NO', _('No Aplica')
+    INSIGNIFICANT = 'IN', _('Insignificante')
+    SECONDARY = 'SE', _('Secundaria')
+    IMPORTANT = 'IM', _('Importante')
+    CRITICAL = 'CR', _('Crítica')
+
+
+class CyberSurgery(models.Model):
+    type = models.CharField(max_length=2, choices=SurgeryTypes.choices)
+    difficulty = models.IntegerField()
+    time_length = models.IntegerField()
+    damage = models.CharField(max_length=10, default='No')
+    cost = models.IntegerField()
+
+    def __str__(self):
+        return SurgeryTypes(self.type).label
+    
+
+class Cyberware(models.Model):
+    name = models.CharField(max_length=200)
+    category = models.ForeignKey("Category", on_delete=models.CASCADE)
+    brand = models.ForeignKey("Brand", on_delete=models.CASCADE)
+    availability = models.CharField(max_length=1, choices=Availability.choices, default=Availability.COMMON)
+    type = models.CharField(max_length=3, choices=GearType.choices, default=GearType.OPTIONAL)
+    humanity = models.CharField(max_length=10, null=True)
+    requirement = models.ForeignKey("Cyberware", on_delete=models.CASCADE, null=True, blank=True)
+    adjustment = models.CharField(max_length=100, null=True)
+    slot = models.CharField(max_length=100, null=True)
+    surgery = models.ForeignKey("CyberSurgery", on_delete=models.CASCADE)
+    weight = models.FloatField()
+    cost = models.IntegerField()
+    description = models.CharField(max_length=255, null=True)
+    image = models.CharField(max_length=255, null=True)
+
+    def __str__(self):
+        return self.name

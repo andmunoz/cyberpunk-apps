@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views, views_weapons, views_armor, views_gear
+from . import views, views_weapons, views_armor, views_gear, views_cyberware
 
 urlpatterns = [
     # Route to home
@@ -35,7 +35,13 @@ urlpatterns = [
     path('equipment/gear/upload', views_gear.upload),
     path('equipment/gear/refresh', views_gear.refresh),
 
-    path('equipment/cyberware', views_armor.list, name='cyberware'),
+    path('equipment/cyberware', views_cyberware.list, name='cyberware'),
+    path('equipment/gear/create', views_cyberware.create),
+    path('equipment/gear/update', views_cyberware.update),
+    path('equipment/gear/delete', views_cyberware.delete),
+    path('equipment/gear/download', views_cyberware.download),
+    path('equipment/gear/upload', views_cyberware.upload),
+    path('equipment/gear/refresh', views_cyberware.refresh),
 
     path('equipment/clothes', views_armor.list, name='clothes'),
 
