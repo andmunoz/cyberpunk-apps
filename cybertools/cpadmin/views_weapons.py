@@ -166,11 +166,11 @@ def refresh(request):
     source = request.POST['source']
     if source == 'local': 
         weapons_local = Weapon.objects.all().order_by('id').values()
-        database.child('Weapon').remove()
+        database.child('Catalog/Weapon').remove()
         for weapon in weapons_local:
-            database.child('Weapon').push(weapon)
+            database.child('Catalog/Weapon').push(weapon)
     else:
-        weapons_origin = database.child('Weapon').get()
+        weapons_origin = database.child('Catalog/Weapon').get()
         for weapon_id, weapon in weapons_origin:
             category = Category.objects.get(code=weapon.category, parent=None)
             brand, _ = Brand.objects.get_or_create(

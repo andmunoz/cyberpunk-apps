@@ -156,11 +156,11 @@ def refresh(request):
     source = request.POST['source']
     if source == 'local': 
         armor_local = Armor.objects.all().order_by('id').values()
-        database.child('Armor').remove()
+        database.child('Catalog/Armor').remove()
         for armor in armor_local:
-            database.child('Armor').push(armor)
+            database.child('Catalog/Armor').push(armor)
     else:
-        armor_origin = database.child('Armor').get()
+        armor_origin = database.child('Catalog/Armor').get()
         for armor_id, armor in armor_origin:
             category = Category.objects.get(code=armor.category, parent=None)
             brand, _ = Brand.objects.get_or_create(
