@@ -1,10 +1,18 @@
 from django.contrib import admin
-from .models import Category, Brand, Weapon, Armor, Gear, CyberSurgery, Cyberware
+from .models import (
+    Category, CategoryAdmin, 
+    Brand, BrandAdmin,
+    Weapon, WeaponAdmin,
+    Armor, ArmorAdmin, 
+    Gear, GearAdmin, 
+    Surgery, SurgeryAdmin,
+    Cyberware, CyberwareAdmin
+)
 
-admin.site.register(Category)
-admin.site.register(Brand)
-admin.site.register(Weapon)
-admin.site.register(Armor)
-admin.site.register(Gear)
-admin.site.register(CyberSurgery)
-admin.site.register(Cyberware)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Brand, BrandAdmin)
+admin.site.register(Weapon, WeaponAdmin)
+admin.site.register(Armor, ArmorAdmin)
+admin.site.register(Gear, GearAdmin)
+admin.site.register(Surgery, SurgeryAdmin)
+admin.site.register(Cyberware, CyberwareAdmin)

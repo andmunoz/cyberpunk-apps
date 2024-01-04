@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
 
@@ -23,7 +24,11 @@ class Category(models.Model):
     parent = models.ForeignKey("Category", on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return "[" + ItemType(self.type).label + "] " + self.name + " (" + self.code + ")"
+        return self.name
+
+
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ["name", "code", "type", "parent"]
     
     
 class Brand(models.Model):
@@ -32,9 +37,13 @@ class Brand(models.Model):
     description = models.CharField(max_length=1000, blank=True)
 
     def __str__(self):
-        return "[" + ItemType(self.type).label + "] " + self.name
+        return self.name
 
 
+class BrandAdmin(admin.ModelAdmin):
+    list_display = ["name", "type"]
+    
+    
 class Availability(models.TextChoices): 
     EXCELLENT = 'E', _('Excelente')
     COMMON = 'C', _('Común')
@@ -77,6 +86,10 @@ class Weapon(models.Model):
     
     def __str__(self):
         return self.name
+
+
+class WeaponAdmin(admin.ModelAdmin):
+    list_display = ["name", "category", "brand", "concealment", "reliability", "availability", "cost"]
     
     
 ### Specific Models for Armor
@@ -112,6 +125,10 @@ class Armor(models.Model):
         return self.name
 
 
+class ArmorAdmin(admin.ModelAdmin):
+    list_display = ["name", "category", "brand", "type", "coverage", "availability", "cost"]
+
+
 ### Specific Models for Gear
 class GearType(models.TextChoices): 
     OPTIONAL = 'OPT', _('Opcional')
@@ -132,6 +149,10 @@ class Gear(models.Model):
         return self.name
 
 
+class GearAdmin(admin.ModelAdmin):
+    list_display = ["name", "category", "brand", "type", "availability", "cost"]
+
+
 ### Specific Models for Cyberware
 class CyberType(models.TextChoices): 
     IMPLANT = 'IMP', _('Implante')
@@ -148,7 +169,7 @@ class SurgeryTypes(models.TextChoices):
     CRITICAL = 'CR', _('Crítica')
 
 
-class CyberSurgery(models.Model):
+class Surgery(models.Model):
     type = models.CharField(max_length=2, choices=SurgeryTypes.choices)
     difficulty = models.IntegerField()
     time_length = models.IntegerField()
@@ -157,6 +178,10 @@ class CyberSurgery(models.Model):
 
     def __str__(self):
         return SurgeryTypes(self.type).label
+
+
+class SurgeryAdmin(admin.ModelAdmin):
+    list_display = ["type", "difficulty", "time_length", "damage", "cost"]
     
 
 class Cyberware(models.Model):
@@ -169,7 +194,7 @@ class Cyberware(models.Model):
     requirement = models.ForeignKey("Cyberware", on_delete=models.CASCADE, null=True, blank=True)
     adjustment = models.CharField(max_length=100, null=True)
     slot = models.CharField(max_length=100, null=True)
-    surgery = models.ForeignKey("CyberSurgery", on_delete=models.CASCADE)
+    surgery = models.ForeignKey("Surgery", on_delete=models.CASCADE)
     weight = models.FloatField()
     cost = models.IntegerField()
     description = models.CharField(max_length=255, null=True)
@@ -177,3 +202,7 @@ class Cyberware(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class CyberwareAdmin(admin.ModelAdmin):
+    list_display = ["name", "category", "type", "requirement", "adjustment", "surgery", "availability", "cost"]
