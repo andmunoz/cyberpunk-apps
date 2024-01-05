@@ -36,12 +36,12 @@ urlpatterns = [
     path('equipment/gear/refresh', views_gear.refresh),
 
     path('equipment/cyberware', views_cyberware.list, name='cyberware'),
-    path('equipment/gear/create', views_cyberware.create),
-    path('equipment/gear/update', views_cyberware.update),
-    path('equipment/gear/delete', views_cyberware.delete),
-    path('equipment/gear/download', views_cyberware.download),
-    path('equipment/gear/upload', views_cyberware.upload),
-    path('equipment/gear/refresh', views_cyberware.refresh),
+    path('equipment/cyberware/create', views_cyberware.create),
+    path('equipment/cyberware/update', views_cyberware.update),
+    path('equipment/cyberware/delete', views_cyberware.delete),
+    path('equipment/cyberware/download', views_cyberware.download),
+    path('equipment/cyberware/upload', views_cyberware.upload),
+    path('equipment/cyberware/refresh', views_cyberware.refresh),
 
     path('equipment/clothes', views_armor.list, name='clothes'),
 

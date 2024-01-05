@@ -164,7 +164,7 @@ def refresh(request):
                     category=category,
                     brand=brand,
                     availability=gear.availability,
-                    type=gear.typr,
+                    type=gear.type,
                     weight=gear.weight,
                     cost=gear.cost,
                     description=gear.description,

@@ -153,14 +153,7 @@ class GearAdmin(admin.ModelAdmin):
     list_display = ["name", "category", "brand", "type", "availability", "cost"]
 
 
-### Specific Models for Cyberware
-class CyberType(models.TextChoices): 
-    IMPLANT = 'IMP', _('Implante')
-    MODULE = 'MOD', _('Módulo')
-    MRAM = 'MRAM', _('Chip de Memoria')
-    CPART = 'CPART', _('Chip de Reflejos')
-
-
+### Specific Models for Surgery
 class SurgeryTypes(models.TextChoices): 
     NO = 'NO', _('No Aplica')
     INSIGNIFICANT = 'IN', _('Insignificante')
@@ -177,11 +170,32 @@ class Surgery(models.Model):
     cost = models.IntegerField()
 
     def __str__(self):
-        return SurgeryTypes(self.type).label
+        return self.type
 
 
 class SurgeryAdmin(admin.ModelAdmin):
     list_display = ["type", "difficulty", "time_length", "damage", "cost"]
+    
+
+### Specific Models for Cyberware
+class CyberType(models.TextChoices): 
+    IMPLANT = 'IMP', _('Implante')
+    EXTERNAL = 'EXT', _('Externo')
+    ADDON = 'ADD', _('Opción')
+    IMPROVEMENT = 'IMPRO', _('Mejora')
+    MRAM = 'MRAM', _('Chip de Memoria')
+    CPART = 'CPART', _('Chip de Reflejos')
+
+
+class CyberSlot(models.TextChoices):
+    FULL = 'FUL', _('Cuerpo y Cabeza')
+    HEAD = 'HEA', _('Cabeza')
+    BODY = 'BOD', _('Cuerpo')
+    TORSO = 'TOR', _('Torso')
+    ARM = 'ARM', _('Brazo')
+    ARMLEG = 'AOL', _('Brazo o Pierna')
+    LEG = 'LEG', _('Pierna')
+    CROTCH = 'CRO', _('Ingle')
     
 
 class Cyberware(models.Model):
@@ -189,11 +203,11 @@ class Cyberware(models.Model):
     category = models.ForeignKey("Category", on_delete=models.CASCADE)
     brand = models.ForeignKey("Brand", on_delete=models.CASCADE)
     availability = models.CharField(max_length=1, choices=Availability.choices, default=Availability.COMMON)
-    type = models.CharField(max_length=3, choices=GearType.choices, default=GearType.OPTIONAL)
+    type = models.CharField(max_length=5, choices=CyberType.choices, default=CyberType.IMPLANT)
     humanity = models.CharField(max_length=10, null=True)
-    requirement = models.ForeignKey("Cyberware", on_delete=models.CASCADE, null=True, blank=True)
-    adjustment = models.CharField(max_length=100, null=True)
-    slot = models.CharField(max_length=100, null=True)
+    requirement = models.CharField(max_length=100, null=True, blank=True)
+    adjustment = models.CharField(max_length=100, null=True, blank=True)
+    slot = models.CharField(max_length=3, choices=CyberSlot.choices, default=CyberSlot.FULL)
     surgery = models.ForeignKey("Surgery", on_delete=models.CASCADE)
     weight = models.FloatField()
     cost = models.IntegerField()
@@ -205,4 +219,7 @@ class Cyberware(models.Model):
 
 
 class CyberwareAdmin(admin.ModelAdmin):
-    list_display = ["name", "category", "type", "requirement", "adjustment", "surgery", "availability", "cost"]
+    list_display = ["name", "category", "brand", "type", "humanity", "slot", "adjustment", "requirement", "surgery", "availability", "cost"]
+    
+    # "requirement", "adjustment", "surgery",
+

@@ -176,7 +176,7 @@ def refresh(request):
                     brand=brand,
                     availability=armor.availability,
                     coverage=armor.coverage,
-                    type=armor.typr,
+                    type=armor.type,
                     sp=armor.sp,
                     ev=armor.ev,
                     weight=armor.weight,

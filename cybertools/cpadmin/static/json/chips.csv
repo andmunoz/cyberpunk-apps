@@ -1,0 +1,139 @@
+00_Id,01_Nombre,02_Marca,03_Tipo,04_Categoria,05_Humanidad,06_Operacion,07_Disponibilidad,08_Peso,09_Costo,10_Requisito,11_Ajustes,12_Descripcion
+228,CPART Abrir Cerraduras +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,150,Ciberprocesador,,Conectado en el Zócalo de Chips
+229,CPART Abrir Cerraduras +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+230,CPART Abrir Cerraduras +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,450,Ciberprocesador,,Conectado en el Zócalo de Chips
+201,CPART Armas: Cortas +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+202,CPART Armas: Cortas +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,600,Ciberprocesador,,Conectado en el Zócalo de Chips
+203,CPART Armas: Cortas +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,900,Ciberprocesador,,Conectado en el Zócalo de Chips
+207,CPART Armas: Fusil +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+208,CPART Armas: Fusil +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,600,Ciberprocesador,,Conectado en el Zócalo de Chips
+209,CPART Armas: Fusil +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,900,Ciberprocesador,,Conectado en el Zócalo de Chips
+210,CPART Armas: Pesadas +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,400,Ciberprocesador,,Conectado en el Zócalo de Chips
+211,CPART Armas: Pesadas +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,800,Ciberprocesador,,Conectado en el Zócalo de Chips
+212,CPART Armas: Pesadas +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,1200,Ciberprocesador,,Conectado en el Zócalo de Chips
+204,CPART Armas: Subfusil +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+205,CPART Armas: Subfusil +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,600,Ciberprocesador,,Conectado en el Zócalo de Chips
+206,CPART Armas: Subfusil +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,900,Ciberprocesador,,Conectado en el Zócalo de Chips
+231,CPART Armería +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,200,Ciberprocesador,,Conectado en el Zócalo de Chips
+232,CPART Armería +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,400,Ciberprocesador,,Conectado en el Zócalo de Chips
+233,CPART Armería +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,600,Ciberprocesador,,Conectado en el Zócalo de Chips
+213,CPART Arte Marcial +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,350,Ciberprocesador,,Conectado en el Zócalo de Chips
+214,CPART Arte Marcial +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,700,Ciberprocesador,,Conectado en el Zócalo de Chips
+215,CPART Arte Marcial +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,1050,Ciberprocesador,,Conectado en el Zócalo de Chips
+216,CPART Baile +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,150,Ciberprocesador,,Conectado en el Zócalo de Chips
+217,CPART Baile +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+218,CPART Baile +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,450,Ciberprocesador,,Conectado en el Zócalo de Chips
+234,CPART Cibertecnología +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+235,CPART Cibertecnología +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,600,Ciberprocesador,,Conectado en el Zócalo de Chips
+236,CPART Cibertecnología +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,900,Ciberprocesador,,Conectado en el Zócalo de Chips
+219,CPART Combate Cuerpo a Cuerpo +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,150,Ciberprocesador,,Conectado en el Zócalo de Chips
+220,CPART Combate Cuerpo a Cuerpo +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+221,CPART Combate Cuerpo a Cuerpo +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,450,Ciberprocesador,,Conectado en el Zócalo de Chips
+222,CPART Conducir +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,150,Ciberprocesador,,Conectado en el Zócalo de Chips
+223,CPART Conducir +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+224,CPART Conducir +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,450,Ciberprocesador,,Conectado en el Zócalo de Chips
+237,CPART Demoliciones +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+238,CPART Demoliciones +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,600,Ciberprocesador,,Conectado en el Zócalo de Chips
+239,CPART Demoliciones +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,900,Ciberprocesador,,Conectado en el Zócalo de Chips
+240,CPART Diseño de Ciberterminales +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,200,Ciberprocesador,,Conectado en el Zócalo de Chips
+241,CPART Diseño de Ciberterminales +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,400,Ciberprocesador,,Conectado en el Zócalo de Chips
+242,CPART Diseño de Ciberterminales +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,600,Ciberprocesador,,Conectado en el Zócalo de Chips
+243,CPART Disfraz +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,150,Ciberprocesador,,Conectado en el Zócalo de Chips
+244,CPART Disfraz +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+245,CPART Disfraz +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,450,Ciberprocesador,,Conectado en el Zócalo de Chips
+246,CPART Electrónica +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,150,Ciberprocesador,,Conectado en el Zócalo de Chips
+247,CPART Electrónica +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+248,CPART Electrónica +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,450,Ciberprocesador,,Conectado en el Zócalo de Chips
+249,CPART Falsificar +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,200,Ciberprocesador,,Conectado en el Zócalo de Chips
+250,CPART Falsificar +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,400,Ciberprocesador,,Conectado en el Zócalo de Chips
+251,CPART Falsificar +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,600,Ciberprocesador,,Conectado en el Zócalo de Chips
+252,CPART Farmacia +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,200,Ciberprocesador,,Conectado en el Zócalo de Chips
+253,CPART Farmacia +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,400,Ciberprocesador,,Conectado en el Zócalo de Chips
+254,CPART Farmacia +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,600,Ciberprocesador,,Conectado en el Zócalo de Chips
+255,CPART Manejo de Equipos Especializados +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,250,Ciberprocesador,,Conectado en el Zócalo de Chips
+256,CPART Manejo de Equipos Especializados +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,500,Ciberprocesador,,Conectado en el Zócalo de Chips
+257,CPART Manejo de Equipos Especializados +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,750,Ciberprocesador,,Conectado en el Zócalo de Chips
+258,CPART Manejo de Tanque Criogénico +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,150,Ciberprocesador,,Conectado en el Zócalo de Chips
+259,CPART Manejo de Tanque Criogénico +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+260,CPART Manejo de Tanque Criogénico +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,450,Ciberprocesador,,Conectado en el Zócalo de Chips
+261,CPART Mecánica +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,200,Ciberprocesador,,Conectado en el Zócalo de Chips
+262,CPART Mecánica +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,400,Ciberprocesador,,Conectado en el Zócalo de Chips
+263,CPART Mecánica +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,600,Ciberprocesador,,Conectado en el Zócalo de Chips
+144,CPART Nadar +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,100,Ciberprocesador,,Conectado en el Zócalo de Chips
+145,CPART Nadar +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,200,Ciberprocesador,,Conectado en el Zócalo de Chips
+146,CPART Nadar +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+225,CPART Pilotar +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+226,CPART Pilotar +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,600,Ciberprocesador,,Conectado en el Zócalo de Chips
+227,CPART Pilotar +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,900,Ciberprocesador,,Conectado en el Zócalo de Chips
+264,CPART Primeros Auxilios +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,150,Ciberprocesador,,Conectado en el Zócalo de Chips
+265,CPART Primeros Auxilios +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+266,CPART Primeros Auxilios +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,450,Ciberprocesador,,Conectado en el Zócalo de Chips
+267,CPART Robar Bolisllos +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,150,Ciberprocesador,,Conectado en el Zócalo de Chips
+268,CPART Robar Bolisllos +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+269,CPART Robar Bolisllos +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,450,Ciberprocesador,,Conectado en el Zócalo de Chips
+270,CPART Seguridad Electrónica +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,150,Ciberprocesador,,Conectado en el Zócalo de Chips
+271,CPART Seguridad Electrónica +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+272,CPART Seguridad Electrónica +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,450,Ciberprocesador,,Conectado en el Zócalo de Chips
+273,CPART Tocar Instrumento +1,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,150,Ciberprocesador,,Conectado en el Zócalo de Chips
+274,CPART Tocar Instrumento +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+275,CPART Tocar Instrumento +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,450,Ciberprocesador,,Conectado en el Zócalo de Chips
+147,MRAM Antropología +1,Biotechnica,Implante,Chip de Memoria,0,No Aplica,Común,0,150,Ciberprocesador,,Conectado en el Zócalo de Chips
+148,MRAM Antropología +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+149,MRAM Antropología +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,450,Ciberprocesador,,Conectado en el Zócalo de Chips
+138,MRAM Arreglo Personal +1,Biotechnica,Implante,Chip de Memoria,0,No Aplica,Común,0,100,Ciberprocesador,,Conectado en el Zócalo de Chips
+139,MRAM Arreglo Personal +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,200,Ciberprocesador,,Conectado en el Zócalo de Chips
+140,MRAM Arreglo Personal +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+150,MRAM Biología +1,Biotechnica,Implante,Chip de Memoria,0,No Aplica,Común,0,150,Ciberprocesador,,Conectado en el Zócalo de Chips
+151,MRAM Biología +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+152,MRAM Biología +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,450,Ciberprocesador,,Conectado en el Zócalo de Chips
+153,MRAM Botánica +1,Biotechnica,Implante,Chip de Memoria,0,No Aplica,Común,0,150,Ciberprocesador,,Conectado en el Zócalo de Chips
+154,MRAM Botánica +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+155,MRAM Botánica +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,450,Ciberprocesador,,Conectado en el Zócalo de Chips
+159,MRAM Contabilidad +1,Biotechnica,Implante,Chip de Memoria,0,No Aplica,Común,0,150,Ciberprocesador,,Conectado en el Zócalo de Chips
+160,MRAM Contabilidad +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+161,MRAM Contabilidad +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,450,Ciberprocesador,,Conectado en el Zócalo de Chips
+162,MRAM Cultura General +1,Biotechnica,Implante,Chip de Memoria,0,No Aplica,Común,0,200,Ciberprocesador,,Conectado en el Zócalo de Chips
+163,MRAM Cultura General +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,400,Ciberprocesador,,Conectado en el Zócalo de Chips
+164,MRAM Cultura General +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,600,Ciberprocesador,,Conectado en el Zócalo de Chips
+165,MRAM Daytimer +1,Biotechnica,Implante,Chip de Memoria,0,No Aplica,Común,0,100,Ciberprocesador,,Conectado en el Zócalo de Chips
+166,MRAM Daytimer +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,200,Ciberprocesador,,Conectado en el Zócalo de Chips
+167,MRAM Daytimer +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+168,MRAM Física +1,Biotechnica,Implante,Chip de Memoria,0,No Aplica,Común,0,200,Ciberprocesador,,Conectado en el Zócalo de Chips
+169,MRAM Física +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,400,Ciberprocesador,,Conectado en el Zócalo de Chips
+170,MRAM Física +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,600,Ciberprocesador,,Conectado en el Zócalo de Chips
+171,MRAM Geología +1,Biotechnica,Implante,Chip de Memoria,0,No Aplica,Común,0,150,Ciberprocesador,,Conectado en el Zócalo de Chips
+172,MRAM Geología +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+173,MRAM Geología +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,450,Ciberprocesador,,Conectado en el Zócalo de Chips
+174,MRAM Historia +1,Biotechnica,Implante,Chip de Memoria,0,No Aplica,Común,0,150,Ciberprocesador,,Conectado en el Zócalo de Chips
+175,MRAM Historia +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+176,MRAM Historia +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,450,Ciberprocesador,,Conectado en el Zócalo de Chips
+156,MRAM Idioma +1,Biotechnica,Implante,Chip de Memoria,0,No Aplica,Común,0,200,Ciberprocesador,,Conectado en el Zócalo de Chips
+157,MRAM Idioma +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,400,Ciberprocesador,,Conectado en el Zócalo de Chips
+158,MRAM Idioma +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,600,Ciberprocesador,,Conectado en el Zócalo de Chips
+177,MRAM Ingeniería +1,Biotechnica,Implante,Chip de Memoria,0,No Aplica,Común,0,250,Ciberprocesador,,Conectado en el Zócalo de Chips
+178,MRAM Ingeniería +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,500,Ciberprocesador,,Conectado en el Zócalo de Chips
+179,MRAM Ingeniería +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,750,Ciberprocesador,,Conectado en el Zócalo de Chips
+180,MRAM Matemáticas +1,Biotechnica,Implante,Chip de Memoria,0,No Aplica,Común,0,200,Ciberprocesador,,Conectado en el Zócalo de Chips
+181,MRAM Matemáticas +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,400,Ciberprocesador,,Conectado en el Zócalo de Chips
+182,MRAM Matemáticas +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,600,Ciberprocesador,,Conectado en el Zócalo de Chips
+183,MRAM Medicina +1,Biotechnica,Implante,Chip de Memoria,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+184,MRAM Medicina +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,600,Ciberprocesador,,Conectado en el Zócalo de Chips
+185,MRAM Medicina +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,900,Ciberprocesador,,Conectado en el Zócalo de Chips
+186,MRAM Mercado de Valores +1,Biotechnica,Implante,Chip de Memoria,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+187,MRAM Mercado de Valores +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,600,Ciberprocesador,,Conectado en el Zócalo de Chips
+188,MRAM Mercado de Valores +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,900,Ciberprocesador,,Conectado en el Zócalo de Chips
+189,MRAM Programar +1,Biotechnica,Implante,Chip de Memoria,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+190,MRAM Programar +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,600,Ciberprocesador,,Conectado en el Zócalo de Chips
+191,MRAM Programar +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,900,Ciberprocesador,,Conectado en el Zócalo de Chips
+192,MRAM Química +1,Biotechnica,Implante,Chip de Memoria,0,No Aplica,Común,0,150,Ciberprocesador,,Conectado en el Zócalo de Chips
+193,MRAM Química +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+194,MRAM Química +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,450,Ciberprocesador,,Conectado en el Zócalo de Chips
+195,MRAM Supervivencia +1,Biotechnica,Implante,Chip de Memoria,0,No Aplica,Común,0,200,Ciberprocesador,,Conectado en el Zócalo de Chips
+196,MRAM Supervivencia +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,400,Ciberprocesador,,Conectado en el Zócalo de Chips
+197,MRAM Supervivencia +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,600,Ciberprocesador,,Conectado en el Zócalo de Chips
+141,MRAM Vestuario y Estilo +1,Biotechnica,Implante,Chip de Memoria,0,No Aplica,Común,0,100,Ciberprocesador,,Conectado en el Zócalo de Chips
+142,MRAM Vestuario y Estilo +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,200,Ciberprocesador,,Conectado en el Zócalo de Chips
+143,MRAM Vestuario y Estilo +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+198,MRAM Zoología +1,Biotechnica,Implante,Chip de Memoria,0,No Aplica,Común,0,150,Ciberprocesador,,Conectado en el Zócalo de Chips
+199,MRAM Zoología +2,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,300,Ciberprocesador,,Conectado en el Zócalo de Chips
+200,MRAM Zoología +3,Biotechnica,Implante,Chip de Reflejos,0,No Aplica,Común,0,450,Ciberprocesador,,Conectado en el Zócalo de Chips
