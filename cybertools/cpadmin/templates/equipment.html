@@ -30,19 +30,16 @@
             <div class="col-9">
                 <h3>{{ page_title }}</h3>
                 <br/>
-                <div class="text-center" id="spinner">
+                <div class="text-center" id="spinner" style="display: block">
                     <i class="fa fa-spinner fa-spin fa-3x"></i>
                     <br />
                     <h6>Cargando información disponible en la base de datos...</h6>
                     <br />
                 </div>
-                <script>
-                    $("#spinner").show();
-                </script>
-                <div id="pageContent" style="display:none">
+                <div id="pageContent" style="display: none">
                     {% block section_content_content%}{% endblock %}
                 </div>
-                <script>
+                <script>   
                     $(document).ready(function() {
                         $('#dataResults').DataTable({
                             info: true,
@@ -67,8 +64,8 @@
                                 "loadingRecords": "Cargando datos..."
                             }
                         });
-                        $("#spinner").hide();
-                        $("#pageContent").show();
+
+                        changeDiv("#spinner", "#pageContent");
                     });
                 </script>
             </div>

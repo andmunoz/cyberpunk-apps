@@ -1,5 +1,8 @@
 from django.urls import path
-from . import views, views_weapons, views_armor, views_gear, views_cyberware
+from . import (
+    views, 
+    views_weapons, views_armor, views_gear, views_cyberware, views_clothes
+)
 
 urlpatterns = [
     # Route to home
@@ -43,7 +46,13 @@ urlpatterns = [
     path('equipment/cyberware/upload', views_cyberware.upload),
     path('equipment/cyberware/refresh', views_cyberware.refresh),
 
-    path('equipment/clothes', views_armor.list, name='clothes'),
+    path('equipment/clothes', views_clothes.list, name='clothes'),
+    path('equipment/clothes/create', views_clothes.create),
+    path('equipment/clothes/update', views_clothes.update),
+    path('equipment/clothes/delete', views_clothes.delete),
+    path('equipment/clothes/download', views_clothes.download),
+    path('equipment/clothes/upload', views_clothes.upload),
+    path('equipment/clothes/refresh', views_clothes.refresh),
 
     # Routes to drugs
     path('drugs/', views.drugs_home, name='drugs'),

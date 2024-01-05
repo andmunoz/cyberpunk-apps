@@ -13,13 +13,16 @@
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
 
         <link rel="stylesheet" href="styles.css"/>
-        <link rel="icon" type="image/x-icon" href="{% static '/images/favicon.ico' %}"/>
+        <link rel="icon" type="image/x-icon" href="favicon.ico"/>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 
+        <script src="scripts.js"></script>
+
         <title>Cyberpunk 2020 Tools v2.0</title>
     </head>
+
     <body data-bs-theme="dark">
         <div id="section_header" class="container">
             <h1 style="width: 100%; text-align: center; height: 50px;">
@@ -31,23 +34,55 @@
 
         <br />
 
-        <div id="section_content" class="container">
+        <div id="section_menu" class="container">
             <ul class="nav nav-tabs nav-fill">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Armas y Equipo</a>
+                    <a class="nav-link" href="#" onclick="loadData('Catalog/Weapon', 'Armas', true);">Armas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Medicina y Drogas</a>
+                    <a class="nav-link" href="#" onclick="loadData('Catalog/Armor', 'Blindaje', true);">Blindaje</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Vehículos</a>
+                    <a class="nav-link" href="#" onclick="loadData('Catalog/Gear', 'Equipo', true);">Equipo</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Netrunning</a>
+                    <a class="nav-link" href="#" onclick="loadData('Catalog/Cyberware', 'Ciberequipo', true);">Ciberequipo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="loadData('Catalog/Clothes', 'Moda', true);">Moda</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="loadData('Catalog/Drugs', 'Drogas', true);">Drogas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="loadData('Catalog/Vehicles', 'Vehículos', true);">Vehículos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="loadData('Catalog/Netrunning', 'Netrunning', true);">Netrunning</a>
                 </li>
             </ul>
+        </div>
 
-            <!-- Content -->
+        <br />
+
+        <div id="spinner" class="text-center" style="display: block">
+            <i class="fa fa-spinner fa-spin fa-3x"></i>
+        </div>
+        <div id="section_content" class="container" style="display: none">
+            <h1 id="dataTitle">Sin título</h1>
+            <table class="table table-striped table-hover align-middle nowrap" id="dataResults">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center">#</th>
+                        <th scope="col" class="text-center">Nombre</th>
+                        <th scope="col" class="text-center">Descripción</th>
+                        <th scope="col" class="text-center">Precio</th>
+                        <th scope="col" class="text-center">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
 
         <hr />
@@ -55,5 +90,11 @@
         <div id="section_footer" class="container">
             <h6>Creada por Jazz Fortuna(c) 2023, todos los derechos reservados.</h6>
         </div>
+
+        <script>   
+            $(document).ready(function() {
+                loadData('Catalog/Weapon', 'Armas', false);
+            });
+        </script>
     </body>
 </html>

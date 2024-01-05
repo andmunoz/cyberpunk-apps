@@ -223,3 +223,30 @@ class CyberwareAdmin(admin.ModelAdmin):
     
     # "requirement", "adjustment", "surgery",
 
+
+### Specific Models for Clothes
+class ClothesType(models.TextChoices): 
+    UNISEX = 'U', _('Unisex')
+    MALE = 'M', _('Masculino')
+    FEMALE = 'F', _('Femenino')
+    NO = 'N', _('Sin Tipo')
+
+
+class Clothes(models.Model):
+    name = models.CharField(max_length=200)
+    category = models.ForeignKey("Category", on_delete=models.CASCADE)
+    brand = models.ForeignKey("Brand", on_delete=models.CASCADE)
+    availability = models.CharField(max_length=1, choices=Availability.choices, default=Availability.COMMON)
+    type = models.CharField(max_length=3, choices=ClothesType.choices, default=ClothesType.NO)
+    weight = models.FloatField()
+    cost = models.IntegerField()
+    description = models.CharField(max_length=255, null=True)
+    image = models.CharField(max_length=255, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class ClothesAdmin(admin.ModelAdmin):
+    list_display = ["name", "category", "brand", "type", "availability", "cost"]
+
