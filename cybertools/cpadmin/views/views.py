@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .views_weapons import list as weapons_list
-from .views_drugs import list as drugs_list
+from cpadmin.views.views_weapons import list as weapons_list
+from cpadmin.views.views_drugs import list as drugs_list
 
 
 ### Function for Home

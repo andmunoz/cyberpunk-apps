@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, HttpResponse
 import csv
-from .models import (
-    ItemType, Armor, Category, Brand, Availability, ArmorCoverage, ArmorType
+from cpadmin.models import (
+    ItemType, Category, Brand, Availability, ArmorCoverage, ArmorType, Armor
 )
-from .config import database
+from cpadmin.config import database
 
 
 # Show armor list

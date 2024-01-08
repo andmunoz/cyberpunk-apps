@@ -1,5 +1,5 @@
 from django.urls import path
-from . import (
+from cpadmin.views import (
     views, 
     views_weapons, views_armor, views_gear, views_cyberware, views_clothes
 )
@@ -55,7 +55,9 @@ urlpatterns = [
     path('equipment/clothes/refresh', views_clothes.refresh),
 
     # Routes to drugs
-    path('drugs/', views.drugs_home, name='drugs'),
+    path('drugs/drug', views.drugs_home, name='drugs'),
+
+    path('drugs/medical', views.drugs_home, name='medical'),
 
     # Routes to vehicles
     path('vehicles/', views.vehicles_home, name='vehicles'),

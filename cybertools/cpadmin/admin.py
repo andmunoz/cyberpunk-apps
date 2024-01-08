@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import (
+from cpadmin.models import (
     Category, CategoryAdmin, 
     Brand, BrandAdmin,
     Weapon, WeaponAdmin,

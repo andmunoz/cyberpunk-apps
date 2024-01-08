@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, HttpResponse
 import csv
-from .models import (
-    ItemType, Cyberware, Category, Brand, Availability, CyberType, CyberSlot, Surgery, SurgeryTypes
+from cpadmin.models import (
+    ItemType, Category, Brand, Availability, SurgeryTypes, Surgery, CyberType, CyberSlot, Cyberware
 )
-from .config import database
+from cpadmin.config import database
 
 
 # Show cyberware list
