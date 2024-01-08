@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, HttpResponse
 import csv
 from cpadmin.models import (
-    ItemType, Category, Brand, Availability, DrugType, Drug
+    ItemType, Category, Brand, 
+    DrugType, DrugLegality, DrugForm, DrugEffect, DrugSideEffect, DrugAddiction, Drug
 )
 from cpadmin.config import database
 
@@ -14,18 +15,24 @@ def list(request):
         drug_count = len(drugs)
 
     categories = Category.objects.filter(type='DRUGS').order_by('name')
-    brands = Brand.objects.filter(type='DRUGS').order_by('name')
-    availabilities = Availability.choices
     drug_types = DrugType.choices
+    drug_legalities = DrugLegality.choices
+    drug_forms = DrugForm.choices
+    drug_effects = DrugEffect.objects.all().order_by('name')
+    drug_side_effects = DrugSideEffect.objects.all().order_by('name')
+    drug_addictions = DrugAddiction.choices
 
     context = {
         'page_title': 'Drogas',
         'drugs_count': drug_count,
         'drugs': drugs,
         'categories': categories,
-        'brands': brands,
-        'availabilities': availabilities,
         'drugs_types': drug_types,
+        'drug_legalities': drug_legalities,
+        'drug_forms': drug_forms,
+        'drug_effects': drug_effects,
+        'drug_side_effects': drug_side_effects,
+        'drug_addictions': drug_addictions,
     }
         
     return render(request, 'drugs/drug.html', context)

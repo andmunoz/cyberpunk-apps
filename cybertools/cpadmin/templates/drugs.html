@@ -1,0 +1,65 @@
+{% extends "template.html" %}
+
+{% load cpadmin_extras %}
+
+{% block section_content %}
+    <div class="container">
+        <br />
+        <div class="row">
+            <div class="col-3">
+                {% block section_content_navigator %}
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link{% if 'drugs' in request.path %} active{% endif %}" href="{% url 'drugs' %}">Drogas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link{% if 'medical' in request.path %} active{% endif %}" href="{% url 'medical' %}">Cuidados Médicos</a>
+                        </li>
+                    </ul>
+                {% endblock %}
+            </div>
+            <div class="col-9">
+                <h3>{{ page_title }}</h3>
+                <br/>
+                <div class="text-center" id="spinner" style="display: block">
+                    <i class="fa fa-spinner fa-spin fa-3x"></i>
+                    <br />
+                    <h6>Cargando información disponible en la base de datos...</h6>
+                    <br />
+                </div>
+                <div id="pageContent" style="display: none">
+                    {% block section_content_content%}{% endblock %}
+                </div>
+                <script>   
+                    $(document).ready(function() {
+                        $('#dataResults').DataTable({
+                            info: true,
+                            ordering: true,
+                            paging: true,
+                            processing: true,
+                            stateSave: true,
+                            pageLength: 50,
+                            language: {
+                                "lengthMenu": "Mostrando _MENU_ registros por página",
+                                "search": "Buscar:",
+                                "zeroRecords": "No se ha encontrado nada",
+                                "info": "Mostrando página _PAGE_ de _PAGES_",
+                                "infoEmpty": "Mostrando 0 de 0 registros",
+                                "infoFiltered": "(filtrado de un total de _MAX_ registros)", 
+                                "paginate": {
+                                    "first":      "Primera",
+                                    "last":       "Última",
+                                    "next":       "Siguiente",
+                                    "previous":   "Anterior"
+                                },
+                                "loadingRecords": "Cargando datos..."
+                            }
+                        });
+
+                        changeDiv("#spinner", "#pageContent");
+                    });
+                </script>
+            </div>
+        </div>
+    <div>
+{% endblock %}

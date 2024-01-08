@@ -342,7 +342,7 @@ class Drug(models.Model):
     category = models.ForeignKey("Category", on_delete=models.CASCADE)
     type = models.CharField(max_length=3, choices=DrugType.choices, default=DrugType.DRUG)
     form = models.CharField(max_length=3, choices=DrugForm.choices, default=DrugForm.PILL)
-    legaility = models.CharField(max_length=3, choices=DrugLegality.choices, default=DrugLegality.LEGAL)
+    legality = models.CharField(max_length=3, choices=DrugLegality.choices, default=DrugLegality.LEGAL)
     strength = models.IntegerField()
     dosis = models.CharField(max_length=20)
     presentation = models.CharField(max_length=50)
@@ -367,7 +367,7 @@ class Drug(models.Model):
 
 
 class DrugAdmin(admin.ModelAdmin):
-    list_display = ["name", "category", "type", "legaility", "strength", "cost"]
+    list_display = ["name", "category", "type", "legality", "strength", "cost"]
     
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "category":
