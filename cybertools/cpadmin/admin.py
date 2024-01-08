@@ -7,7 +7,8 @@ from .models import (
     Gear, GearAdmin, 
     Surgery, SurgeryAdmin,
     Cyberware, CyberwareAdmin,
-    Clothes, ClothesAdmin
+    Clothes, ClothesAdmin, 
+    Drug, DrugEffect, DrugSideEffect, DrugAdmin
 )
 
 admin.site.register(Category, CategoryAdmin)
@@ -18,3 +19,6 @@ admin.site.register(Gear, GearAdmin)
 admin.site.register(Surgery, SurgeryAdmin)
 admin.site.register(Cyberware, CyberwareAdmin)
 admin.site.register(Clothes, ClothesAdmin)
+admin.site.register(Drug, DrugAdmin)
+admin.site.register(DrugEffect)
+admin.site.register(DrugSideEffect)

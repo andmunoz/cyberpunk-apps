@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .views_weapons import list as weapons_list
+from .views_drugs import list as drugs_list
 
 
 ### Function for Home
@@ -19,7 +20,7 @@ def equipment_home(request):
 
 ### Functions for Drugs Section
 def drugs_home(request):
-    return render(request, 'index.html')
+    return drugs_list(request)
 
 
 ### Functions for Vehicles Section

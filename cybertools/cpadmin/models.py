@@ -10,7 +10,8 @@ class ItemType(models.TextChoices):
     GEAR = 'GEAR', _('Equipo')
     CYBER = 'CYBER', _('Ciberequipo')
     CLOTHES = 'CLOTHES', _('Moda')
-    MEDICAL = 'MEDICAL', _('Medicina')
+    DRUGS = 'DRUGS', _('Drogas')
+    MEDICAL = 'MEDICAL', _('Cuidados Médicos')
     VEHICLE = 'VEHICLE', _('Vehículos')
     HARDWARE = 'HARDWARE', _('Periféricos')
     SOFTWARE = 'SOFTWARE', _('Programas')
@@ -90,6 +91,13 @@ class Weapon(models.Model):
 
 class WeaponAdmin(admin.ModelAdmin):
     list_display = ["name", "category", "brand", "concealment", "reliability", "availability", "cost"]
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "category":
+            kwargs["queryset"] = Category.objects.filter(type=ItemType.WEAPON)
+        if db_field.name == "brand":
+            kwargs["queryset"] = Brand.objects.filter(type=ItemType.WEAPON)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
     
     
 ### Specific Models for Armor
@@ -128,6 +136,13 @@ class Armor(models.Model):
 class ArmorAdmin(admin.ModelAdmin):
     list_display = ["name", "category", "brand", "type", "coverage", "availability", "cost"]
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "category":
+            kwargs["queryset"] = Category.objects.filter(type=ItemType.ARMOR)
+        if db_field.name == "brand":
+            kwargs["queryset"] = Brand.objects.filter(type=ItemType.ARMOR)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
 
 ### Specific Models for Gear
 class GearType(models.TextChoices): 
@@ -152,6 +167,13 @@ class Gear(models.Model):
 class GearAdmin(admin.ModelAdmin):
     list_display = ["name", "category", "brand", "type", "availability", "cost"]
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "category":
+            kwargs["queryset"] = Category.objects.filter(type=ItemType.GEAR)
+        if db_field.name == "brand":
+            kwargs["queryset"] = Brand.objects.filter(type=ItemType.GEAR)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
 
 ### Specific Models for Surgery
 class SurgeryTypes(models.TextChoices): 
@@ -161,7 +183,6 @@ class SurgeryTypes(models.TextChoices):
     IMPORTANT = 'IM', _('Importante')
     CRITICAL = 'CR', _('Crítica')
 
-
 class Surgery(models.Model):
     type = models.CharField(max_length=2, choices=SurgeryTypes.choices)
     difficulty = models.IntegerField()
@@ -170,7 +191,7 @@ class Surgery(models.Model):
     cost = models.IntegerField()
 
     def __str__(self):
-        return self.type
+        return self.get_type_display()
 
 
 class SurgeryAdmin(admin.ModelAdmin):
@@ -221,7 +242,12 @@ class Cyberware(models.Model):
 class CyberwareAdmin(admin.ModelAdmin):
     list_display = ["name", "category", "brand", "type", "humanity", "slot", "adjustment", "requirement", "surgery", "availability", "cost"]
     
-    # "requirement", "adjustment", "surgery",
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "category":
+            kwargs["queryset"] = Category.objects.filter(type=ItemType.CYBER)
+        if db_field.name == "brand":
+            kwargs["queryset"] = Brand.objects.filter(type=ItemType.CYBER)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 ### Specific Models for Clothes
@@ -249,4 +275,102 @@ class Clothes(models.Model):
 
 class ClothesAdmin(admin.ModelAdmin):
     list_display = ["name", "category", "brand", "type", "availability", "cost"]
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "category":
+            kwargs["queryset"] = Category.objects.filter(type=ItemType.CLOTHES)
+        if db_field.name == "brand":
+            kwargs["queryset"] = Brand.objects.filter(type=ItemType.CLOTHES)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
+### Specific Models for Drugs
+class DrugType(models.TextChoices): 
+    BEVERAGE = 'B', _('Bebidas Alcohólicas')
+    CIGARRETTE = 'C', _('Cigarrillos')
+    MEDICINE = 'M', _('Medicina')
+    DRUG = 'D', _('Droga')
+
+
+class DrugForm(models.TextChoices):
+    PILL = 'P', _('Píldora o Tableta')
+    GELCAP = 'G', _('Cápsula')
+    PAPER = 'T', _('Pestaña de Papel')
+    SMOKE = 'S', _('Fumado, Inhalado')
+    POWDER = 'PI', _('En polvo, Inhalado')
+    INJECTED = 'I', _('Inyectado')
+    LIQUID = 'L', _('Líquido')
+    BAND = 'B', _('Parche')
+    CONTACT = 'C', _('Contacto')
+
+
+class DrugLegality(models.TextChoices):
+    LEGAL = 'L', _('De venta legal')
+    PRESCIPTION = 'P', _('Solo por prescripción')
+    ILLEGAL_C = 'C', _('Ilegal tipo C')
+    ILLEGAL_B = 'B', _('Ilegal tipo B')
+    ILLEGAL_A = 'A', _('Ilegal tipo A')
+    EXPERIMENTAL = 'E', _('Experimental')
+
+
+class DrugAddiction(models.TextChoices):
+    PHYSIOLOGICAL = 'PH', _('Fisiológica')
+    PSYCHOLOGICAL = 'PS', _('Sicológica')
+
+
+class DrugEffect(models.Model):
+    name = models.CharField(max_length=200)
+    difficult = models.IntegerField()
+    decription = models.CharField(max_length=255, null=True)
+    overdose_decription = models.CharField(max_length=255, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class DrugSideEffect(models.Model):
+    name = models.CharField(max_length=200)
+    diff_modifier = models.IntegerField()
+    decription = models.CharField(max_length=255, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Drug(models.Model):
+    name = models.CharField(max_length=200)
+    category = models.ForeignKey("Category", on_delete=models.CASCADE)
+    type = models.CharField(max_length=3, choices=DrugType.choices, default=DrugType.DRUG)
+    form = models.CharField(max_length=3, choices=DrugForm.choices, default=DrugForm.PILL)
+    legaility = models.CharField(max_length=3, choices=DrugLegality.choices, default=DrugLegality.LEGAL)
+    strength = models.IntegerField()
+    dosis = models.CharField(max_length=20)
+    presentation = models.CharField(max_length=50)
+    speed = models.CharField(max_length=20)
+    effects = models.ManyToManyField(to="DrugEffect")
+    effects_description = models.CharField(max_length=255, null=True)
+    duration = models.CharField(max_length=20)
+    side_effects = models.ManyToManyField(to="DrugSideEffect")
+    side_effects_description = models.CharField(max_length=255, null=True)
+    overdose = models.CharField(max_length=20)
+    overdose_description = models.CharField(max_length=255, null=True)
+    addiction = models.CharField(max_length=3, choices=DrugAddiction.choices, default=DrugAddiction.PHYSIOLOGICAL)
+    addiction_level = models.IntegerField()
+    next_dose = models.CharField(max_length=50)
+    symptoms = models.CharField(max_length=50)
+    cost = models.IntegerField()
+    decription = models.CharField(max_length=255, null=True)
+    image = models.CharField(max_length=255, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class DrugAdmin(admin.ModelAdmin):
+    list_display = ["name", "category", "type", "legaility", "strength", "cost"]
+    
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "category":
+            kwargs["queryset"] = Category.objects.filter(type=ItemType.DRUGS)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
