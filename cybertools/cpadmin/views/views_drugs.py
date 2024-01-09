@@ -62,7 +62,6 @@ def create(request):
         cost=int(form['cost']),
         overdose_description=form['overdose_description'],
         description=form['description'],
-        image=None,
     )
     drug.save()
 
@@ -87,7 +86,6 @@ def update(request):
     drug.weight = float(form['weight'])
     drug.cost = int(form['cost'])
     drug.description = form['description']
-    drug.image = form['image']
     drug.save()
     
     return redirect('drugs')
@@ -123,7 +121,6 @@ def upload(request):
                 weight=float(row['weight']),
                 cost=int(row['cost']),
                 description=row['description'],
-                image=row['image'],
             )
         )
         
@@ -190,7 +187,6 @@ def refresh(request):
                     weight=drug.weight,
                     cost=drug.cost,
                     description=drug.description,
-                    image=drug.image,
                 ),
             )
 

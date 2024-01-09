@@ -54,6 +54,17 @@ class Availability(models.TextChoices):
     EXPERIMENTAL = 'X', _('Experimental')
    
 
+class TimeUOM(models.TextChoices): 
+    SECONDS = 'SEC', _('Segundos')
+    MINUTES = 'MIN', _('Minutos')
+    HOURS = 'HRS', _('Horas')
+    DAYS = 'D', _('Días')
+    WEEKS = 'W', _('Semanas')
+    MONTHS = 'M', _('Meses')
+    QUARTERS = 'Q', _('Trimestres')
+    YEARS = 'Y', _('Años')
+   
+
 ### Specific Models for Weapons
 class WeaponConcealment(models.TextChoices): 
     POCKET = 'P', _('Bolsillo')
@@ -358,7 +369,6 @@ class Drug(models.Model):
     symptoms = models.CharField(max_length=50)
     cost = models.IntegerField()
     description = models.CharField(max_length=255, null=True)
-    image = models.CharField(max_length=255, null=True)
 
     def __str__(self):
         return self.name
@@ -372,3 +382,41 @@ class DrugAdmin(admin.ModelAdmin):
             kwargs["queryset"] = Category.objects.filter(type=ItemType.DRUGS)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
+
+### Specific Models for Medical Health Care
+class MedicalType(models.TextChoices): 
+    DOCTOR = 'DOC', _('Visita a Médico')
+    CLINIC = 'CLI', _('Visita a Centro Médico')
+    HOSPITAL = 'HOS', _('Visita a Hospital')
+    INTERN = 'INT', _('Hospitalización')
+    SURGERY = 'SUR', _('Cirugía')
+    TERAPHY = 'TER', _('Terapia')
+    MEDICINE = 'MED', _('Uso de Medicina')
+
+
+class MedicalQuality(models.TextChoices):
+    LOWEST = 'VL', _('Muy Baja')
+    LOW = 'L', _('Baja')
+    NORMAL = 'N', _('Normal')
+    HIGH = 'H', _('Alta')
+    HIGHEST = 'VH', _('Muy Alta')
+    
+    
+class Medical(models.Model):
+    name = models.CharField(max_length=200)
+    type = models.CharField(max_length=3, choices=MedicalType.choices, default=MedicalType.DOCTOR)
+    quality = models.CharField(max_length=3, choices=MedicalQuality.choices, default=MedicalQuality.NORMAL)
+    elapsed_time = models.IntegerField()
+    elapsed_time_uom = models.CharField(max_length=3, choices=TimeUOM.choices, default=TimeUOM.HOURS)
+    cost = models.IntegerField()
+    description = models.CharField(max_length=255, null=True)
+
+    def __str__(self):
+        return self.name
+    
+    
+class MedicalAdmin(admin.ModelAdmin):
+    list_display = ["name", "type", "quality", "cost"]
+    
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
