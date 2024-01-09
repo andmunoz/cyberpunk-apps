@@ -299,7 +299,7 @@ class ClothesAdmin(admin.ModelAdmin):
 class DrugType(models.TextChoices): 
     BEVERAGE = 'B', _('Bebidas Alcohólicas')
     CIGARRETTE = 'C', _('Cigarrillos')
-    MEDICINE = 'M', _('Medicina')
+    MEDICINE = 'M', _('Fármaco')
     DRUG = 'D', _('Droga')
 
 
@@ -359,11 +359,11 @@ class Drug(models.Model):
     presentation = models.CharField(max_length=50)
     speed = models.CharField(max_length=20)
     effects = models.ManyToManyField(to="DrugEffect")
-    effects_description = models.CharField(max_length=255, null=True)
+    effects_description = models.CharField(max_length=255, null=True, blank=True)
     duration = models.CharField(max_length=20)
     side_effects = models.ManyToManyField(to="DrugSideEffect")
-    side_effects_description = models.CharField(max_length=255, null=True)
-    overdose_description = models.CharField(max_length=255, null=True)
+    side_effects_description = models.CharField(max_length=255, null=True, blank=True)
+    overdose_description = models.CharField(max_length=255, null=True, blank=True)
     addiction = models.CharField(max_length=3, choices=DrugAddiction.choices, default=DrugAddiction.PHYSIOLOGICAL)
     next_dose = models.CharField(max_length=50)
     symptoms = models.CharField(max_length=50)
