@@ -158,13 +158,78 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="mb-3 col-4 offset-2">
-                                        <label for="weight" class="form-label">Peso (kgs):</label>
-                                        <input type="text" name="weight" id="weight" class="form-control"/>
+                                    <div class="mb-3 col-3">
+                                        <label for="dosis" class="form-label">Dosis:</label>
+                                        <input type="text" name="dosis" id="dosis" class="form-control"/>
                                     </div>
                                     <div class="mb-3 col-4">
-                                        <label for="cost" class="form-label">Precio (creds):</label>
-                                        <input type="text" name="cost" id="cost" class="form-control"/>
+                                        <label for="presentation" class="form-label">Presentación:</label>
+                                        <input type="text" name="presentation" id="presentation" class="form-control"/>
+                                    </div>
+                                    <div class="mb-3 col-2">
+                                        <label for="strength" class="form-label">Fuerza:</label>
+                                        <input type="text" name="strength" id="strength" class="form-control"/>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="speed" class="form-label">Velocidad de Acción:</label>
+                                        <input type="text" name="speed" id="speed" class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3 col-6">
+                                        <label for="effects" class="form-label">Efectos Principales:</label>
+                                        <select name="effects" id="effects" class="form-select" multiple>
+                                            {% for drug_effect in drug_effects %}
+                                                <option value="{{ drug_effect.id }}">{{ drug_effect.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label for="side_effects" class="form-label">Efectos Secundarios:</label>
+                                        <select name="side_effects" id="side_effects" class="form-select" multiple>
+                                            {% for drug_side_effect in drug_side_effects %}
+                                                <option value="{{ drug_side_effect.id }}">{{ drug_side_effect.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3 col-6">
+                                        <label for="effects_description" class="form-label">Descripción Efectos:</label>
+                                        <textarea name="effects_description" id="effects_description" class="form-control" rows="3"></textarea>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label for="side_effects_description" class="form-label">Descripción Efectos Secundarios:</label>
+                                        <textarea name="side_effects_description" id="side_effects_description" class="form-control" rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3 col-3">
+                                        <label for="duration" class="form-label">Duración:</label>
+                                        <input type="text" name="duration" id="duration" class="form-control"/>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="addiction" class="form-label">Addicción:</label>
+                                        <select name="addiction" id="addiction" class="form-select">
+                                            <option selected/>
+                                            {% for key, value in drug_addictions %}
+                                                <option value="{{ key }}">{{ value }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="next_dose" class="form-label">Tiempo Siguiente Dosis:</label>
+                                        <input type="text" name="next_dose" id="next_dose" class="form-control"/>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label for="symptoms" class="form-label">Tiempo Síntomas:</label>
+                                        <input type="text" name="symptoms" id="symptoms" class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3 col-8 offset-2">
+                                        <label for="overdose_description" class="form-label">Descripción Sobredosis:</label>
+                                        <textarea name="overdose_description" id="overdose_description" class="form-control" rows="3"></textarea>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -192,24 +257,26 @@
                 <th scope="col" class="text-center">#</th>
                 <th scope="col" class="text-center">Nombre</th>
                 <th scope="col" class="text-center">Categoría</th>
+                <th scope="col" class="text-center">Forma</th>
                 <th scope="col" class="text-center">Precio</th>
                 <th scope="col" class="text-center">&nbsp;</th>
             </tr>
         </thead>
         <tbody>
-            {% for drugs in drugss %}
+            {% for drug in drugs %}
                 <tr>
-                    <th scope="row" class="text-center">{{ drugs.id }}</th>
-                    <td>{{ drugs.name }}</td>
-                    <td>{{ drugs.category.name }}</td>
-                    <td class="text-end">{{ drugs.cost|stringformat:"3d" }} creds</td>
+                    <th scope="row" class="text-center">{{ drug.id }}</th>
+                    <td>{{ drug.name }}</td>
+                    <td>{{ drug.category.name }}</td>
+                    <td>{{ drug.get_form_display }}</td>
+                    <td class="text-end">{{ drug.cost|stringformat:"3d" }} creds</td>
                     <td>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#viewDrugs{{ drugs.id }}Modal"><i class="fa-solid fa-eye"></i></button>
-                        <div class="modal fade" id="viewDrugs{{ drugs.id }}Modal" tabindex="-1" aria-labelledby="viewDrugs{{ drugs.id }}ModalLabel" aria-hidden="true">
+                        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#viewDrugs{{ drug.id }}Modal"><i class="fa-solid fa-eye"></i></button>
+                        <div class="modal fade" id="viewDrugs{{ drug.id }}Modal" tabindex="-1" aria-labelledby="viewDrugs{{ drug.id }}ModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="viewDrugs{{ drugs.id }}ModalLabel">{{ drugs.name }}</h1>
+                                        <h1 class="modal-title fs-5" id="viewDrugs{{ drug.id }}ModalLabel">{{ drug.name }}</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                                     </div>
                                     <div class="modal-body">
@@ -218,43 +285,76 @@
                                                 <caption>&nbsp;</caption>
                                                 <tbody>
                                                     <tr>
-                                                        <td rowspan="8" style="width:80px">
-                                                            {% if drugs.image %}
-                                                                <img src="{{ drugs.image }}" class="img-fluid" />
-                                                            {% else %}
-                                                                Sin imagen
-                                                            {% endif %} 
-                                                        </td>
                                                         <th scope="row" class="text-end">Nombre:</td>
-                                                        <td>{{ drugs.name }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row" class="text-end">Marca:</td>
-                                                        <td>{{ drugs.brand.name }}</td>
+                                                        <td>{{ drug.name }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="text-end">Categoría:</td>
-                                                        <td>{{ drugs.category.name }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row" class="text-end">Disponibilidad:</td>
-                                                        <td>{{ drugs.get_availability_display }}</td>
+                                                        <td>{{ drug.category.name }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="text-end">Tipo:</td>
-                                                        <td>{{ drugs.get_type_display }}</td>
+                                                        <td>{{ drug.get_type_display }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <th scope="row" class="text-end">Peso:</td>
-                                                        <td>{{ drugs.weight|stringformat:"1.1f" }} kgs</td>
+                                                        <th scope="row" class="text-end">Legalidad:</td>
+                                                        <td>{{ drug.get_legality_display }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Forna:</td>
+                                                        <td>{{ drug.get_form_display }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Dosis:</td>
+                                                        <td>{{ drug.dosis }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Presentación:</td>
+                                                        <td>{{ drug.presentation }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Fuerza:</td>
+                                                        <td>+{{ drug.strength|stringformat:"1d" }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Velocidad de Acción:</td>
+                                                        <td>{{ drug.speed }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Efectos:</td>
+                                                        <td>{{ drug.effects_description }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Duración:</td>
+                                                        <td>{{ drug.duration }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Efectos Secundarios:</td>
+                                                        <td>{{ drug.side_effects_description }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Adicción:</td>
+                                                        <td>{{ drug.get_addiction_display }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Tiempo Siguiente Dosis:</td>
+                                                        <td>{{ drug.next_dose }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Tiempo Síntomas:</td>
+                                                        <td>{{ drug.symptoms }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Sobredosis:</td>
+                                                        <td>{{ drug.overdose_description }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="text-end">Precio:</td>
-                                                        <td>{{ drugs.cost|stringformat:"3d" }} creds</td>
+                                                        <td>{{ drug.cost|stringformat:"3d" }} creds</td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="text-end">Descripción:</td>
-                                                        <td>{{ drugs.description }}</td>
+                                                        <td>{{ drug.description }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -267,28 +367,28 @@
                             </div>
                         </div>
 
-                        <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#editDrugs{{ drugs.id }}Modal"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <div class="modal fade" id="editDrugs{{ drugs.id }}Modal" tabindex="-1" aria-labelledby="editDrugs{{ drugs.id }}ModalLabel" aria-hidden="true">
+                        <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#editDrugs{{ drug.id }}Modal"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <div class="modal fade" id="editDrugs{{ drug.id }}Modal" tabindex="-1" aria-labelledby="editDrugs{{ drug.id }}ModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <form action="{% url 'drugs' %}/update" method="POST">
                                         {% csrf_token %}
-                                        <input type="hidden" name="id" value="{{ drugs.id }}"/>
+                                        <input type="hidden" name="id" value="{{ drug.id }}"/>
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="editDrugs{{ drugs.id }}ModalLabel">Actualizar Droga</h1>
+                                            <h1 class="modal-title fs-5" id="editDrugs{{ drug.id }}ModalLabel">Actualizar Droga</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="row">
                                                 <div class="mb-3">
                                                     <label for="name" class="form-label">Nombre del Droga:</label>
-                                                    <input type="text" name="name" id="name" value="{{ drugs.name }}" class="form-control"/>
+                                                    <input type="text" name="name" id="name" value="{{ drug.name }}" class="form-control"/>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="mb-3">
                                                     <label for="description" class="form-label">Descripción:</label>
-                                                    <input type="text" name="description" id="description" value="{{ drugs.description }}" class="form-control"/>
+                                                    <input type="text" name="description" id="description" value="{{ drug.description }}" class="form-control"/>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -298,55 +398,120 @@
                                                         <option selected/>
                                                         {% for category in categories %}
                                                             {% if not category.parent %}
-                                                                <option value="{{ category.id }}"{% if drugs.category.id == category.id %} selected{% endif %}>{{ category.name }} ({{ category.description }})</option>
+                                                                <option value="{{ category.id }}"{% if drug.category.id == category.id %} selected{% endif %}>{{ category.name }} ({{ category.description }})</option>
                                                             {% endif %}
                                                         {% endfor %}
                                                     </select>
                                                 </div>
                                                 <div class="mb-3 col-6">
-                                                    <label for="brand" class="form-label">Marca:</label>
-                                                    <select name="brand" id="brand" class="form-select">
-                                                        <option selected/>
-                                                        {% for brand in brands %}
-                                                            <option value="{{ brand.id }}"{% if drugs.brand.id == brand.id %} selected{% endif %}>{{ brand.name }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="mb-3 col-6">
                                                     <label for="type" class="form-label">Tipo:</label>
                                                     <select name="type" id="type" class="form-select">
                                                         <option selected/>
                                                         {% for key, value in drugs_types %}
-                                                            <option value="{{ key }}"{% if drugs.type == key %} selected{% endif %}>{{ value }}</option>
+                                                            <option value="{{ key }}"{% if drug.type == key %} selected{% endif %}>{{ value }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-3 col-6">
+                                                    <label for="legality" class="form-label">Legalidad:</label>
+                                                    <select name="legality" id="legality" class="form-select">
+                                                        <option selected/>
+                                                        {% for key, value in drug_legalities %}
+                                                            <option value="{{ key }}"{% if drug.legality == key %} selected{% endif %}>{{ value }}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
                                                 <div class="mb-3 col-6">
-                                                    <label for="availability" class="form-label">Disponibilidad:</label>
-                                                    <select name="availability" id="availability" class="form-select">
+                                                    <label for="form" class="form-label">Forma:</label>
+                                                    <select name="form" id="form" class="form-select">
                                                         <option selected/>
-                                                        {% for key, value in availabilities %}
-                                                            <option value="{{ key }}"{% if drugs.availability == key %} selected{% endif %}>{{ value }}</option>
+                                                        {% for key, value in drug_forms %}
+                                                            <option value="{{ key }}"{% if drug.form == key %} selected{% endif %}>{{ value }}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="mb-3 col-4 offset-2">
-                                                    <label for="weight" class="form-label">Peso (kgs):</label>
-                                                    <input type="text" name="weight" id="weight" value="{{ drugs.weight }}" class="form-control"/>
+                                                <div class="mb-3 col-3">
+                                                    <label for="dosis" class="form-label">Dosis:</label>
+                                                    <input type="text" name="dosis" id="dosis" value="{{ drug.dosis }}" class="form-control"/>
                                                 </div>
                                                 <div class="mb-3 col-4">
-                                                    <label for="cost" class="form-label">Precio (creds):</label>
-                                                    <input type="text" name="cost" id="cost" value="{{ drugs.cost }}" class="form-control"/>
+                                                    <label for="presentation" class="form-label">Presentación:</label>
+                                                    <input type="text" name="presentation" id="presentation" value="{{ drug.presentation }}" class="form-control"/>
+                                                </div>
+                                                <div class="mb-3 col-2">
+                                                    <label for="strength" class="form-label">Fuerza:</label>
+                                                    <input type="text" name="strength" id="strength" value="{{ drug.strength }}" class="form-control"/>
+                                                </div>
+                                                <div class="mb-3 col-3">
+                                                    <label for="speed" class="form-label">Velocidad de Acción:</label>
+                                                    <input type="text" name="speed" id="speed" value="{{ drug.speed }}" class="form-control"/>
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="mb-3">
-                                                    <label for="image" class="form-label">Imagen:</label>
-                                                    <input type="text" name="image" id="image" value="{{ drugs.image }}" class="form-control"/>
+                                                <div class="mb-3 col-6">
+                                                    <label for="effects" class="form-label">Efectos Principales:</label>
+                                                    <select name="effects" id="effects" class="form-select" multiple>
+                                                        {% for drug_effect in drug_effects %}
+                                                            <option value="{{ drug_effect.id }}"{% if drug_effect in drug.effects.all %} selected{% endif %}>{{ drug_effect.name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3 col-6">
+                                                    <label for="side_effects" class="form-label">Efectos Secundarios:</label>
+                                                    <select name="side_effects" id="side_effects" class="form-select" multiple>
+                                                        {% for drug_side_effect in drug_side_effects %}
+                                                            <option value="{{ drug_side_effect.id }}"{% if drug_side_effect in drug.side_effects.all %} selected{% endif %}>{{ drug_side_effect.name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-3 col-6">
+                                                    <label for="effects_description" class="form-label">Descripción Efectos:</label>
+                                                    <textarea name="effects_description" id="effects_description" class="form-control" rows="3">{{ drug.effects_description }}</textarea>
+                                                </div>
+                                                <div class="mb-3 col-6">
+                                                    <label for="side_effects_description" class="form-label">Descripción Efectos Secundarios:</label>
+                                                    <textarea name="side_effects_description" id="side_effects_description" class="form-control" rows="3">{{ drug.side_effects_description }}</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-3 col-3">
+                                                    <label for="duration" class="form-label">Duración:</label>
+                                                    <input type="text" name="duration" id="duration" value="{{ drug.duration }}" class="form-control"/>
+                                                </div>
+                                                <div class="mb-3 col-3">
+                                                    <label for="addiction" class="form-label">Addicción:</label>
+                                                    <select name="addiction" id="addiction" class="form-select">
+                                                        <option selected/>
+                                                        {% for key, value in drug_addictions %}
+                                                            <option value="{{ key }}"{% if drug.addiction == key %} selected{% endif %}>{{ value }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3 col-3">
+                                                    <label for="next_dose" class="form-label">Tiempo Siguiente Dosis:</label>
+                                                    <input type="text" name="next_dose" id="next_dose" value="{{ drug.next_dose }}" class="form-control"/>
+                                                </div>
+                                                <div class="mb-3 col-3">
+                                                    <label for="symptoms" class="form-label">Tiempo Síntomas:</label>
+                                                    <input type="text" name="symptoms" id="symptoms" value="{{ drug.symptoms }}" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-3 col-8 offset-2">
+                                                    <label for="overdose_description" class="form-label">Descripción Sobredosis:</label>
+                                                    <textarea name="overdose_description" id="overdose_description" class="form-control" rows="3">{{ drug.overdose_description }}</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-3 col-4 offset-4">
+                                                    <label for="cost" class="form-label">Precio (creds):</label>
+                                                    <input type="text" name="cost" id="cost" value="{{ drug.cost }}" class="form-control"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -359,20 +524,20 @@
                             </div>
                         </div>
 
-                        <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#removeDrugs{{ drugs.id }}Modal"><i class="fa-solid fa-trash"></i></button>
-                        <div class="modal fade" id="removeDrugs{{ drugs.id }}Modal" tabindex="-1" aria-labelledby="removeDrugs{{ drugs.id }}ModalLabel" aria-hidden="true">
+                        <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#removeDrugs{{ drug.id }}Modal"><i class="fa-solid fa-trash"></i></button>
+                        <div class="modal fade" id="removeDrugs{{ drug.id }}Modal" tabindex="-1" aria-labelledby="removeDrugs{{ drug.id }}ModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <form action="{% url 'drugs' %}/delete" method="POST">
                                         {% csrf_token %}
-                                        <input type="hidden" name="id" value="{{ drugs.id }}"/>
+                                        <input type="hidden" name="id" value="{{ drug.id }}"/>
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="removeDrugs{{ drugs.id }}ModalLabel">Eliminar {{ drugs.name }}</h1>
+                                            <h1 class="modal-title fs-5" id="removeDrugs{{ drug.id }}ModalLabel">Eliminar {{ drug.name }}</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="mb-3">
-                                                ¿Está seguro que quiere eliminar {{ drugs.name }}?
+                                                ¿Está seguro que quiere eliminar {{ drug.name }}?
                                             </div>
                                         </div>
                                         <div class="modal-footer">

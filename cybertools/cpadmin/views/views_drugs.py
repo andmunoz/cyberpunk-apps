@@ -42,21 +42,36 @@ def list(request):
 def create(request):
     form = request.POST
     category = Category.objects.get(id=form['category'])
-    brand = Brand.objects.get(id=form['brand'])
+    
     drug = Drug(
         name=form['name'],
         category=category,
-        brand=brand,
-        availability=form['availability'],
         type=form['type'],
-        weight=float(form['weight']),
+        legality=form['legality'],
+        form=form['form'],
+        dosis=form['dosis'],
+        presentation=form['presentation'],
+        strength=int(form['strength']),
+        speed=form['speed'],
+        effects_description=form['effects_description'],
+        side_effects_description=form['side_effects_description'],
+        duration=form['duration'],
+        addiction=form['addiction'],
+        next_dose=form['next_dose'],
+        symptoms=form['symptoms'],
         cost=int(form['cost']),
+        overdose_description=form['overdose_description'],
         description=form['description'],
-        image=form['image'],
+        image=None,
     )
     drug.save()
 
-    return redirect('drug')
+    selected_effects = DrugEffect.objects.filter(id__in=form.getlist('effects'))
+    drug.effects.set(selected_effects)
+    selected_side_effects = DrugSideEffect.objects.filter(id__in=form.getlist('side_effects'))
+    drug.side_effects.set(selected_side_effects)
+
+    return redirect('drugs')
 
 
 # Update an drug
@@ -75,7 +90,7 @@ def update(request):
     drug.image = form['image']
     drug.save()
     
-    return redirect('drug')
+    return redirect('drugs')
 
 
 # Delete an drug
@@ -83,7 +98,7 @@ def delete(request):
     form = request.POST
     drug = Drug.objects.get(id=form['id'])
     drug.delete()
-    return redirect('drug')
+    return redirect('drugs')
 
 
 # Upload drug list from CSV
@@ -112,7 +127,7 @@ def upload(request):
             )
         )
         
-    return redirect('drug')
+    return redirect('drugs')
 
 
 # Download drug list in CSV
@@ -179,4 +194,4 @@ def refresh(request):
                 ),
             )
 
-    return redirect('drug')
+    return redirect('drugs')

@@ -1,7 +1,8 @@
 from django.urls import path
 from cpadmin.views import (
     views, 
-    views_weapons, views_armor, views_gear, views_cyberware, views_clothes
+    views_weapons, views_armor, views_gear, views_cyberware, views_clothes,
+    views_drugs
 )
 
 urlpatterns = [
@@ -55,7 +56,13 @@ urlpatterns = [
     path('equipment/clothes/refresh', views_clothes.refresh),
 
     # Routes to drugs
-    path('drugs/drug', views.drugs_home, name='drugs'),
+    path('drugs/drug', views_drugs.list, name='drugs'),
+    path('drugs/drug/create', views_drugs.create),
+    path('drugs/drug/update', views_drugs.update),
+    path('drugs/drug/delete', views_drugs.delete),
+    path('drugs/drug/download', views_drugs.download),
+    path('drugs/drug/upload', views_drugs.upload),
+    path('drugs/drug/refresh', views_drugs.refresh),
 
     path('drugs/medical', views.drugs_home, name='medical'),
 

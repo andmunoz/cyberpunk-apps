@@ -321,8 +321,8 @@ class DrugAddiction(models.TextChoices):
 class DrugEffect(models.Model):
     name = models.CharField(max_length=200)
     difficult = models.IntegerField()
-    decription = models.CharField(max_length=255, null=True)
-    overdose_decription = models.CharField(max_length=255, null=True)
+    decription = models.CharField(max_length=255, null=True, blank=True)
+    overdose_decription = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -331,7 +331,7 @@ class DrugEffect(models.Model):
 class DrugSideEffect(models.Model):
     name = models.CharField(max_length=200)
     diff_modifier = models.IntegerField()
-    decription = models.CharField(max_length=255, null=True)
+    decription = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -352,14 +352,12 @@ class Drug(models.Model):
     duration = models.CharField(max_length=20)
     side_effects = models.ManyToManyField(to="DrugSideEffect")
     side_effects_description = models.CharField(max_length=255, null=True)
-    overdose = models.CharField(max_length=20)
     overdose_description = models.CharField(max_length=255, null=True)
     addiction = models.CharField(max_length=3, choices=DrugAddiction.choices, default=DrugAddiction.PHYSIOLOGICAL)
-    addiction_level = models.IntegerField()
     next_dose = models.CharField(max_length=50)
     symptoms = models.CharField(max_length=50)
     cost = models.IntegerField()
-    decription = models.CharField(max_length=255, null=True)
+    description = models.CharField(max_length=255, null=True)
     image = models.CharField(max_length=255, null=True)
 
     def __str__(self):
