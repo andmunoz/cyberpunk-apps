@@ -322,6 +322,16 @@
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="text-end">Efectos:</td>
+                                                        <td>
+                                                            <ul>
+                                                                {% for effect in drug.effects.all %}
+                                                                    <li>{{ effect.name }}</li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Descripción:</td>
                                                         <td class="w-100"><div class="text-wrap">{{ drug.effects_description }}</div></td>
                                                     </tr>
                                                     <tr>
@@ -330,6 +340,16 @@
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="text-end">Efectos Secundarios:</td>
+                                                        <td>
+                                                            <ul>
+                                                                {% for side_effect in drug.side_effects.all %}
+                                                                    <li>{{ side_effect.name }}</li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Descripción:</td>
                                                         <td class="w-100"><div class="text-wrap">{{ drug.side_effects_description }}</div></td>
                                                     </tr>
                                                     <tr>

@@ -67,6 +67,7 @@ def create(request):
 
     selected_effects = DrugEffect.objects.filter(id__in=form.getlist('effects'))
     drug.effects.set(selected_effects)
+    
     selected_side_effects = DrugSideEffect.objects.filter(id__in=form.getlist('side_effects'))
     drug.side_effects.set(selected_side_effects)
 
@@ -190,20 +191,6 @@ def download(request):
             if key == 'category_id':
                 category = Category.objects.get(id=value)
                 drug_translated['category'] = category.code
-            if key == 'effects':
-                effects_in_text = ""
-                for effect in drug.effects:
-                    if effects_in_text != "":
-                        effects_in_text = effects_in_text + ","    
-                    effects_in_text = effects_in_text + effect.name
-                drug_translated['effects'] = effects_in_text
-            if key == 'side_effects':
-                side_effects_in_text = ""
-                for side_effect in drug.side_effects:
-                    if side_effects_in_text != "":
-                        side_effects_in_text = side_effects_in_text + ","    
-                    side_effects_in_text = side_effects_in_text + side_effect.name
-                drug_translated['side_effects'] = side_effects_in_text
             else:
                 drug_translated[key] = value
         drugs_translated.append(drug_translated)
@@ -255,6 +242,7 @@ def refresh(request):
                     description=drug.description,
                 ),
             )
+            
             # TODO: put effect and side effects list in object
 
     return redirect('drugs')
