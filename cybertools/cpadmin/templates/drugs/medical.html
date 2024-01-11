@@ -1,0 +1,308 @@
+{% extends "drugs.html" %}
+
+{% block section_content_content %}
+    <ul class="nav justify-content-end">
+        <li class="nav-item">
+            <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#uploadMedicalModal">
+                Subir CSV <i class="fa-solid fa-upload"></i>
+            </a>
+            <div class="modal fade" id="uploadMedicalModal" tabindex="-1" aria-labelledby="uploadMedicalModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="{% url 'medical' %}/upload" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="uploadMedicalModalLabel">Subir CSV</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="csv_file" class="form-label">Archivo CSV:</label>
+                                    <input type="file" name="csv_file" id="csv_file" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Subir</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <a class="btn btn-primary" href="{% url 'medical' %}/download">
+                Descargar CSV <i class="fa-solid fa-download"></i>
+            </a>
+
+            <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#refreshToMedicalModal">
+                Recargar <i class="fa-solid fa-cloud-arrow-up"></i>
+            </a>
+            <div class="modal fade" id="refreshToMedicalModal" tabindex="-1" aria-labelledby="refreshToMedicalModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="{% url 'medical' %}/refresh" method="POST">
+                            <input type="hidden" name="source" value="local"/>
+                            {% csrf_token %}
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="refreshToMedicalModalLabel">Recargar Modelo Firebase</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    ¿Está seguro que quiere actualizar los datos de la nube?
+                                    Este proceso puede tardar varios minutos y sobrescribirá los datos existentes.
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                <button type="submit" class="btn btn-primary">Sí</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#refreshFromMedicalModal">
+                Refrescar <i class="fa-solid fa-cloud-arrow-down"></i>
+            </a>
+            <div class="modal fade" id="refreshFromMedicalModal" tabindex="-1" aria-labelledby="refreshFromMedicalModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="{% url 'medical' %}/refresh" method="POST">
+                            <input type="hidden" name="source" value="firebase"/>
+                            {% csrf_token %}
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="refreshFromMedicalModalLabel">Recargar Modelo de Firebase</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    ¿Está seguro que quiere actualizar los datos locales con los que están en la base de datos de la nube?
+                                    Este proceso puede tardar varios minutos
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                <button type="submit" class="btn btn-primary">Sí</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <a class="btn btn-success" href="#" data-bs-toggle="modal" data-bs-target="#addMedicalModal">
+                Nuevo <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+            <div class="modal fade" id="addMedicalModal" tabindex="-1" aria-labelledby="addMedicalModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <form action="{% url 'medical' %}/create" method="POST">
+                            {% csrf_token %}
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="addMedicalModalLabel">Agregar Cuidado Médico</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Nombre del Cuidado Médico:</label>
+                                        <input type="text" name="name" id="name" class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">Descripción:</label>
+                                        <input type="text" name="description" id="description" class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3 col-6">
+                                        <label for="type" class="form-label">Tipo:</label>
+                                        <select name="type" id="type" class="form-select">
+                                            <option selected/>
+                                            {% for key, value in medical_types %}
+                                                <option value="{{ key }}">{{ value }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label for="quality" class="form-label">Calidad:</label>
+                                        <select name="quality" id="quality" class="form-select">
+                                            <option selected/>
+                                            {% for key, value in medical_qualities %}
+                                                <option value="{{ key }}">{{ value }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3 col-4 offset-4">
+                                        <label for="cost" class="form-label">Precio (creds):</label>
+                                        <input type="text" name="cost" id="cost" class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <br />
+    <table class="table table-striped table-hover align-middle nowrap" id="dataResults">
+        <caption>{{ medicals_count }} artículos disponibles</caption>
+        <thead>
+            <tr>
+                <th scope="col" class="text-center">#</th>
+                <th scope="col" class="text-center">Nombre</th>
+                <th scope="col" class="text-center">Tipo</th>
+                <th scope="col" class="text-center">Precio</th>
+                <th scope="col" class="text-center">&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for medical in medicals %}
+                <tr>
+                    <th scope="row" class="text-center">{{ medical.id }}</th>
+                    <td>{{ medical.name }}</td>
+                    <td>{{ medical.get_type_display }}</td>
+                    <td class="text-end">{{ medical.cost|stringformat:"3d" }} creds</td>
+                    <td>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#viewMedical{{ medical.id }}Modal"><i class="fa-solid fa-eye"></i></button>
+                        <div class="modal fade" id="viewMedical{{ medical.id }}Modal" tabindex="-1" aria-labelledby="viewMedical{{ medical.id }}ModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="viewMedical{{ medical.id }}ModalLabel">{{ medical.name }}</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <table class="table table-borderless">
+                                                <caption>&nbsp;</caption>
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Nombre:</td>
+                                                        <td>{{ medical.name }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Tipo:</td>
+                                                        <td>{{ medical.get_type_display }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Calidad:</td>
+                                                        <td>{{ medical.get_quality_display }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Precio:</td>
+                                                        <td>{{ medical.cost|stringformat:"3d" }} creds</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="text-end">Descripción:</td>
+                                                        <td class="w-100"><div class="text-wrap">{{ medical.description }}</div></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#editMedical{{ medical.id }}Modal"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <div class="modal fade" id="editMedical{{ medical.id }}Modal" tabindex="-1" aria-labelledby="editMedical{{ medical.id }}ModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <form action="{% url 'medical' %}/update" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ medical.id }}"/>
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="editMedical{{ medical.id }}ModalLabel">Actualizar Droga</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="mb-3">
+                                                    <label for="name" class="form-label">Nombre del Droga:</label>
+                                                    <input type="text" name="name" id="name" value="{{ medical.name }}" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-3">
+                                                    <label for="description" class="form-label">Descripción:</label>
+                                                    <input type="text" name="description" id="description" value="{{ medical.description }}" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-3 col-6">
+                                                    <label for="type" class="form-label">Tipo:</label>
+                                                    <select name="type" id="type" class="form-select">
+                                                        <option selected/>
+                                                        {% for key, value in medical_types %}
+                                                            <option value="{{ key }}"{% if medical.type == key %} selected{% endif %}>{{ value }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3 col-6">
+                                                    <label for="quality" class="form-label">Calidad:</label>
+                                                    <select name="quality" id="quality" class="form-select">
+                                                        <option selected/>
+                                                        {% for key, value in medical_qualities %}
+                                                            <option value="{{ key }}"{% if medical.quality == key %} selected{% endif %}>{{ value }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-3 col-4 offset-4">
+                                                    <label for="cost" class="form-label">Precio (creds):</label>
+                                                    <input type="text" name="cost" id="cost" value="{{ medical.cost }}" class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-primary">Guardar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#removeMedical{{ medical.id }}Modal"><i class="fa-solid fa-trash"></i></button>
+                        <div class="modal fade" id="removeMedical{{ medical.id }}Modal" tabindex="-1" aria-labelledby="removeMedical{{ medical.id }}ModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="{% url 'medical' %}/delete" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ medical.id }}"/>
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="removeMedical{{ medical.id }}ModalLabel">Eliminar {{ medical.name }}</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                ¿Está seguro que quiere eliminar {{ medical.name }}?
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                            <button type="submit" class="btn btn-primary">Sí</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

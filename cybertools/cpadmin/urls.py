@@ -2,7 +2,7 @@ from django.urls import path
 from cpadmin.views import (
     views, 
     views_weapons, views_armor, views_gear, views_cyberware, views_clothes,
-    views_drugs
+    views_drugs, views_medical
 )
 
 urlpatterns = [
@@ -64,7 +64,13 @@ urlpatterns = [
     path('drugs/drug/upload', views_drugs.upload),
     path('drugs/drug/refresh', views_drugs.refresh),
 
-    path('drugs/medical', views.drugs_home, name='medical'),
+    path('drugs/medical', views_medical.list, name='medical'),
+    path('drugs/drug/create', views_medical.create),
+    path('drugs/drug/update', views_medical.update),
+    path('drugs/drug/delete', views_medical.delete),
+    path('drugs/drug/download', views_medical.download),
+    path('drugs/drug/upload', views_medical.upload),
+    path('drugs/drug/refresh', views_medical.refresh),
 
     # Routes to vehicles
     path('vehicles/', views.vehicles_home, name='vehicles'),
