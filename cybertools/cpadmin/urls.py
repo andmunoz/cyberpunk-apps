@@ -67,12 +67,12 @@ urlpatterns = [
     path('drugs/drug/refresh', views_drugs.refresh),
 
     path('drugs/medical', views_medical.list, name='medical'),
-    path('drugs/drug/create', views_medical.create),
-    path('drugs/drug/update', views_medical.update),
-    path('drugs/drug/delete', views_medical.delete),
-    path('drugs/drug/download', views_medical.download),
-    path('drugs/drug/upload', views_medical.upload),
-    path('drugs/drug/refresh', views_medical.refresh),
+    path('drugs/medical/create', views_medical.create),
+    path('drugs/medical/update', views_medical.update),
+    path('drugs/medical/delete', views_medical.delete),
+    path('drugs/medical/download', views_medical.download),
+    path('drugs/medical/upload', views_medical.upload),
+    path('drugs/medical/refresh', views_medical.refresh),
 
     # Routes to vehicles
     path('vehicles/', views.vehicles_home, name='vehicles'),

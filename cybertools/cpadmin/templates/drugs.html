@@ -6,7 +6,7 @@
     <div class="container">
         <br />
         <div class="row">
-            <div class="col-12 col-md-3">
+            <div class="col-12 col-md-2">
                 {% block section_content_navigator %}
                     <div class="d-md-block d-none">
                         <ul class="nav flex-column">
@@ -27,13 +27,13 @@
                     </div>
                 {% endblock %}
             </div>
-            <div class="col-12 col-md-9">
+            <div class="col-12 col-md-10">
                 <h3>{{ page_title }}</h3>
                 <br/>
                 <div class="text-center" id="spinner" style="display: block">
                     <i class="fa fa-spinner fa-spin fa-3x"></i>
                     <br />
-                    <h6>Cargando información disponible en la base de datos...</h6>
+                    <h6>Cargando información de la base de datos...</h6>
                     <br />
                 </div>
                 <div id="pageContent" style="display: none">
