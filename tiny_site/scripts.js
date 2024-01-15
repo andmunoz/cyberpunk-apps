@@ -17,13 +17,12 @@ function loadData(route, title, hasData) {
         success: function (data) {  
             $.each(data, function(i, item){
                 let row = "<tr>"+
-                "<td>" + item.id + "</td>" + 
-                "   <td>" + item.name + "</td>" +
-                "   <td>" + item.description + "</td>" +
+                "<td class=\" d-none d-md-table-cell\">" + item.id + "</td>" + 
+                "   <td><a href=\"#\" class=\"btn text-start text-wrap\" data-bs-toggle=\"modal\" data-bs-target=\"#viewItem" + item.id + "Modal\">" + item.name + "</a>" + constructModal(item) +"</td>" +
+                "   <td class=\" d-none d-md-table-cell\">" + item.description + "</td>" +
                 "   <td class=\"text-end\">" + item.cost + " creds</td>" +
-                "   <td>" +
+                "   <td class=\" d-none d-md-table-cell\">" +
                 "       <button class=\"btn btn-primary\" type=\"button\" data-bs-toggle=\"modal\" data-bs-target=\"#viewItem" + item.id + "Modal\"><i class=\"fa-solid fa-eye\"></i></button>" + 
-                "       " + constructModal(item) + 
                 "   </td>" +
                 "</tr>";						 
                 $("#dataResults>tbody").append(row);
@@ -69,30 +68,32 @@ function constructModal(item) {
                     "    <div class=\"modal-dialog modal-lg\">" +
                     "       <div class=\"modal-content\">" +
                     "           <div class=\"modal-header\">" +
-                    "               <h1 class=\"modal-title fs-5\" id=\"viewItem" + item.id + "ModalLabel\">" + item.name + "</h1>" +
-                    "                    <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Cerrar\"></button>" +
-                    "                </div>" +
-                    "                <div class=\"modal-body\">" +
-                    "                    <div class=\"mb-3\">" +
-                    "                        <table class=\"table table-borderless\">" +
-                    "                            <caption>&nbsp;</caption>" +
-                    "                            <tbody>";
+                    "               <h1 class=\"modal-title fs-5 text-wrap\" id=\"viewItem" + item.id + "ModalLabel\">" + item.name + "</h1>" +
+                    "               <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Cerrar\"></button>" +
+                    "           </div>" +
+                    "           <div class=\"modal-body\">" +
+                    "               <div class=\"mb-3\">" +
+                    "                   <table class=\"table table-borderless\">" +
+                    "                       <caption>&nbsp;</caption>" +
+                    "                       <tbody>";
     $.each(item, function(key, value){
-        modalHTML += "                                <tr>" +
-                    "                                    <th scope=\"row\" class=\"text-end\">" + key + "</td>" +
-                    "                                    <td>" + value + "</td>" +
-                    "                                </tr>"
+        if (key != "image") {
+            modalHTML += "                              <tr>" +
+                         "                                  <th scope=\"row\" class=\"text-end\">" + key + "</td>" +
+                         "                                  <td class=\"text-wrap\">" + value + "</td>" +
+                         "                              </tr>"
+        }
     });
                 
-    modalHTML +=    "                            </tbody>" +
-                    "                        </table>" +
-                    "                    </div>" +
-                    "                </div>" +
-                    "                <div class=\"modal-footer\">" +
-                    "                    <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Cerrar</button>" +
+    modalHTML +=    "                        </tbody>" +
+                    "                    </table>" +
                     "                </div>" +
                     "            </div>" +
+                    "            <div class=\"modal-footer\">" +
+                    "                <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Cerrar</button>" +
+                    "            </div>" +
                     "        </div>" +
-                    "    </div>";
+                    "    </div>" +
+                    "</div>";
     return modalHTML;
 }
