@@ -56,6 +56,8 @@ urlpatterns = [
     path('equipment/clothes/refresh', views_clothes.refresh),
 
     # Routes to drugs
+    path('drugs/', views.drugs_home, name='drugs_and_medical'),
+
     path('drugs/drug', views_drugs.list, name='drugs'),
     path('drugs/drug/create', views_drugs.create),
     path('drugs/drug/update', views_drugs.update),

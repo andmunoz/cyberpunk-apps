@@ -6,19 +6,28 @@
     <div class="container">
         <br />
         <div class="row">
-            <div class="col-3">
+            <div class="col-12 col-md-3">
                 {% block section_content_navigator %}
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link{% if 'drugs' in request.path %} active{% endif %}" href="{% url 'drugs' %}">Drogas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link{% if 'medical' in request.path %} active{% endif %}" href="{% url 'medical' %}">Cuidados Médicos</a>
-                        </li>
-                    </ul>
+                    <div class="d-md-block d-none">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link{% if 'drugs' in request.path %} active{% endif %}" href="{% url 'drugs' %}">Drogas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link{% if 'medical' in request.path %} active{% endif %}" href="{% url 'medical' %}">Cuidados Médicos</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="d-md-none" style="height:100%; text-align:right;">
+                        <select class="form-control" onchange="location.href='{% url 'drugs_and_medical' %}'+this.value">
+                            <option value="drug"{% if 'drugs' in request.path %} selected{% endif %}>Drogas</option>
+                            <option value="medical"{% if 'medical' in request.path %} selected{% endif %}>Cuidados Médicos</option>
+                        </select>
+                        <br/>
+                    </div>
                 {% endblock %}
             </div>
-            <div class="col-9">
+            <div class="col-12 col-md-9">
                 <h3>{{ page_title }}</h3>
                 <br/>
                 <div class="text-center" id="spinner" style="display: block">

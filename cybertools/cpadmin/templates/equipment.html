@@ -6,28 +6,40 @@
     <div class="container">
         <br />
         <div class="row">
-            <div class="col-3">
+            <div class="col-12 col-md-3">
                 {% block section_content_navigator %}
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link{% if 'weapons' in request.path %} active{% endif %}" href="{% url 'weapons' %}">Armas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link{% if 'armor' in request.path %} active{% endif %}" href="{% url 'armor' %}">Blindaje</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link{% if 'gear' in request.path %} active{% endif %}" href="{% url 'gear' %}">Equipo</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link{% if 'cyberware' in request.path %} active{% endif %}" href="{% url 'cyberware' %}">Ciberequipo</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link{% if 'clothes' in request.path %} active{% endif %}" href="{% url 'clothes' %}">Moda</a>
-                        </li>
-                    </ul>
+                    <div class="d-md-block d-none">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link{% if 'weapons' in request.path %} active{% endif %}" href="{% url 'weapons' %}">Armas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link{% if 'armor' in request.path %} active{% endif %}" href="{% url 'armor' %}">Blindaje</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link{% if 'gear' in request.path %} active{% endif %}" href="{% url 'gear' %}">Equipo</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link{% if 'cyberware' in request.path %} active{% endif %}" href="{% url 'cyberware' %}">Ciberequipo</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link{% if 'clothes' in request.path %} active{% endif %}" href="{% url 'clothes' %}">Moda</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="d-md-none" style="height:100%; text-align:right;">
+                        <select class="form-control" onchange="location.href='{% url 'equipment' %}'+this.value">
+                            <option value="weapons"{% if 'weapons' in request.path %} selected{% endif %}>Armas</option>
+                            <option value="armor"{% if 'armor' in request.path %} selected{% endif %}>Blindaje</option>
+                            <option value="gear"{% if 'gear' in request.path %} selected{% endif %}>Equipo</option>
+                            <option value="cyberware"{% if 'cyberware' in request.path %} selected{% endif %}>Ciberequipo</option>
+                            <option value="clothes"{% if 'clothes' in request.path %} selected{% endif %}>Moda</option>
+                        </select>
+                        <br/>
+                    </div>
                 {% endblock %}
             </div>
-            <div class="col-9">
+            <div class="col-12 col-md-9">
                 <h3>{{ page_title }}</h3>
                 <br/>
                 <div class="text-center" id="spinner" style="display: block">

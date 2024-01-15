@@ -20,4 +20,4 @@ python manage.py makemigrations
 python manage.py migrate
 
 echo "### Iniciando el servicio en http://localhost:$service_port/..."
-python manage.py runserver $service_port
+python manage.py runserver 0.0.0.0:$service_port

@@ -1,483 +1,570 @@
 {% extends "equipment.html" %}
 
 {% block section_content_content %}
-    <ul class="nav justify-content-end">
-        <li class="nav-item">
-            <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#uploadCyberwareModal">
-                Subir CSV <i class="fa-solid fa-upload"></i>
-            </a>
-            <div class="modal fade" id="uploadCyberwareModal" tabindex="-1" aria-labelledby="uploadCyberwareModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form action="{% url 'cyberware' %}/upload" method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="uploadCyberwareModalLabel">Subir CSV</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    <label for="csv_file" class="form-label">Archivo CSV:</label>
-                                    <input type="file" name="csv_file" id="csv_file" class="form-control"/>
+    <div class="d-none d-md-block">
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#uploadCyberwareModal">
+                    Subir CSV <i class="fa-solid fa-upload"></i>
+                </a>
+                <div class="modal fade" id="uploadCyberwareModal" tabindex="-1" aria-labelledby="uploadCyberwareModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="{% url 'cyberware' %}/upload" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="uploadCyberwareModalLabel">Subir CSV</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                                 </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                <button type="submit" class="btn btn-primary">Subir</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            
-            <a class="btn btn-primary" href="{% url 'cyberware' %}/download">
-                Descargar CSV <i class="fa-solid fa-download"></i>
-            </a>
-
-            <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#refreshToCyberwareModal">
-                Recargar <i class="fa-solid fa-cloud-arrow-up"></i>
-            </a>
-            <div class="modal fade" id="refreshToCyberwareModal" tabindex="-1" aria-labelledby="refreshToCyberwareModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form action="{% url 'cyberware' %}/refresh" method="POST">
-                            <input type="hidden" name="source" value="local"/>
-                            {% csrf_token %}
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="refreshToCyberwareModalLabel">Recargar Modelo Firebase</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    ¿Está seguro que quiere actualizar los datos de la nube?
-                                    Este proceso puede tardar varios minutos y sobrescribirá los datos existentes.
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                                <button type="submit" class="btn btn-primary">Sí</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#refreshFromCyberwareModal">
-                Refrescar <i class="fa-solid fa-cloud-arrow-down"></i>
-            </a>
-            <div class="modal fade" id="refreshFromCyberwareModal" tabindex="-1" aria-labelledby="refreshFromCyberwareModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form action="{% url 'cyberware' %}/refresh" method="POST">
-                            <input type="hidden" name="source" value="firebase"/>
-                            {% csrf_token %}
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="refreshFromCyberwareModalLabel">Recargar Modelo de Firebase</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    ¿Está seguro que quiere actualizar los datos locales con los que están en la base de datos de la nube?
-                                    Este proceso puede tardar varios minutos
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                                <button type="submit" class="btn btn-primary">Sí</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <a class="btn btn-success" href="#" data-bs-toggle="modal" data-bs-target="#addCyberwareModal">
-                Nuevo <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            </a>
-            <div class="modal fade" id="addCyberwareModal" tabindex="-1" aria-labelledby="addCyberwareModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <form action="{% url 'cyberware' %}/create" method="POST">
-                            {% csrf_token %}
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="addCyberwareModalLabel">Agregar Ciberequipo</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
+                                <div class="modal-body">
                                     <div class="mb-3">
-                                        <label for="name" class="form-label">Nombre del Ciberequipo:</label>
-                                        <input type="text" name="name" id="name" class="form-control"/>
+                                        <label for="csv_file" class="form-label">Archivo CSV:</label>
+                                        <input type="file" name="csv_file" id="csv_file" class="form-control"/>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="mb-3">
-                                        <label for="description" class="form-label">Descripción:</label>
-                                        <input type="text" name="description" id="description" class="form-control"/>
-                                    </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Subir</button>
                                 </div>
-                                <div class="row">
-                                    <div class="mb-3 col-6">
-                                        <label for="category" class="form-label">Categoría:</label>
-                                        <select name="category" id="category" class="form-select">
-                                            <option selected/>
-                                            {% for category in categories %}
-                                                {% if not category.parent %}
-                                                    <option value="{{ category.id }}">{{ category.name }} ({{ category.description }})</option>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 col-6">
-                                        <label for="brand" class="form-label">Marca:</label>
-                                        <select name="brand" id="brand" class="form-select">
-                                            <option selected/>
-                                            {% for brand in brands %}
-                                                <option value="{{ brand.id }}">{{ brand.name }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="mb-3 col-6">
-                                        <label for="type" class="form-label">Tipo:</label>
-                                        <select name="type" id="type" class="form-select">
-                                            <option selected/>
-                                            {% for key, value in cyberware_types %}
-                                                <option value="{{ key }}">{{ value }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 col-3">
-                                        <label for="humanity" class="form-label">Humanidad:</label>
-                                        <input type="text" name="humanity" id="humanity" class="form-control"/>
-                                    </div>
-                                    <div class="mb-3 col-3">
-                                        <label for="slot" class="form-label">Ubicación:</label>
-                                        <select name="slot" id="slot" class="form-select">
-                                            <option selected/>
-                                            {% for key, value in slots %}
-                                                <option value="{{ key }}">{{ value }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="mb-3 col-6">
-                                        <label for="requirement" class="form-label">Requisito:</label>
-                                        <select name="requirement" id="requirement" class="form-select">
-                                            <option selected/>
-                                            {% for category in categories %}
-                                                <option value="{{ category.name }}">{{ category.name }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 col-6">
-                                        <label for="adjustment" class="form-label">Ajustes:</label>
-                                        <input type="text" name="adjustment" id="adjustment" class="form-control"/>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="mb-3 col-6">
-                                        <label for="surgery" class="form-label">Operación:</label>
-                                        <select name="surgery" id="surgery" class="form-select">
-                                            <option selected/>
-                                            {% for key, value in surgeries %}
-                                                <option value="{{ key }}">{{ value }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 col-6">
-                                        <label for="availability" class="form-label">Disponibilidad:</label>
-                                        <select name="availability" id="availability" class="form-select">
-                                            <option selected/>
-                                            {% for key, value in availabilities %}
-                                                <option value="{{ key }}">{{ value }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="mb-3 col-4 offset-2">
-                                        <label for="weight" class="form-label">Peso (kgs):</label>
-                                        <input type="text" name="weight" id="weight" class="form-control"/>
-                                    </div>
-                                    <div class="mb-3 col-4">
-                                        <label for="cost" class="form-label">Precio (creds):</label>
-                                        <input type="text" name="cost" id="cost" class="form-control"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                <button type="submit" class="btn btn-primary">Guardar</button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </li>
-    </ul>
-    <br />
-    <table class="table table-striped table-hover align-middle nowrap" id="dataResults">
-        <caption>{{ cyberware_count }} artículos disponibles</caption>
-        <thead>
-            <tr>
-                <th scope="col" class="text-center">#</th>
-                <th scope="col" class="text-center">Nombre</th>
-                <th scope="col" class="text-center">Categoría</th>
-                <th scope="col" class="text-center">Precio</th>
-                <th scope="col" class="text-center">&nbsp;</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for cyberware in cyberwares %}
-                <tr>
-                    <th scope="row" class="text-center">{{ cyberware.id }}</th>
-                    <td>{{ cyberware.name }}</td>
-                    <td>{{ cyberware.category.name }}</td>
-                    <td class="text-end">{{ cyberware.cost|stringformat:"3d" }} creds</td>
-                    <td>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#viewCyberware{{ cyberware.id }}Modal"><i class="fa-solid fa-eye"></i></button>
-                        <div class="modal fade" id="viewCyberware{{ cyberware.id }}Modal" tabindex="-1" aria-labelledby="viewCyberware{{ cyberware.id }}ModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="viewCyberware{{ cyberware.id }}ModalLabel">{{ cyberware.name }}</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                
+                <a class="btn btn-primary" href="{% url 'cyberware' %}/download">
+                    Descargar CSV <i class="fa-solid fa-download"></i>
+                </a>
+
+                <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#refreshToCyberwareModal">
+                    Recargar <i class="fa-solid fa-cloud-arrow-up"></i>
+                </a>
+                <div class="modal fade" id="refreshToCyberwareModal" tabindex="-1" aria-labelledby="refreshToCyberwareModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="{% url 'cyberware' %}/refresh" method="POST">
+                                <input type="hidden" name="source" value="local"/>
+                                {% csrf_token %}
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="refreshToCyberwareModalLabel">Recargar Modelo Firebase</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        ¿Está seguro que quiere actualizar los datos de la nube?
+                                        Este proceso puede tardar varios minutos y sobrescribirá los datos existentes.
                                     </div>
-                                    <div class="modal-body">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                    <button type="submit" class="btn btn-primary">Sí</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#refreshFromCyberwareModal">
+                    Refrescar <i class="fa-solid fa-cloud-arrow-down"></i>
+                </a>
+                <div class="modal fade" id="refreshFromCyberwareModal" tabindex="-1" aria-labelledby="refreshFromCyberwareModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="{% url 'cyberware' %}/refresh" method="POST">
+                                <input type="hidden" name="source" value="firebase"/>
+                                {% csrf_token %}
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="refreshFromCyberwareModalLabel">Recargar Modelo de Firebase</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        ¿Está seguro que quiere actualizar los datos locales con los que están en la base de datos de la nube?
+                                        Este proceso puede tardar varios minutos
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                    <button type="submit" class="btn btn-primary">Sí</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <a class="btn btn-success" href="#" data-bs-toggle="modal" data-bs-target="#addCyberwareModal">
+                    Nuevo <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+                <div class="modal fade" id="addCyberwareModal" tabindex="-1" aria-labelledby="addCyberwareModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <form action="{% url 'cyberware' %}/create" method="POST">
+                                {% csrf_token %}
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="addCyberwareModalLabel">Agregar Ciberequipo</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
                                         <div class="mb-3">
-                                            <table class="table table-borderless">
-                                                <caption>&nbsp;</caption>
-                                                <tbody>
-                                                    <tr>
-                                                        <td rowspan="13" style="width:80px">
-                                                            {% if cyberware.image %}
-                                                                <img src="{{ cyberware.image }}" class="img-fluid" />
-                                                            {% else %}
-                                                                Sin imagen
-                                                            {% endif %} 
-                                                        </td>
-                                                        <th scope="row" class="text-end">Nombre:</td>
-                                                        <td>{{ cyberware.name }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row" class="text-end">Marca:</td>
-                                                        <td>{{ cyberware.brand.name }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row" class="text-end">Categoría:</td>
-                                                        <td>{{ cyberware.category.name }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row" class="text-end">Disponibilidad:</td>
-                                                        <td>{{ cyberware.get_availability_display }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row" class="text-end">Tipo:</td>
-                                                        <td>{{ cyberware.get_type_display }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row" class="text-end">Humanidad:</td>
-                                                        <td>{{ cyberware.humanity }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row" class="text-end">Ajustes:</td>
-                                                        <td>{{ cyberware.adjustment }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row" class="text-end">Requisito:</td>
-                                                        <td>{{ cyberware.requirement }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row" class="text-end">Ubicación:</td>
-                                                        <td>{{ cyberware.slot }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row" class="text-end">Operación:</td>
-                                                        <td>{{ cyberware.surgery }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row" class="text-end">Peso:</td>
-                                                        <td>{{ cyberware.weight|stringformat:"1.1f" }} kgs</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row" class="text-end">Precio:</td>
-                                                        <td>{{ cyberware.cost|stringformat:"3d" }} creds</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row" class="text-end">Descripción:</td>
-                                                            <td class="w-100"><div class="text-wrap">{{ cyberware.description }}</div></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                            <label for="name" class="form-label">Nombre del Ciberequipo:</label>
+                                            <input type="text" name="name" id="name" class="form-control"/>
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <div class="row">
+                                        <div class="mb-3">
+                                            <label for="description" class="form-label">Descripción:</label>
+                                            <input type="text" name="description" id="description" class="form-control"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3 col-6">
+                                            <label for="category" class="form-label">Categoría:</label>
+                                            <select name="category" id="category" class="form-select">
+                                                <option selected/>
+                                                {% for category in categories %}
+                                                    {% if not category.parent %}
+                                                        <option value="{{ category.id }}">{{ category.name }} ({{ category.description }})</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                            <label for="brand" class="form-label">Marca:</label>
+                                            <select name="brand" id="brand" class="form-select">
+                                                <option selected/>
+                                                {% for brand in brands %}
+                                                    <option value="{{ brand.id }}">{{ brand.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3 col-6">
+                                            <label for="type" class="form-label">Tipo:</label>
+                                            <select name="type" id="type" class="form-select">
+                                                <option selected/>
+                                                {% for key, value in cyberware_types %}
+                                                    <option value="{{ key }}">{{ value }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="mb-3 col-3">
+                                            <label for="humanity" class="form-label">Humanidad:</label>
+                                            <input type="text" name="humanity" id="humanity" class="form-control"/>
+                                        </div>
+                                        <div class="mb-3 col-3">
+                                            <label for="slot" class="form-label">Ubicación:</label>
+                                            <select name="slot" id="slot" class="form-select">
+                                                <option selected/>
+                                                {% for key, value in slots %}
+                                                    <option value="{{ key }}">{{ value }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3 col-6">
+                                            <label for="requirement" class="form-label">Requisito:</label>
+                                            <select name="requirement" id="requirement" class="form-select">
+                                                <option selected/>
+                                                {% for category in categories %}
+                                                    <option value="{{ category.name }}">{{ category.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                            <label for="adjustment" class="form-label">Ajustes:</label>
+                                            <input type="text" name="adjustment" id="adjustment" class="form-control"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3 col-6">
+                                            <label for="surgery" class="form-label">Operación:</label>
+                                            <select name="surgery" id="surgery" class="form-select">
+                                                <option selected/>
+                                                {% for key, value in surgeries %}
+                                                    <option value="{{ key }}">{{ value }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                            <label for="availability" class="form-label">Disponibilidad:</label>
+                                            <select name="availability" id="availability" class="form-select">
+                                                <option selected/>
+                                                {% for key, value in availabilities %}
+                                                    <option value="{{ key }}">{{ value }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3 col-4 offset-2">
+                                            <label for="weight" class="form-label">Peso (kgs):</label>
+                                            <input type="text" name="weight" id="weight" class="form-control"/>
+                                        </div>
+                                        <div class="mb-3 col-4">
+                                            <label for="cost" class="form-label">Precio (creds):</label>
+                                            <input type="text" name="cost" id="cost" class="form-control"/>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#editCyberware{{ cyberware.id }}Modal"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <div class="modal fade" id="editCyberware{{ cyberware.id }}Modal" tabindex="-1" aria-labelledby="editCyberware{{ cyberware.id }}ModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <form action="{% url 'cyberware' %}/update" method="POST">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="id" value="{{ cyberware.id }}"/>
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="editCyberware{{ cyberware.id }}ModalLabel">Actualizar Ciberequipo</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="mb-3">
-                                                    <label for="name" class="form-label">Nombre del Ciberequipo:</label>
-                                                    <input type="text" name="name" id="name" value="{{ cyberware.name }}" class="form-control"/>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="mb-3">
-                                                    <label for="description" class="form-label">Descripción:</label>
-                                                    <input type="text" name="description" id="description" value="{{ cyberware.description }}" class="form-control"/>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="mb-3 col-6">
-                                                    <label for="category" class="form-label">Categoría:</label>
-                                                    <select name="category" id="category" class="form-select">
-                                                        <option selected/>
-                                                        {% for category in categories %}
-                                                            {% if not category.parent %}
-                                                                <option value="{{ category.id }}"{% if cyberware.category.id == category.id %} selected{% endif %}>{{ category.name }} ({{ category.description }})</option>
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                                <div class="mb-3 col-6">
-                                                    <label for="brand" class="form-label">Marca:</label>
-                                                    <select name="brand" id="brand" class="form-select">
-                                                        <option selected/>
-                                                        {% for brand in brands %}
-                                                            <option value="{{ brand.id }}"{% if cyberware.brand.id == brand.id %} selected{% endif %}>{{ brand.name }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="mb-3 col-6">
-                                                    <label for="type" class="form-label">Tipo:</label>
-                                                    <select name="type" id="type" class="form-select">
-                                                        <option selected/>
-                                                        {% for key, value in cyberware_types %}
-                                                            <option value="{{ key }}"{% if cyberware.type == key %} selected{% endif %}>{{ value }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                                <div class="mb-3 col-3">
-                                                    <label for="humanity" class="form-label">Humanidad:</label>
-                                                    <input type="text" name="humanity" id="humanity" value="{{ cyberware.humanity }}" class="form-control"/>
-                                                </div>
-                                                <div class="mb-3 col-3">
-                                                    <label for="slot" class="form-label">Ubicación:</label>
-                                                    <select name="slot" id="slot" class="form-select">
-                                                        <option selected/>
-                                                        {% for key, value in slots %}
-                                                            <option value="{{ key }}"{% if cyberware.slot == key %} selected{% endif %}>{{ value }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="mb-3 col-6">
-                                                    <label for="requirement" class="form-label">Requisito:</label>
-                                                    <select name="requirement" id="requirement" class="form-select">
-                                                        <option selected/>
-                                                        {% for category in categories %}
-                                                            <option value="{{ category.name }}"{% if cyberware.category == category %} selected{% endif %}>{{ category.name }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                                <div class="mb-3 col-6">
-                                                    <label for="adjustment" class="form-label">Ajustes:</label>
-                                                    <input type="text" name="adjustment" id="adjustment" value="{{ cyberware.adjustment }}" class="form-control"/>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="mb-3 col-6">
-                                                    <label for="surgery" class="form-label">Operación:</label>
-                                                    <select name="surgery" id="surgery" class="form-select">
-                                                        <option selected/>
-                                                        {% for key, value in surgeries %}
-                                                            <option value="{{ key }}"{% if cyberware.surgery == key %} selected{% endif %}>{{ value }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                                <div class="mb-3 col-6">
-                                                    <label for="availability" class="form-label">Disponibilidad:</label>
-                                                    <select name="availability" id="availability" class="form-select">
-                                                        <option selected/>
-                                                        {% for key, value in availabilities %}
-                                                            <option value="{{ key }}"{% if cyberware.availability == key %} selected{% endif %}>{{ value }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="mb-3 col-4 offset-2">
-                                                    <label for="weight" class="form-label">Peso (kgs):</label>
-                                                    <input type="text" name="weight" id="weight" value="{{ cyberware.weight }}" class="form-control"/>
-                                                </div>
-                                                <div class="mb-3 col-4">
-                                                    <label for="cost" class="form-label">Precio (creds):</label>
-                                                    <input type="text" name="cost" id="cost" value="{{ cyberware.cost }}" class="form-control"/>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="mb-3">
-                                                    <label for="image" class="form-label">Imagen:</label>
-                                                    <input type="text" name="image" id="image" value="{{ cyberware.image }}" class="form-control"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                            <button type="submit" class="btn btn-primary">Guardar</button>
-                                        </div>
-                                    </form>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
                                 </div>
-                            </div>
+                            </form>
                         </div>
-
-                        <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#removeCyberware{{ cyberware.id }}Modal"><i class="fa-solid fa-trash"></i></button>
-                        <div class="modal fade" id="removeCyberware{{ cyberware.id }}Modal" tabindex="-1" aria-labelledby="removeCyberware{{ cyberware.id }}ModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form action="{% url 'cyberware' %}/delete" method="POST">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="id" value="{{ cyberware.id }}"/>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <br />
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle nowrap w-100" id="dataResults">
+            <caption>{{ cyberware_count }} artículos disponibles</caption>
+            <thead>
+                <tr>
+                    <th scope="col" class="text-center d-none d-md-table-cell">#</th>
+                    <th scope="col" class="text-center">Nombre</th>
+                    <th scope="col" class="text-center d-none d-md-table-cell">Categoría</th>
+                    <th scope="col" class="text-center">Precio</th>
+                    <th scope="col" class="text-center d-none d-md-table-cell">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cyberware in cyberwares %}
+                    <tr>
+                        <th scope="row" class="text-center d-none d-md-table-cell">{{ cyberware.id }}</th>
+                        <td>
+                            <a href="#" class="btn text-start text-wrap" data-bs-toggle="modal" data-bs-target="#viewCyberware{{ cyberware.id }}Modal">{{ cyberware.name }}</a>
+                            <div class="modal fade" id="viewCyberware{{ cyberware.id }}Modal" tabindex="-1" aria-labelledby="viewCyberware{{ cyberware.id }}ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="removeCyberware{{ cyberware.id }}ModalLabel">Eliminar {{ cyberware.name }}</h1>
+                                            <h1 class="modal-title fs-5" id="viewCyberware{{ cyberware.id }}ModalLabel">{{ cyberware.name }}</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="mb-3">
-                                                ¿Está seguro que quiere eliminar {{ cyberware.name }}?
+                                                <table class="table table-borderless">
+                                                    <caption>&nbsp;</caption>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="d-none d-md-table-cell" rowspan="13" style="width:80px">
+                                                                {% if cyberware.image %}
+                                                                    <img src="{{ cyberware.image }}" class="img-fluid" />
+                                                                {% else %}
+                                                                    Sin imagen
+                                                                {% endif %} 
+                                                            </td>
+                                                            <th scope="row" class="text-end">Nombre:</td>
+                                                            <td class="text-wrap">{{ cyberware.name }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Marca:</td>
+                                                            <td>{{ cyberware.brand.name }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Categoría:</td>
+                                                            <td>{{ cyberware.category.name }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Disponibilidad:</td>
+                                                            <td>{{ cyberware.get_availability_display }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Tipo:</td>
+                                                            <td>{{ cyberware.get_type_display }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Humanidad:</td>
+                                                            <td>{{ cyberware.humanity }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Ajustes:</td>
+                                                            <td class="text-wrap">{{ cyberware.adjustment }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Requisito:</td>
+                                                            <td>{{ cyberware.requirement }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Ubicación:</td>
+                                                            <td>{{ cyberware.slot }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Operación:</td>
+                                                            <td>{{ cyberware.surgery }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Peso:</td>
+                                                            <td>{{ cyberware.weight|stringformat:"1.1f" }} kgs</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Precio:</td>
+                                                            <td>{{ cyberware.cost|stringformat:"3d" }} creds</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Descripción:</td>
+                                                                <td class="w-100"><div class="text-wrap">{{ cyberware.description }}</div></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                                            <button type="submit" class="btn btn-primary">Sí</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                        </td>
+                        <td class="d-none d-md-table-cell">{{ cyberware.category.name }}</td>
+                        <td class="text-end">{{ cyberware.cost|stringformat:"3d" }} creds</td>
+                        <td class="d-none d-md-table-cell">
+                            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#viewCyberware{{ cyberware.id }}Modal"><i class="fa-solid fa-eye"></i></button>
+                            <div class="modal fade" id="viewCyberware{{ cyberware.id }}Modal" tabindex="-1" aria-labelledby="viewCyberware{{ cyberware.id }}ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="viewCyberware{{ cyberware.id }}ModalLabel">{{ cyberware.name }}</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <table class="table table-borderless">
+                                                    <caption>&nbsp;</caption>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td rowspan="13" style="width:80px">
+                                                                {% if cyberware.image %}
+                                                                    <img src="{{ cyberware.image }}" class="img-fluid" />
+                                                                {% else %}
+                                                                    Sin imagen
+                                                                {% endif %} 
+                                                            </td>
+                                                            <th scope="row" class="text-end">Nombre:</td>
+                                                            <td>{{ cyberware.name }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Marca:</td>
+                                                            <td>{{ cyberware.brand.name }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Categoría:</td>
+                                                            <td>{{ cyberware.category.name }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Disponibilidad:</td>
+                                                            <td>{{ cyberware.get_availability_display }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Tipo:</td>
+                                                            <td>{{ cyberware.get_type_display }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Humanidad:</td>
+                                                            <td>{{ cyberware.humanity }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Ajustes:</td>
+                                                            <td>{{ cyberware.adjustment }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Requisito:</td>
+                                                            <td>{{ cyberware.requirement }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Ubicación:</td>
+                                                            <td>{{ cyberware.slot }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Operación:</td>
+                                                            <td>{{ cyberware.surgery }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Peso:</td>
+                                                            <td>{{ cyberware.weight|stringformat:"1.1f" }} kgs</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Precio:</td>
+                                                            <td>{{ cyberware.cost|stringformat:"3d" }} creds</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Descripción:</td>
+                                                                <td class="w-100"><div class="text-wrap">{{ cyberware.description }}</div></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#editCyberware{{ cyberware.id }}Modal"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <div class="modal fade" id="editCyberware{{ cyberware.id }}Modal" tabindex="-1" aria-labelledby="editCyberware{{ cyberware.id }}ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <form action="{% url 'cyberware' %}/update" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="id" value="{{ cyberware.id }}"/>
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="editCyberware{{ cyberware.id }}ModalLabel">Actualizar Ciberequipo</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="mb-3">
+                                                        <label for="name" class="form-label">Nombre del Ciberequipo:</label>
+                                                        <input type="text" name="name" id="name" value="{{ cyberware.name }}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-3">
+                                                        <label for="description" class="form-label">Descripción:</label>
+                                                        <input type="text" name="description" id="description" value="{{ cyberware.description }}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-3 col-6">
+                                                        <label for="category" class="form-label">Categoría:</label>
+                                                        <select name="category" id="category" class="form-select">
+                                                            <option selected/>
+                                                            {% for category in categories %}
+                                                                {% if not category.parent %}
+                                                                    <option value="{{ category.id }}"{% if cyberware.category.id == category.id %} selected{% endif %}>{{ category.name }} ({{ category.description }})</option>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3 col-6">
+                                                        <label for="brand" class="form-label">Marca:</label>
+                                                        <select name="brand" id="brand" class="form-select">
+                                                            <option selected/>
+                                                            {% for brand in brands %}
+                                                                <option value="{{ brand.id }}"{% if cyberware.brand.id == brand.id %} selected{% endif %}>{{ brand.name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-3 col-6">
+                                                        <label for="type" class="form-label">Tipo:</label>
+                                                        <select name="type" id="type" class="form-select">
+                                                            <option selected/>
+                                                            {% for key, value in cyberware_types %}
+                                                                <option value="{{ key }}"{% if cyberware.type == key %} selected{% endif %}>{{ value }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3 col-3">
+                                                        <label for="humanity" class="form-label">Humanidad:</label>
+                                                        <input type="text" name="humanity" id="humanity" value="{{ cyberware.humanity }}" class="form-control"/>
+                                                    </div>
+                                                    <div class="mb-3 col-3">
+                                                        <label for="slot" class="form-label">Ubicación:</label>
+                                                        <select name="slot" id="slot" class="form-select">
+                                                            <option selected/>
+                                                            {% for key, value in slots %}
+                                                                <option value="{{ key }}"{% if cyberware.slot == key %} selected{% endif %}>{{ value }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-3 col-6">
+                                                        <label for="requirement" class="form-label">Requisito:</label>
+                                                        <select name="requirement" id="requirement" class="form-select">
+                                                            <option selected/>
+                                                            {% for category in categories %}
+                                                                <option value="{{ category.name }}"{% if cyberware.category == category %} selected{% endif %}>{{ category.name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3 col-6">
+                                                        <label for="adjustment" class="form-label">Ajustes:</label>
+                                                        <input type="text" name="adjustment" id="adjustment" value="{{ cyberware.adjustment }}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-3 col-6">
+                                                        <label for="surgery" class="form-label">Operación:</label>
+                                                        <select name="surgery" id="surgery" class="form-select">
+                                                            <option selected/>
+                                                            {% for key, value in surgeries %}
+                                                                <option value="{{ key }}"{% if cyberware.surgery == key %} selected{% endif %}>{{ value }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3 col-6">
+                                                        <label for="availability" class="form-label">Disponibilidad:</label>
+                                                        <select name="availability" id="availability" class="form-select">
+                                                            <option selected/>
+                                                            {% for key, value in availabilities %}
+                                                                <option value="{{ key }}"{% if cyberware.availability == key %} selected{% endif %}>{{ value }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-3 col-4 offset-2">
+                                                        <label for="weight" class="form-label">Peso (kgs):</label>
+                                                        <input type="text" name="weight" id="weight" value="{{ cyberware.weight }}" class="form-control"/>
+                                                    </div>
+                                                    <div class="mb-3 col-4">
+                                                        <label for="cost" class="form-label">Precio (creds):</label>
+                                                        <input type="text" name="cost" id="cost" value="{{ cyberware.cost }}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-3">
+                                                        <label for="image" class="form-label">Imagen:</label>
+                                                        <input type="text" name="image" id="image" value="{{ cyberware.image }}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#removeCyberware{{ cyberware.id }}Modal"><i class="fa-solid fa-trash"></i></button>
+                            <div class="modal fade" id="removeCyberware{{ cyberware.id }}Modal" tabindex="-1" aria-labelledby="removeCyberware{{ cyberware.id }}ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form action="{% url 'cyberware' %}/delete" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="id" value="{{ cyberware.id }}"/>
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="removeCyberware{{ cyberware.id }}ModalLabel">Eliminar {{ cyberware.name }}</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    ¿Está seguro que quiere eliminar {{ cyberware.name }}?
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                                <button type="submit" class="btn btn-primary">Sí</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
