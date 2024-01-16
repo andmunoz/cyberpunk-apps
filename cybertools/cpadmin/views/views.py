@@ -10,7 +10,7 @@ def index(request):
 
 ### Functions for Characters Section
 def characters_home(request):
-    return render(request, 'index.html')
+    return render(request, 'error_404.html', context={'image':'characters.jpg'})
 
 
 ### Functions for Equipment Section
@@ -25,14 +25,14 @@ def drugs_home(request):
 
 ### Functions for Vehicles Section
 def vehicles_home(request):
-    return render(request, 'index.html')
+    return render(request, 'error_404.html', context={'image':'vehicles.jpg'})
 
 
 ### Functions for Netrunning Section
 def netrunning_home(request):
-    return render(request, 'index.html')
+    return render(request, 'error_404.html', context={'image':'netrunning.jpg'})
 
 
 ### Functions for Complements Section
 def complements_home(request):
-    return render(request, 'index.html')
+    return render(request, 'error_404.html', context={'image':'complements.jpg'})

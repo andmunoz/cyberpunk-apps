@@ -1,0 +1,21 @@
+{% extends "template.html" %}
+
+{% block section_content %}
+{% load static %}
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-4 offset-4 text-center">
+            <div class="card text-center align-middle border-warning">
+                <div class="card-header">
+                    <h3>Sección No Encontrada</h3>
+                </div>
+                <img src="{% static "images/" %}{{ image }}"/>
+                <div class="card-body">
+                    <p class="card-text">Revise la dirección o contacte al administrador.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
