@@ -420,3 +420,46 @@ class MedicalAdmin(admin.ModelAdmin):
     
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
+### Specific Models for Vehicles
+class VehicleType(models.TextChoices): 
+    LAND = 'L', _('Vehículos Terrestres')
+    AERIAL = 'A', _('Vehículos Aéreos')
+    WATER = 'W', _('Vehículos Acuáticos')
+    SPACE = 'S', _('Vehículos Espaciales')
+  
+    
+class Vehicle(models.Model):
+    name = models.CharField(max_length=200)
+    category = models.ForeignKey("Category", on_delete=models.CASCADE)
+    brand = models.ForeignKey("Brand", on_delete=models.CASCADE)
+    type = models.CharField(max_length=1, choices=ArmorType.choices, default=ArmorType.HARD)
+    top_speed = models.IntegerField(default=0)
+    acceleration = models.IntegerField(default=0)
+    deceleration = models.IntegerField(default=0)
+    crew = models.IntegerField(default=1)
+    passengers = models.IntegerField(default=0)
+    range = models.IntegerField(default=0)
+    cargo = models.IntegerField(default=0)
+    maneuverability = models.IntegerField(default=0)
+    sp = models.IntegerField(default=0)
+    sdp = models.IntegerField(default=0)
+    weight = models.FloatField(default=0)
+    cost = models.IntegerField(default=0)
+    description = models.CharField(max_length=255, null=True)
+    image = models.CharField(max_length=255, null=True)
+    
+    def __str__(self):
+        return self.name
+
+
+class VehicleAdmin(admin.ModelAdmin):
+    list_display = ["name", "category", "brand", "type", "cost"]
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "category":
+            kwargs["queryset"] = Category.objects.filter(type=ItemType.ARMOR)
+        if db_field.name == "brand":
+            kwargs["queryset"] = Brand.objects.filter(type=ItemType.ARMOR)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)

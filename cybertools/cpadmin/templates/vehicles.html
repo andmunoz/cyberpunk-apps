@@ -1,0 +1,112 @@
+{% extends "template.html" %}
+
+{% load cpadmin_extras %}
+
+{% block section_content %}
+    <div class="container">
+        <br />
+        <div class="row">
+            <div class="col-12 col-md-2">
+                {% block section_content_navigator %}
+                    <div class="d-md-block d-none">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link{% if 'land' in request.path %} active{% endif %}" href="{% url 'vehicles' %}land">Vehículos Terrestres</a>
+                            </li>
+                        </ul>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link{% if 'aerial' in request.path %} active{% endif %}" href="{% url 'vehicles' %}aerial">Vehículos Aéreos</a>
+                            </li>
+                        </ul>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link{% if 'water' in request.path %} active{% endif %}" href="{% url 'vehicles' %}water">Vehículos Acuáticos</a>
+                            </li>
+                        </ul>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link{% if 'surface' in request.path %} active{% endif %}" href="{% url 'vehicles' %}space">Vehículos Espaciales</a>
+                            </li>
+                        </ul>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link{% if 'space' in request.path %} active{% endif %}" href="{% url 'spacecrafts' %}">Naves Espaciales</a>
+                            </li>
+                        </ul>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link{% if 'acpa' in request.path %} active{% endif %}" href="{% url 'powered_armors' %}">Armaduras de Combate</a>
+                            </li>
+                        </ul>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link{% if 'droids' in request.path %} active{% endif %}" href="{% url 'droids' %}">Robots y Remotos</a>
+                            </li>
+                        </ul>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link{% if 'options' in request.path %} active{% endif %}" href="{% url 'vehicle_options' %}">Opciones</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="d-md-none" style="height:100%; text-align:right;">
+                        <select class="form-control" onchange="location.href='{% url 'vehicles' %}'+this.value">
+                            <option value="land"{% if 'land' in request.path %} selected{% endif %}>Vehículos Terrestres</option>
+                            <option value="aerial"{% if 'aerial' in request.path %} selected{% endif %}>Vehículos Aéreos</option>
+                            <option value="water"{% if 'water' in request.path %} selected{% endif %}>Vehículos Acuáticos</option>
+                            <option value="surface"{% if 'surface' in request.path %} selected{% endif %}>Vehículos Espaciales</option>
+                            <option value="spacecrafts"{% if 'spacecrafts' in request.path %} selected{% endif %}>Naves Espaciales</option>
+                            <option value="acpa"{% if 'acpa' in request.path %} selected{% endif %}>Armaduras de Combate</option>
+                            <option value="droids"{% if 'droids' in request.path %} selected{% endif %}>Robots y Remotos</option>
+                            <option value="options"{% if 'options' in request.path %} selected{% endif %}>Opciones</option>
+                        </select>
+                        <br/>
+                    </div>
+                {% endblock %}
+            </div>
+            <div class="col-12 col-md-10">
+                <h3>{{ page_title }}</h3>
+                <br/>
+                <div class="text-center" id="spinner" style="display: block">
+                    <i class="fa fa-spinner fa-spin fa-3x"></i>
+                    <br />
+                    <h6>Cargando información de la base de datos...</h6>
+                    <br />
+                </div>
+                <div id="pageContent" style="display: none">
+                    {% block section_content_content%}{% endblock %}
+                </div>
+                <script>   
+                    $(document).ready(function() {
+                        $('#dataResults').DataTable({
+                            info: true,
+                            ordering: true,
+                            paging: true,
+                            processing: true,
+                            stateSave: true,
+                            pageLength: 50,
+                            language: {
+                                "lengthMenu": "Mostrando _MENU_ registros por página",
+                                "search": "Buscar:",
+                                "zeroRecords": "No se ha encontrado nada",
+                                "info": "Mostrando página _PAGE_ de _PAGES_",
+                                "infoEmpty": "Mostrando 0 de 0 registros",
+                                "infoFiltered": "(filtrado de un total de _MAX_ registros)", 
+                                "paginate": {
+                                    "first":      "Primera",
+                                    "last":       "Última",
+                                    "next":       "Siguiente",
+                                    "previous":   "Anterior"
+                                },
+                                "loadingRecords": "Cargando datos..."
+                            }
+                        });
+
+                        changeDiv("#spinner", "#pageContent");
+                    });
+                </script>
+            </div>
+        </div>
+    <div>
+{% endblock %}

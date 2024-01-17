@@ -3,7 +3,7 @@ import csv
 from cpadmin.models import (
     ItemType, Category, Brand, Availability, WeaponConcealment, WeaponReliability, Weapon
 )
-from cpadmin.config import database
+from cpadmin.config import get_database
 
 
 # Show weapon List
@@ -164,6 +164,9 @@ def download(request):
 
 # Refresh weapons list with Firebase
 def refresh(request):
+    database = get_database()
+    if database is None:
+        return redirect('weapons') 
     source = request.POST['source']
     if source == 'local': 
         weapons_local = Weapon.objects.all().order_by('id').values()

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from cpadmin.views.views_weapons import list as weapons_list
 from cpadmin.views.views_drugs import list as drugs_list
+from cpadmin.views.views_vehicles import list as vehicles_list
 
 
 ### Function for Home
@@ -24,9 +25,8 @@ def drugs_home(request):
 
 
 ### Functions for Vehicles Section
-def vehicles_home(request):
-    return render(request, 'error_404.html', context={'image':'vehicles.jpg'})
-
+def vehicles_home(request, type='L'):
+    return vehicles_list(request, type)
 
 ### Functions for Netrunning Section
 def netrunning_home(request):
@@ -35,4 +35,9 @@ def netrunning_home(request):
 
 ### Functions for Complements Section
 def complements_home(request):
+    return render(request, 'error_404.html', context={'image':'complements.jpg'})
+
+
+### Functions for Custom 404
+def custom_404(request):
     return render(request, 'error_404.html', context={'image':'complements.jpg'})

@@ -2,17 +2,18 @@ from django.urls import path
 from cpadmin.views import (
     views, 
     views_weapons, views_armor, views_gear, views_cyberware, views_clothes,
-    views_drugs, views_medical
+    views_drugs, views_medical,
+    views_vehicles
 )
 
 urlpatterns = [
     # Route to home
     path('', views.index, name='home'),
 
-    # Routes to characters
+    # Routes to characters section
     path('characters/', views.characters_home, name='characters'),
 
-    # Routes to equipment
+    # Routes to equipment section
     path('equipment/', views.equipment_home, name='equipment'),
     
     path('equipment/weapons', views_weapons.list, name='weapons'),
@@ -55,7 +56,7 @@ urlpatterns = [
     path('equipment/clothes/upload', views_clothes.upload),
     path('equipment/clothes/refresh', views_clothes.refresh),
 
-    # Routes to drugs
+    # Routes to medical and drugs section
     path('drugs/', views.drugs_home, name='drugs_and_medical'),
 
     path('drugs/drug', views_drugs.list, name='drugs'),
@@ -74,12 +75,28 @@ urlpatterns = [
     path('drugs/medical/upload', views_medical.upload),
     path('drugs/medical/refresh', views_medical.refresh),
 
-    # Routes to vehicles
+    # Routes to vehicles section
     path('vehicles/', views.vehicles_home, name='vehicles'),
+    
+    path('vehicles/<str:type>', views.vehicles_home, name='category_vehicles'),
+    path('vehicles/<str:type>/create', views_vehicles.create),
+    path('vehicles/<str:type>/update', views_vehicles.update),
+    path('vehicles/<str:type>/delete', views_vehicles.delete),
+    path('vehicles/<str:type>/download', views_vehicles.download),
+    path('vehicles/<str:type>/upload', views_vehicles.upload),
+    path('vehicles/<str:type>/refresh', views_vehicles.refresh),
+    
+    path('vehicles/spacecrafts', views.custom_404, name='spacecrafts'),
 
-    # Routes to netrunning
+    path('vehicles/acpa', views.custom_404, name='powered_armors'),
+
+    path('vehicles/droids', views.custom_404, name='droids'),
+
+    path('vehicles/options', views.custom_404, name='vehicle_options'),
+
+    # Routes to netrunning section
     path('netrunning/', views.netrunning_home, name='netrunning'),
 
-    # Routes to complements
+    # Routes to complements section
     path('complements/', views.complements_home, name='complements'),
 ]

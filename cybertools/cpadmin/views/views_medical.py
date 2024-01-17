@@ -3,7 +3,7 @@ import csv
 from cpadmin.models import (
     ItemType, Category, Brand, Availability, MedicalType, MedicalQuality, Medical
 )
-from cpadmin.config import database
+from cpadmin.config import get_database
 
 
 # Show medical list
@@ -119,6 +119,9 @@ def download(request):
 
 # Refresh medical list with Firebase
 def refresh(request):
+    database = get_database()
+    if database is None:
+        return redirect('medical') 
     source = request.POST['source']
     if source == 'local': 
         medical_local = Medical.objects.all().order_by('id').values()

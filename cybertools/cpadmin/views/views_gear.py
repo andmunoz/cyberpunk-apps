@@ -3,7 +3,7 @@ import csv
 from cpadmin.models import (
     ItemType, Category, Brand, Availability, GearType, Gear
 )
-from cpadmin.config import database
+from cpadmin.config import get_database
 
 
 # Show gear list
@@ -143,6 +143,9 @@ def download(request):
 
 # Refresh gear list with Firebase
 def refresh(request):
+    database = get_database()
+    if database is None:
+        return redirect('gear') 
     source = request.POST['source']
     if source == 'local': 
         gear_local = Gear.objects.all().order_by('id').values()

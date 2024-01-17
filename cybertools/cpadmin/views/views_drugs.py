@@ -4,7 +4,7 @@ from cpadmin.models import (
     ItemType, Category, 
     DrugType, DrugLegality, DrugForm, DrugEffect, DrugSideEffect, DrugAddiction, Drug
 )
-from cpadmin.config import database
+from cpadmin.config import get_database
 
 
 # Show drug list
@@ -208,6 +208,9 @@ def download(request):
 
 # Refresh drug list with Firebase
 def refresh(request):
+    database = get_database()
+    if database is None:
+        return redirect('drugs') 
     source = request.POST['source']
     if source == 'local': 
         drug_local = Drug.objects.all().order_by('id').values()

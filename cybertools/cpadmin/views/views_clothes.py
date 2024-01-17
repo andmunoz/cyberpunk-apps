@@ -3,7 +3,7 @@ import csv
 from cpadmin.models import (
     ItemType, Category, Brand, Availability, ClothesType, Clothes
 )
-from cpadmin.config import database
+from cpadmin.config import get_database
 
 
 # Show clothes list
@@ -143,6 +143,9 @@ def download(request):
 
 # Refresh clothes list with Firebase
 def refresh(request):
+    database = get_database()
+    if database is None:
+        return redirect('clothes') 
     source = request.POST['source']
     if source == 'local': 
         clothes_local = Clothes.objects.all().order_by('id').values()

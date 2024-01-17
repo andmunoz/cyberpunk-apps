@@ -1,0 +1,414 @@
+{% extends "vehicles.html" %}
+
+{% block section_content_content %}
+    <div class="d-none d-md-block">
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#uploadVehicleModal">
+                    Subir CSV <i class="fa-solid fa-upload"></i>
+                </a>
+                <div class="modal fade" id="uploadVehicleModal" tabindex="-1" aria-labelledby="uploadVehicleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="{{ request.path }}/upload" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <input type="hidden" name="type" value="{{ vehicle_type }}"/>
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="uploadVehicleModalLabel">Subir CSV</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="csv_file" class="form-label">Archivo CSV:</label>
+                                        <input type="file" name="csv_file" id="csv_file" class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Subir</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <a class="btn btn-primary" href="{{ request.path }}/download">
+                    Descargar CSV <i class="fa-solid fa-download"></i>
+                </a>
+
+                <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#refreshToVehicleModal">
+                    Recargar <i class="fa-solid fa-cloud-arrow-up"></i>
+                </a>
+                <div class="modal fade" id="refreshToVehicleModal" tabindex="-1" aria-labelledby="refreshToVehicleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="{{ request.path }}/refresh" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="source" value="local"/>
+                                <input type="hidden" name="type" value="{{ vehicle_type }}"/>
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="refreshToVehicleModalLabel">Recargar Modelo Firebase</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        ¿Está seguro que quiere actualizar los datos de la nube?
+                                        Este proceso puede tardar varios minutos y sobrescribirá los datos existentes.
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                    <button type="submit" class="btn btn-primary">Sí</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#refreshFromVehicleModal">
+                    Refrescar <i class="fa-solid fa-cloud-arrow-down"></i>
+                </a>
+                <div class="modal fade" id="refreshFromVehicleModal" tabindex="-1" aria-labelledby="refreshFromVehicleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="{{ request.path }}/refresh" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="source" value="firebase"/>
+                                <input type="hidden" name="type" value="{{ vehicle_type }}"/>
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="refreshFromVehicleModalLabel">Recargar Modelo de Firebase</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        ¿Está seguro que quiere actualizar los datos locales con los que están en la base de datos de la nube?
+                                        Este proceso puede tardar varios minutos
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                    <button type="submit" class="btn btn-primary">Sí</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <a class="btn btn-success" href="#" data-bs-toggle="modal" data-bs-target="#addVehicleModal">
+                    Nuevo <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+                <div class="modal fade" id="addVehicleModal" tabindex="-1" aria-labelledby="addVehicleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <form action="{{ request.path }}/create" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="type" value="{{ vehicle_type }}"/>
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="addVehicleModalLabel">Agregar Vehículo</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">Nombre del Vehículo:</label>
+                                            <input type="text" name="name" id="name" class="form-control"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3">
+                                            <label for="description" class="form-label">Descripción:</label>
+                                            <input type="text" name="description" id="description" class="form-control"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3 col-6">
+                                            <label for="category" class="form-label">Categoría:</label>
+                                            <select name="category" id="category" class="form-select">
+                                                <option selected/>
+                                                {% for category in categories %}
+                                                    <option value="{{ category.id }}">{{ category.name }} ({{ category.description }})</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                            <label for="brand" class="form-label">Marca:</label>
+                                            <select name="brand" id="brand" class="form-select">
+                                                <option selected/>
+                                                {% for brand in brands %}
+                                                    <option value="{{ brand.id }}">{{ brand.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3 col-3">
+                                            <label for="top_speed" class="form-label">Velocidad Máxima (km/h):</label>
+                                            <input type="text" name="top_speed" id="top_speed" class="form-control"/>
+                                        </div>
+                                        <div class="mb-3 col-3">
+                                            <label for="acceleration" class="form-label">Aceleración (m/s):</label>
+                                            <input type="text" name="acceleration" id="acceleration" class="form-control"/>
+                                        </div>
+                                        <div class="mb-3 col-3">
+                                            <label for="deceleration" class="form-label">Desaceleración (m/s):</label>
+                                            <input type="text" name="deceleration" id="deceleration" class="form-control"/>
+                                        </div>
+                                        <div class="mb-3 col-3">
+                                            <label for="range" class="form-label">Autonomía (km):</label>
+                                            <input type="text" name="range" id="range" class="form-control"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3 col-3 offset-1">
+                                            <label for="crew" class="form-label">Tripulación:</label>
+                                            <input type="text" name="crew" id="crew" class="form-control"/>
+                                        </div>
+                                        <div class="mb-3 col-3">
+                                            <label for="passengers" class="form-label">Pasajeros:</label>
+                                            <input type="text" name="passengers" id="passengers" class="form-control"/>
+                                        </div>
+                                        <div class="mb-3 col-4">
+                                            <label for="cargo" class="form-label">Capacidad Carga (kgs):</label>
+                                            <input type="text" name="cargo" id="cargo" class="form-control"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3 col-2 offset-3">
+                                            <label for="maneuverability" class="form-label">Maniobrabilidad:</label>
+                                            <input type="text" name="maneuverability" id="maneuverability" class="form-control"/>
+                                        </div>
+                                        <div class="mb-3 col-2">
+                                            <label for="sp" class="form-label">CP:</label>
+                                            <input type="text" name="sp" id="sp" class="form-control"/>
+                                        </div>
+                                        <div class="mb-3 col-2">
+                                            <label for="sdp" class="form-label">PDE:</label>
+                                            <input type="text" name="sdp" id="sdp" class="form-control"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3 col-4 offset-2">
+                                            <label for="weight" class="form-label">Peso (kgs):</label>
+                                            <input type="text" name="weight" id="weight" class="form-control"/>
+                                        </div>
+                                        <div class="mb-3 col-4">
+                                            <label for="cost" class="form-label">Precio (creds):</label>
+                                            <input type="text" name="cost" id="cost" class="form-control"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3">
+                                            <label for="image" class="form-label">URL Imagen:</label>
+                                            <input type="text" name="image" id="image" class="form-control"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <br />
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle nowrap w-100" id="dataResults">
+            <caption>{{ vehicle_count }} artículos disponibles</caption>
+            <thead>
+                <tr>
+                    <th scope="col" class="text-center d-none d-md-table-cell">#</th>
+                    <th scope="col" class="text-center">Nombre</th>
+                    <th scope="col" class="text-center d-none d-md-table-cell">Categoría</th>
+                    <th scope="col" class="text-center">Precio</th>
+                    <th scope="col" class="text-center d-none d-md-table-cell">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vehicle in vehicles %}
+                    <tr>
+                        <th scope="row" class="text-center d-none d-md-table-cell">{{ vehicle.id }}</th>
+                        <td>
+                            <a href="#" class="btn text-start text-wrap" data-bs-toggle="modal" data-bs-target="#viewVehicle{{ vehicle.id }}Modal">{{ vehicle.name }}</a>
+                            <div class="modal fade" id="viewVehicle{{ vehicle.id }}Modal" tabindex="-1" aria-labelledby="viewVehicle{{ vehicle.id }}ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5 text-wrap" id="viewVehicle{{ vehicle.id }}ModalLabel">{{ vehicle.name }}</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <table class="table table-borderless">
+                                                    <caption>&nbsp;</caption>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="d-none d-md-table-cell" rowspan="8" style="width:80px">
+                                                                {% if vehicle.image %}
+                                                                    <img src="{{ vehicle.image }}" class="img-fluid" />
+                                                                {% else %}
+                                                                    Sin imagen
+                                                                {% endif %} 
+                                                            </td>
+                                                            <th scope="row" class="text-end">Nombre:</td>
+                                                            <td class="text-wrap">{{ vehicle.name }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Marca:</td>
+                                                            <td>{{ vehicle.brand.name }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Categoría:</td>
+                                                            <td>{{ vehicle.category.name }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Tipo:</td>
+                                                            <td>{{ vehicle.get_type_display }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Peso:</td>
+                                                            <td>{{ vehicle.weight|stringformat:"1.1f" }} kgs</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Precio:</td>
+                                                            <td>{{ vehicle.cost|stringformat:"3d" }} creds</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Descripción:</td>
+                                                                <td class="w-100"><div class="text-wrap">{{ vehicle.description }}</div></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="d-none d-md-table-cell">{{ vehicle.category.name }}</td>
+                        <td class="text-end">{{ vehicle.cost|stringformat:"3d" }} creds</td>
+                        <td class="d-none d-md-table-cell">
+                            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#viewVehicle{{ vehicle.id }}Modal"><i class="fa-solid fa-eye"></i></button>
+
+                            <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#editVehicle{{ vehicle.id }}Modal"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <div class="modal fade" id="editVehicle{{ vehicle.id }}Modal" tabindex="-1" aria-labelledby="editVehicle{{ vehicle.id }}ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <form action="{{ request.path }}/update" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="id" value="{{ vehicle.id }}"/>
+                                            <input type="hidden" name="type" value="{{ vehicle.type }}"/>
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="editVehicle{{ vehicle.id }}ModalLabel">Actualizar Vehículo</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="mb-3">
+                                                        <label for="name" class="form-label">Nombre del Vehículo:</label>
+                                                        <input type="text" name="name" id="name" value="{{ vehicle.name }}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-3">
+                                                        <label for="description" class="form-label">Descripción:</label>
+                                                        <input type="text" name="description" id="description" value="{{ vehicle.description }}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-3 col-6">
+                                                        <label for="category" class="form-label">Categoría:</label>
+                                                        <select name="category" id="category" class="form-select">
+                                                            <option selected/>
+                                                            {% for category in categories %}
+                                                                {% if not category.parent %}
+                                                                    <option value="{{ category.id }}"{% if vehicle.category.id == category.id %} selected{% endif %}>{{ category.name }} ({{ category.description }})</option>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3 col-6">
+                                                        <label for="brand" class="form-label">Marca:</label>
+                                                        <select name="brand" id="brand" class="form-select">
+                                                            <option selected/>
+                                                            {% for brand in brands %}
+                                                                <option value="{{ brand.id }}"{% if vehicle.brand.id == brand.id %} selected{% endif %}>{{ brand.name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-3 col-6">
+                                                        <label for="availability" class="form-label">Disponibilidad:</label>
+                                                        <select name="availability" id="availability" class="form-select">
+                                                            <option selected/>
+                                                            {% for key, value in availabilities %}
+                                                                <option value="{{ key }}"{% if vehicle.availability == key %} selected{% endif %}>{{ value }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-3 col-4 offset-2">
+                                                        <label for="weight" class="form-label">Peso (kgs):</label>
+                                                        <input type="text" name="weight" id="weight" value="{{ vehicle.weight }}" class="form-control"/>
+                                                    </div>
+                                                    <div class="mb-3 col-4">
+                                                        <label for="cost" class="form-label">Precio (creds):</label>
+                                                        <input type="text" name="cost" id="cost" value="{{ vehicle.cost }}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-3">
+                                                        <label for="image" class="form-label">Imagen:</label>
+                                                        <input type="text" name="image" id="image" value="{{ vehicle.image }}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#removeVehicle{{ vehicle.id }}Modal"><i class="fa-solid fa-trash"></i></button>
+                            <div class="modal fade" id="removeVehicle{{ vehicle.id }}Modal" tabindex="-1" aria-labelledby="removeVehicle{{ vehicle.id }}ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form action="{{ request.path }}/delete" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="id" value="{{ vehicle.id }}"/>
+                                            <input type="hidden" name="type" value="{{ vehicle.type }}"/>
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="removeVehicle{{ vehicle.id }}ModalLabel">Eliminar {{ vehicle.name }}</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    ¿Está seguro que quiere eliminar {{ vehicle.name }}?
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                                <button type="submit" class="btn btn-primary">Sí</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

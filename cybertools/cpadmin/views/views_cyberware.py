@@ -3,7 +3,7 @@ import csv
 from cpadmin.models import (
     ItemType, Category, Brand, Availability, SurgeryTypes, Surgery, CyberType, CyberSlot, Cyberware
 )
-from cpadmin.config import database
+from cpadmin.config import get_database
 
 
 # Show cyberware list
@@ -165,6 +165,9 @@ def download(request):
 
 # Refresh cyberware list with Firebase
 def refresh(request):
+    database = get_database()
+    if database is None:
+        return redirect('cyberware') 
     source = request.POST['source']
     if source == 'local': 
         cyberware_local = Cyberware.objects.all().order_by('id').values()
