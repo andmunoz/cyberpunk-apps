@@ -11,6 +11,31 @@ def get_type(value):
     return VehicleType[value.upper()].value
 
 
+# Get humanized dictionary from Object
+def get_translated_object(vehicle):
+    return {
+        'id': vehicle.id,
+        'name': vehicle.name,
+        'brand': vehicle.brand.name,
+        'type': vehicle.get_type_display(),
+        'category': vehicle.category.name,
+        'top_speed': str(vehicle.top_speed) + ' km/h',
+        'acceleration': str(vehicle.acceleration) + ' m/s',
+        'deceleration': str(vehicle.deceleration) + ' m/s',
+        'range': str(vehicle.range) + ' kms',
+        'crew': vehicle.crew,
+        'passengers': vehicle.passengers,
+        'cargo': str(vehicle.cargo) + ' kgs',
+        'maneuverability': ('+' if vehicle.maneuverability > 0 else '') + str(vehicle.maneuverability),
+        'sp': vehicle.sp,
+        'sdp': vehicle.sdp,
+        'weight': str(vehicle.weight) + ' kgs',
+        'cost': str(vehicle.cost) + ' creds',
+        'description': vehicle.description,
+        'image': vehicle.image,
+    }
+
+
 # Show vehicle list
 def list(request, type):
     vehicles = Vehicle.objects.filter(type=get_type(type)).order_by('name')
@@ -142,28 +167,16 @@ def upload(request, type):
 
 # Download vehicle list in CSV
 def download(request, type):
-    vehicles = Vehicle.objects.filter(type=get_type(type)).order_by('name').values()
+    vehicles = Vehicle.objects.filter(type=get_type(type)).order_by('name')
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="vehicles.csv"'
     csv_writer = csv.writer(response)
-    headers = False
 
     vehicles_translated = []
     for vehicle in vehicles:
-        vehicle_translated = {}
-        keys = vehicle.keys()
-        for key in keys:
-            value = vehicle[key]
-            if key == 'category_id':
-                category = Category.objects.get(id=value)
-                vehicle_translated['category'] = category.code
-            elif key == 'brand_id': 
-                brand = Brand.objects.get(id=value)
-                vehicle_translated['brand'] = brand.name
-            else:
-                vehicle_translated[key] = value
-        vehicles_translated.append(vehicle_translated)
+        vehicles_translated.append(get_translated_object(vehicle))
     
+    headers = False
     for vehicle in vehicles_translated:
         if not headers:
             csv_writer.writerow(vehicle.keys())
@@ -183,27 +196,7 @@ def refresh(request, type):
         vehicles_local = Vehicle.objects.all().order_by('id')
         database.child('Catalog/Vehicles').remove()
         for vehicle in vehicles_local:
-            translated_vehicle = {
-                'id': vehicle.id,
-                'name': vehicle.name,
-                'brand': vehicle.brand.name,
-                'type': vehicle.get_type_display(),
-                'category': vehicle.category.name,
-                'top_speed': str(vehicle.top_speed) + ' km/h',
-                'acceleration': str(vehicle.acceleration) + ' m/s',
-                'deceleration': str(vehicle.deceleration) + ' m/s',
-                'range': str(vehicle.range) + ' kms',
-                'crew': vehicle.crew,
-                'passengers': vehicle.passengers,
-                'cargo': str(vehicle.cargo) + ' kgs',
-                'maneuverability': ('+' if vehicle.maneuverability > 0 else '') + str(vehicle.maneuverability),
-                'sp': vehicle.sp,
-                'sdp': vehicle.sdp,
-                'weight': str(vehicle.weight) + ' kgs',
-                'cost': str(vehicle.cost) + ' creds',
-                'description': vehicle.description,
-                'image': vehicle.image,
-            }
+            translated_vehicle = get_translated_object(vehicle)
             database.child('Catalog/Vehicles').push(translated_vehicle)
     else:
         vehicle_origin = database.child('Catalog/Vehicles').get()
