@@ -59,7 +59,10 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                                    <button type="submit" class="btn btn-primary">Sí</button>
+                                    <button type="submit" class="btn btn-primary" id="refresh_up_button" onClick="changeDiv('#refresh_up_button', '#refresh_up_spinner')">Sí</button>
+                                    <div class="text-left" id="refresh_up_spinner" style="display:none">
+                                        <i class="fa fa-spinner fa-spin fa-3x"></i>
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -87,7 +90,10 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                                    <button type="submit" class="btn btn-primary">Sí</button>
+                                    <button type="submit" class="btn btn-primary" id="refresh_down_button" onClick="changeDiv('#refresh_down_button', '#refresh_down_spinner')">Sí</button>
+                                    <div class="text-left" id="refresh_down_spinner" style="display:none">
+                                        <i class="fa fa-spinner fa-spin fa-3x"></i>
+                                    </div>
                                 </div>
                             </form>
                         </div>
