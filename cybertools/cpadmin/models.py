@@ -91,8 +91,8 @@ class Weapon(models.Model):
     rof = models.IntegerField(blank=True, null=True)
     range = models.IntegerField(blank=True, null=True)
     damage = models.CharField(max_length=20)
-    weight = models.FloatField()
-    cost = models.IntegerField()
+    weight = models.FloatField(default=0)
+    cost = models.BigIntegerField(default=0)
     description = models.CharField(max_length=255, null=True)
     image = models.CharField(max_length=255, null=True)
     
@@ -135,8 +135,8 @@ class Armor(models.Model):
     type = models.CharField(max_length=1, choices=ArmorType.choices, default=ArmorType.HARD)
     sp = models.IntegerField()
     ev = models.IntegerField()
-    weight = models.FloatField()
-    cost = models.IntegerField()
+    weight = models.FloatField(default=0)
+    cost = models.BigIntegerField(default=0)
     description = models.CharField(max_length=255, null=True)
     image = models.CharField(max_length=255, null=True)
     
@@ -166,8 +166,8 @@ class Gear(models.Model):
     brand = models.ForeignKey("Brand", on_delete=models.CASCADE)
     availability = models.CharField(max_length=1, choices=Availability.choices, default=Availability.COMMON)
     type = models.CharField(max_length=3, choices=GearType.choices, default=GearType.OPTIONAL)
-    weight = models.FloatField()
-    cost = models.IntegerField()
+    weight = models.FloatField(default=0)
+    cost = models.BigIntegerField(default=0)
     description = models.CharField(max_length=255, null=True)
     image = models.CharField(max_length=255, null=True)
 
@@ -199,7 +199,7 @@ class Surgery(models.Model):
     difficulty = models.IntegerField()
     time_length = models.IntegerField()
     damage = models.CharField(max_length=10, default='No')
-    cost = models.IntegerField()
+    cost = models.BigIntegerField(default=0)
 
     def __str__(self):
         return self.get_type_display()
@@ -241,8 +241,8 @@ class Cyberware(models.Model):
     adjustment = models.CharField(max_length=100, null=True, blank=True)
     slot = models.CharField(max_length=3, choices=CyberSlot.choices, default=CyberSlot.FULL)
     surgery = models.ForeignKey("Surgery", on_delete=models.CASCADE)
-    weight = models.FloatField()
-    cost = models.IntegerField()
+    weight = models.FloatField(default=0)
+    cost = models.BigIntegerField(default=0)
     description = models.CharField(max_length=255, null=True)
     image = models.CharField(max_length=255, null=True)
 
@@ -275,8 +275,8 @@ class Clothes(models.Model):
     brand = models.ForeignKey("Brand", on_delete=models.CASCADE)
     availability = models.CharField(max_length=1, choices=Availability.choices, default=Availability.COMMON)
     type = models.CharField(max_length=3, choices=ClothesType.choices, default=ClothesType.NO)
-    weight = models.FloatField()
-    cost = models.IntegerField()
+    weight = models.FloatField(default=0)
+    cost = models.BigIntegerField(default=0)
     description = models.CharField(max_length=255, null=True)
     image = models.CharField(max_length=255, null=True)
 
@@ -367,7 +367,7 @@ class Drug(models.Model):
     addiction = models.CharField(max_length=3, choices=DrugAddiction.choices, default=DrugAddiction.PHYSIOLOGICAL)
     next_dose = models.CharField(max_length=50)
     symptoms = models.CharField(max_length=50)
-    cost = models.IntegerField()
+    cost = models.BigIntegerField(default=0)
     description = models.CharField(max_length=255, null=True)
 
     def __str__(self):
@@ -408,7 +408,7 @@ class Medical(models.Model):
     quality = models.CharField(max_length=3, choices=MedicalQuality.choices, default=MedicalQuality.NORMAL)
     elapsed_time = models.IntegerField()
     elapsed_time_uom = models.CharField(max_length=3, choices=TimeUOM.choices, default=TimeUOM.HOURS)
-    cost = models.IntegerField()
+    cost = models.BigIntegerField(default=0)
     description = models.CharField(max_length=255, null=True)
 
     def __str__(self):
@@ -446,7 +446,7 @@ class Vehicle(models.Model):
     sp = models.IntegerField(default=0)
     sdp = models.IntegerField(default=0)
     weight = models.FloatField(default=0)
-    cost = models.IntegerField(default=0)
+    cost = models.BigIntegerField(default=0)
     description = models.CharField(max_length=255, null=True)
     image = models.CharField(max_length=255, null=True)
     

@@ -181,11 +181,11 @@ def refresh(request, type):
     source = request.POST['source']
     if source == 'local': 
         vehicle_local = Vehicle.objects.all().order_by('id').values()
-        database.child('Catalog/Vehicle').remove()
+        database.child('Catalog/Vehicles').remove()
         for vehicle in vehicle_local:
-            database.child('Catalog/Vehicle').push(vehicle)
+            database.child('Catalog/Vehicles').push(vehicle)
     else:
-        vehicle_origin = database.child('Catalog/Vehicle').get()
+        vehicle_origin = database.child('Catalog/Vehicles').get()
         for vehicle_id, vehicle in vehicle_origin:
             category = Category.objects.get(code=vehicle.category)
             brand, _ = Brand.objects.get_or_create(
@@ -196,8 +196,8 @@ def refresh(request, type):
                 id=vehicle_id,
                 defaults=dict(
                     name=vehicle.name,
-                    category=category,
-                    brand=brand,
+                    category=category.name,
+                    brand=brand.name,
                     type=vehicle.type,
                     top_speed=vehicle.top_speed,
                     acceleration=vehicle.acceleration,
