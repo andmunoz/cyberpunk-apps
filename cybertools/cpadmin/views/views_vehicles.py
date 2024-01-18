@@ -180,10 +180,31 @@ def refresh(request, type):
         return redirect('/vehicles/' + type)
     source = request.POST['source']
     if source == 'local': 
-        vehicle_local = Vehicle.objects.all().order_by('id').values()
+        vehicles_local = Vehicle.objects.all().order_by('id')
         database.child('Catalog/Vehicles').remove()
-        for vehicle in vehicle_local:
-            database.child('Catalog/Vehicles').push(vehicle)
+        for vehicle in vehicles_local:
+            translated_vehicle = {
+                'id': vehicle.id,
+                'name': vehicle.name,
+                'brand': vehicle.brand.name,
+                'type': vehicle.get_type_display(),
+                'category': vehicle.category.name,
+                'top_speed': str(vehicle.top_speed) + ' km/h',
+                'acceleration': str(vehicle.acceleration) + ' m/s',
+                'deceleration': str(vehicle.deceleration) + ' m/s',
+                'range': str(vehicle.range) + ' kms',
+                'crew': vehicle.crew,
+                'passengers': vehicle.passengers,
+                'cargo': str(vehicle.cargo) + ' kgs',
+                'maneuverability': ('+' if vehicle.maneuverability > 0 else '') + str(vehicle.maneuverability),
+                'sp': vehicle.sp,
+                'sdp': vehicle.sdp,
+                'weight': str(vehicle.weight) + ' kgs',
+                'cost': str(vehicle.cost) + ' creds',
+                'description': vehicle.description,
+                'image': vehicle.image,
+            }
+            database.child('Catalog/Vehicles').push(translated_vehicle)
     else:
         vehicle_origin = database.child('Catalog/Vehicles').get()
         for vehicle_id, vehicle in vehicle_origin:
@@ -196,8 +217,8 @@ def refresh(request, type):
                 id=vehicle_id,
                 defaults=dict(
                     name=vehicle.name,
-                    category=category.name,
-                    brand=brand.name,
+                    category=category,
+                    brand=brand,
                     type=vehicle.type,
                     top_speed=vehicle.top_speed,
                     acceleration=vehicle.acceleration,

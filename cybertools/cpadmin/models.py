@@ -434,7 +434,7 @@ class Vehicle(models.Model):
     name = models.CharField(max_length=200)
     category = models.ForeignKey("Category", on_delete=models.CASCADE)
     brand = models.ForeignKey("Brand", on_delete=models.CASCADE)
-    type = models.CharField(max_length=1, choices=ArmorType.choices, default=ArmorType.HARD)
+    type = models.CharField(max_length=1, choices=VehicleType.choices, default=VehicleType.LAND)
     top_speed = models.IntegerField(default=0)
     acceleration = models.IntegerField(default=0)
     deceleration = models.IntegerField(default=0)
