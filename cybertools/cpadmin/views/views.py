@@ -25,7 +25,7 @@ def drugs_home(request):
 
 
 ### Functions for Vehicles Section
-def vehicles_home(request, type='L'):
+def vehicles_home(request, type='LAND'):
     return vehicles_list(request, type)
 
 ### Functions for Netrunning Section
