@@ -1,5 +1,7 @@
 {% extends "drugs.html" %}
 
+{% load humanize %}
+
 {% block section_content_content %}
     <div class="d-none d-md-block">
         <ul class="nav justify-content-end">
@@ -322,7 +324,7 @@
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Fuerza:</td>
-                                                            <td>+{{ drug.strength|stringformat:"1d" }}</td>
+                                                            <td>+{{ drug.strength|intcomma }}</td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end text-wrap">Velocidad de Acción:</td>
@@ -378,7 +380,7 @@
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Precio:</td>
-                                                            <td>{{ drug.cost|stringformat:"3d" }} creds</td>
+                                                            <td>{{ drug.cost|intcomma }} creds</td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Descripción:</td>
@@ -397,7 +399,7 @@
                         </td>
                         <td class="d-none d-md-table-cell">{{ drug.category.name }}</td>
                         <td class="d-none d-md-table-cell">{{ drug.get_form_display }}</td>
-                        <td class="text-end">{{ drug.cost|stringformat:"3d" }} creds</td>
+                        <td class="text-end">{{ drug.cost|intcomma }} creds</td>
                         <td class="d-none d-md-table-cell">
                             <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#viewDrugs{{ drug.id }}Modal"><i class="fa-solid fa-eye"></i></button>
 

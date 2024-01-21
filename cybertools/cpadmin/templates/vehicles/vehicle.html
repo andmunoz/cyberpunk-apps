@@ -1,5 +1,7 @@
 {% extends "vehicles.html" %}
 
+{% load humanize %}
+
 {% block section_content_content %}
     <div class="d-none d-md-block">
         <ul class="nav justify-content-end">
@@ -321,11 +323,11 @@
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Peso:</td>
-                                                            <td>{{ vehicle.weight|stringformat:"1.1f" }} kgs</td>
+                                                            <td>{{ vehicle.weight|floatformat:"2"|intcomma }} kgs</td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Precio:</td>
-                                                            <td>{{ vehicle.cost|stringformat:"3d" }} creds</td>
+                                                            <td>{{ vehicle.cost|intcomma }} creds</td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Descripción:</td>
@@ -343,7 +345,7 @@
                             </div>
                         </td>
                         <td class="d-none d-md-table-cell">{{ vehicle.category.name }}</td>
-                        <td class="text-end">{{ vehicle.cost|stringformat:"3d" }} creds</td>
+                        <td class="text-end">{{ vehicle.cost|intcomma }} creds</td>
                         <td class="d-none d-md-table-cell">
                             <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#viewVehicle{{ vehicle.id }}Modal"><i class="fa-solid fa-eye"></i></button>
 

@@ -1,5 +1,7 @@
 {% extends "equipment.html" %}
 
+{% load humanize %}
+
 {% block section_content_content %}
     <div class="d-none d-md-block">
         <ul class="nav justify-content-end">
@@ -249,11 +251,11 @@
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Peso:</td>
-                                                            <td>{{ clothes.weight|stringformat:"1.1f" }} kgs</td>
+                                                            <td>{{ clothes.weight|floatformat:"2"|intcomma }} kgs</td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Precio:</td>
-                                                            <td>{{ clothes.cost|stringformat:"3d" }} creds</td>
+                                                            <td>{{ clothes.cost|intcomma }} creds</td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Descripción:</td>
@@ -271,7 +273,7 @@
                             </div>
                         </td>
                         <td class="d-none d-md-table-cell">{{ clothes.category.name }}</td>
-                        <td class="text-end">{{ clothes.cost|stringformat:"3d" }} creds</td>
+                        <td class="text-end">{{ clothes.cost|intcomma }} creds</td>
                         <td class="d-none d-md-table-cell">
                             <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#viewClothes{{ clothes.id }}Modal"><i class="fa-solid fa-eye"></i></button>
 

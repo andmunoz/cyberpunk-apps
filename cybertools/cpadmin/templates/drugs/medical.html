@@ -1,5 +1,7 @@
 {% extends "drugs.html" %}
 
+{% load humanize %}
+
 {% block section_content_content %}
     <div class="d-none d-md-block">
         <ul class="nav justify-content-end">
@@ -208,7 +210,7 @@
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Precio:</td>
-                                                            <td>{{ medical.cost|stringformat:"3d" }} creds</td>
+                                                            <td>{{ medical.cost|intcomma }} creds</td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Descripción:</td>
@@ -226,7 +228,7 @@
                             </div>
                         </td>
                         <td class="d-none d-md-table-cell">{{ medical.get_type_display }}</td>
-                        <td class="text-end">{{ medical.cost|stringformat:"3d" }} creds</td>
+                        <td class="text-end">{{ medical.cost|intcomma }} creds</td>
                         <td class="d-none d-md-table-cell">
                             <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#viewMedical{{ medical.id }}Modal"><i class="fa-solid fa-eye"></i></button>
 

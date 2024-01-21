@@ -1,5 +1,7 @@
 {% extends "equipment.html" %}
 
+{% load humanize %}
+
 {% block section_content_content %}
     <div class="d-none d-md-block">
         <ul class="nav justify-content-end">
@@ -280,11 +282,11 @@
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Peso:</td>
-                                                            <td>{{ armor.weight|stringformat:"1.1f" }} kgs</td>
+                                                            <td>{{ armor.weight|floatformat:"2"|intcomma }} kgs</td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Precio:</td>
-                                                            <td>{{ armor.cost|stringformat:"3d" }} creds</td>
+                                                            <td>{{ armor.cost|intcomma }} creds</td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Descripción:</td>
@@ -302,7 +304,7 @@
                             </div>
                         </td>
                         <td class="d-none d-md-table-cell">{{ armor.category.name }}</td>
-                        <td class="text-end">{{ armor.cost|stringformat:"3d" }} creds</td>
+                        <td class="text-end">{{ armor.cost|intcomma }} creds</td>
                         <td class="d-none d-md-table-cell">
                             <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#viewArmor{{ armor.id }}Modal"><i class="fa-solid fa-eye"></i></button>
                             <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#editArmor{{ armor.id }}Modal"><i class="fa-solid fa-pen-to-square"></i></button>

@@ -1,5 +1,7 @@
 {% extends "equipment.html" %}
 
+{% load humanize %}
+
 {% block section_content_content %}
     <div class="d-none d-md-block">
         <ul class="nav justify-content-end">
@@ -304,7 +306,7 @@
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Alcance:</td>
-                                                            <td>{{ weapon.range|stringformat:"3d" }} m</td>
+                                                            <td>{{ weapon.range|intcomma }} m</td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Daño:</td>
@@ -312,11 +314,11 @@
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Peso:</td>
-                                                            <td>{{ weapon.weight|stringformat:"1.1f" }} kgs</td>
+                                                            <td>{{ weapon.weight|floatformat:"2"|intcomma }} kgs</td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Precio:</td>
-                                                            <td>{{ weapon.cost|stringformat:"3d" }} creds</td>
+                                                            <td>{{ weapon.cost|intcomma }} creds</td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Descripción:</td>
@@ -334,7 +336,7 @@
                             </div>
                         </td>
                         <td class="d-none d-md-table-cell">{{ weapon.category.name }}</td>
-                        <td class="text-end">{{ weapon.cost|stringformat:"3d" }} creds</td>
+                        <td class="text-end">{{ weapon.cost|intcomma }} creds</td>
                         <td class="d-none d-md-table-cell">
                             <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#viewWeapon{{ weapon.id }}Modal"><i class="fa-solid fa-eye"></i></button>
 
