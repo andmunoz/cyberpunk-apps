@@ -132,7 +132,7 @@
                                                 <option selected/>
                                                 {% for category in categories %}
                                                     {% if not category.parent %}
-                                                        <option value="{{ category.id }}">{{ category.name }} ({{ category.description }})</option>
+                                                        <option value="{{ category.id }}">{{ category.name }}{% if category.description %}({{ category.description }}){% endif %}</option>
                                                     {% endif %}
                                                 {% endfor %}
                                             </select>
@@ -306,7 +306,7 @@
                                                             <option selected/>
                                                             {% for category in categories %}
                                                                 {% if not category.parent %}
-                                                                    <option value="{{ category.id }}"{% if clothes.category.id == category.id %} selected{% endif %}>{{ category.name }} ({{ category.description }})</option>
+                                                                    <option value="{{ category.id }}"{% if clothes.category.id == category.id %} selected{% endif %}>{{ category.name }}{% if category.description %}({{ category.description }}){% endif %}</option>
                                                                 {% endif %}
                                                             {% endfor %}
                                                         </select>

@@ -135,7 +135,7 @@
                                             <select name="category" id="category" class="form-select">
                                                 <option selected/>
                                                 {% for category in categories %}
-                                                    <option value="{{ category.id }}">{{ category.name }} ({{ category.description }})</option>
+                                                    <option value="{{ category.id }}">{{ category.name }}{% if category.description %}({{ category.description }}){% endif %}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
@@ -255,7 +255,7 @@
                                                     <caption>&nbsp;</caption>
                                                     <tbody>
                                                         <tr>
-                                                            <td class="d-none d-md-table-cell" rowspan="8" style="width:80px">
+                                                            <td class="d-none d-md-table-cell" rowspan="16" style="width:80px">
                                                                 {% if vehicle.image %}
                                                                     <img src="{{ vehicle.image }}" class="img-fluid" />
                                                                 {% else %}
@@ -278,6 +278,48 @@
                                                             <td>{{ vehicle.get_type_display }}</td>
                                                         </tr>
                                                         <tr>
+                                                            <th scope="row" class="text-end">Velocidad Máxima:</td>
+                                                            <td>{{ vehicle.top_speed|stringformat:"1.0f" }} kms/hr</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Acc/Des:</td>
+                                                            <td>{{ vehicle.acceleration|stringformat:"1.0f" }}/{{ vehicle.deceleration|stringformat:"1.0f" }} m/s</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Autonomía:</td>
+                                                            <td>{{ vehicle.range|stringformat:"1.0f" }} kms</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Tripulación:</td>
+                                                            <td>{{ vehicle.crew }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Pasajeros:</td>
+                                                            <td>{{ vehicle.passengers }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Carga:</td>
+                                                            <td>{{ vehicle.cargo|stringformat:"1.1f" }} kgs</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Maniobrabilidad:</td>
+                                                            <td>
+                                                                {% if vehicle.maneuverability > 0 %}
+                                                                    {{ "+" }}{{ vehicle.maneuverability }}
+                                                                {% else %}
+                                                                    {{ vehicle.maneuverability }}
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">CP:</td>
+                                                            <td>{{ vehicle.sp }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">PDE:</td>
+                                                            <td>{{ vehicle.sdp }}</td>
+                                                        </tr>
+                                                        <tr>
                                                             <th scope="row" class="text-end">Peso:</td>
                                                             <td>{{ vehicle.weight|stringformat:"1.1f" }} kgs</td>
                                                         </tr>
@@ -287,7 +329,7 @@
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Descripción:</td>
-                                                                <td class="w-100"><div class="text-wrap">{{ vehicle.description }}</div></td>
+                                                            <td class="w-100"><div class="text-wrap">{{ vehicle.description }}</div></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -336,9 +378,7 @@
                                                         <select name="category" id="category" class="form-select">
                                                             <option selected/>
                                                             {% for category in categories %}
-                                                                {% if not category.parent %}
-                                                                    <option value="{{ category.id }}"{% if vehicle.category.id == category.id %} selected{% endif %}>{{ category.name }} ({{ category.description }})</option>
-                                                                {% endif %}
+                                                                <option value="{{ category.id }}"{% if vehicle.category.id == category.id %} selected{% endif %}>{{ category.name }}{% if category.description %}({{ category.description }}){% endif %}</option>
                                                             {% endfor %}
                                                         </select>
                                                     </div>
@@ -353,14 +393,49 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="mb-3 col-6">
-                                                        <label for="availability" class="form-label">Disponibilidad:</label>
-                                                        <select name="availability" id="availability" class="form-select">
-                                                            <option selected/>
-                                                            {% for key, value in availabilities %}
-                                                                <option value="{{ key }}"{% if vehicle.availability == key %} selected{% endif %}>{{ value }}</option>
-                                                            {% endfor %}
-                                                        </select>
+                                                    <div class="mb-3 col-3">
+                                                        <label for="top_speed" class="form-label">Velocidad Máxima (km/h):</label>
+                                                        <input type="text" name="top_speed" id="top_speed" value="{{ vehicle.top_speed }}" class="form-control"/>
+                                                    </div>
+                                                    <div class="mb-3 col-3">
+                                                        <label for="acceleration" class="form-label">Aceleración (m/s):</label>
+                                                        <input type="text" name="acceleration" id="acceleration" value="{{ vehicle.acceleration }}" class="form-control"/>
+                                                    </div>
+                                                    <div class="mb-3 col-3">
+                                                        <label for="deceleration" class="form-label">Desaceleración (m/s):</label>
+                                                        <input type="text" name="deceleration" id="deceleration" value="{{ vehicle.deceleration }}" class="form-control"/>
+                                                    </div>
+                                                    <div class="mb-3 col-3">
+                                                        <label for="range" class="form-label">Autonomía (km):</label>
+                                                        <input type="text" name="range" id="range" value="{{ vehicle.range }}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-3 col-3 offset-1">
+                                                        <label for="crew" class="form-label">Tripulación:</label>
+                                                        <input type="text" name="crew" id="crew" value="{{ vehicle.crew }}" class="form-control"/>
+                                                    </div>
+                                                    <div class="mb-3 col-3">
+                                                        <label for="passengers" class="form-label">Pasajeros:</label>
+                                                        <input type="text" name="passengers" id="passengers" value="{{ vehicle.passengers }}" class="form-control"/>
+                                                    </div>
+                                                    <div class="mb-3 col-4">
+                                                        <label for="cargo" class="form-label">Capacidad Carga (kgs):</label>
+                                                        <input type="text" name="cargo" id="cargo" value="{{ vehicle.cargo }}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-3 col-2 offset-3">
+                                                        <label for="maneuverability" class="form-label">Maniobrabilidad:</label>
+                                                        <input type="text" name="maneuverability" id="maneuverability" value="{{ vehicle.maneuverability }}" class="form-control"/>
+                                                    </div>
+                                                    <div class="mb-3 col-2">
+                                                        <label for="sp" class="form-label">CP:</label>
+                                                        <input type="text" name="sp" id="sp" value="{{ vehicle.sp }}" class="form-control"/>
+                                                    </div>
+                                                    <div class="mb-3 col-2">
+                                                        <label for="sdp" class="form-label">PDE:</label>
+                                                        <input type="text" name="sdp" id="sdp" value="{{ vehicle.sdp }}" class="form-control"/>
                                                     </div>
                                                 </div>
                                                 <div class="row">

@@ -132,7 +132,7 @@
                                                 <option selected/>
                                                 {% for category in categories %}
                                                     {% if not category.parent %}
-                                                        <option value="{{ category.id }}">{{ category.name }} ({{ category.description }})</option>
+                                                        <option value="{{ category.id }}">{{ category.name }}{% if category.description %}({{ category.description }}){% endif %}</option>
                                                     {% endif %}
                                                 {% endfor %}
                                             </select>
@@ -258,7 +258,7 @@
                                                     <caption>&nbsp;</caption>
                                                     <tbody>
                                                         <tr>
-                                                            <td class="d-none d-md-table-cell" rowspan="12" style="width:80px">
+                                                            <td class="d-none d-md-table-cell" rowspan="13" style="width:80px">
                                                                 {% if weapon.image %}
                                                                     <img src="{{ weapon.image }}" class="img-fluid" />
                                                                 {% else %}
@@ -275,6 +275,16 @@
                                                         <tr>
                                                             <th scope="row" class="text-end">Categoría:</td>
                                                             <td>{{ weapon.category.name }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="text-end">Precisión:</td>
+                                                            <td>
+                                                                {% if weapon.accuracy > 0 %}
+                                                                    {{ "+" }}{{ weapon.accuracy }}
+                                                                {% else %}
+                                                                    {{ weapon.accuracy }}
+                                                                {% endif %}
+                                                            </td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="row" class="text-end">Disponibilidad:</td>
@@ -359,7 +369,7 @@
                                                             <option selected/>
                                                             {% for category in categories %}
                                                                 {% if not category.parent %}
-                                                                    <option value="{{ category.id }}"{% if weapon.category.id == category.id %} selected{% endif %}>{{ category.name }} ({{ category.description }})</option>
+                                                                    <option value="{{ category.id }}"{% if weapon.category.id == category.id %} selected{% endif %}>{{ category.name }}{% if category.description %}({{ category.description }}){% endif %}</option>
                                                                 {% endif %}
                                                             {% endfor %}
                                                         </select>
