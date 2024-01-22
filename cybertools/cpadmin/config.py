@@ -1,7 +1,5 @@
 from django.shortcuts import HttpResponse
-import csv
-import collections.abc
-import collections
+import csv, collections.abc, collections
 collections.MutableMapping = collections.abc.MutableMapping
 collections.Mapping = collections.abc.Mapping
 import pyrebase
@@ -50,7 +48,7 @@ def get_type(choice_object, key=None, value=None):
 
 # Get humanized dictionary from Object
 def get_translated_object(Model, object):
-    object_translated = {}
+    object_translated = dict()
     for key in object.keys():
         if key == "category_id":
             category = Category.objects.get(id=object[key])

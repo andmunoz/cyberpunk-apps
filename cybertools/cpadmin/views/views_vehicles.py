@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse
-import csv
+import csv, json
 from cpadmin.models import (
     ItemType, Category, Brand, Vehicle
 )
@@ -7,7 +7,7 @@ from cpadmin.config import get_database, get_type, get_translated_object, downlo
 
 
 # Show vehicle list
-def list(request, type='LAND'):
+def list(request, type='land'):
     vehicles = Vehicle.objects.filter(type=get_type(Vehicle.Type, value=type)).order_by('name')
     vehicle_count = 0
     if vehicles:
@@ -31,7 +31,7 @@ def list(request, type='LAND'):
 
 
 # Create an vehicle
-def create(request, type='LAND'):
+def create(request, type='land'):
     form = request.POST
     category = Category.objects.get(id=form['category'])
     brand = Brand.objects.get(id=form['brand'])
@@ -61,7 +61,7 @@ def create(request, type='LAND'):
 
 
 # Update an vehicle
-def update(request, type='LAND'):
+def update(request, type='land'):
     form = request.POST
     vehicle = Vehicle.objects.get(id=form['id'])
     category = Category.objects.get(id=form['category'])
@@ -90,7 +90,7 @@ def update(request, type='LAND'):
 
 
 # Delete an vehicle
-def delete(request, type='LAND'):
+def delete(request, type='land'):
     form = request.POST
     vehicle = Vehicle.objects.get(id=form['id'])
     vehicle.delete()
@@ -98,7 +98,7 @@ def delete(request, type='LAND'):
 
 
 # Upload vehicle list from CSV
-def upload(request, type='LAND'):
+def upload(request, type='land'):
     csv_file = request.FILES['csv_file'].read().decode('utf-8').splitlines()
     csv_reader = csv.DictReader(csv_file)
 
@@ -136,22 +136,22 @@ def upload(request, type='LAND'):
 
 
 # Download vehicle list in CSV
-def download(request, type='LAND'):
+def download(request, type='land'):
     vehicles = Vehicle.objects.filter(type=get_type(Vehicle.Type, value=type)).order_by('name')
     return download_csv(Vehicle, vehicles)
 
 
 # Refresh vehicle list with Firebase
-def refresh(request, type='LAND'):
+def refresh(request, type='land'):
     database = get_database()
     if database is None:
         return redirect('/vehicles/' + type)
     source = request.POST['source']
     if source == 'local': 
-        vehicles_local = Vehicle.objects.all().order_by('id')
+        vehicles_local = Vehicle.objects.all().order_by('id').values()
         database.child('Catalog/Vehicles').remove()
         for vehicle in vehicles_local:
-            translated_vehicle = get_translated_object(vehicle)
+            translated_vehicle = vehicle # get_translated_object(Vehicle, vehicle)
             database.child('Catalog/Vehicles').push(translated_vehicle)
     else:
         vehicle_origin = database.child('Catalog/Vehicles').get()
