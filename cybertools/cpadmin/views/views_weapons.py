@@ -3,7 +3,7 @@ import csv
 from cpadmin.models import (
     ItemType, Category, Brand, Availability, Weapon
 )
-from cpadmin.config import get_database, get_type, get_translated_object
+from cpadmin.config import get_database, get_type, get_translated_object, download_csv
 
 
 # Show weapon List
@@ -132,34 +132,7 @@ def upload(request):
 # Download weapon list in CSV
 def download(request):
     weapons = Weapon.objects.all().order_by('name').values()
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="weapons.csv"'
-    csv_writer = csv.writer(response)
-    headers = False
-
-    weapons_translated = []
-    for weapon in weapons:
-        weapon_translated = {}
-        keys = weapon.keys()
-        for key in keys:
-            value = weapon[key]
-            if key == 'category_id':
-                category = Category.objects.get(id=value)
-                weapon_translated['category'] = category.code
-            elif key == 'brand_id': 
-                brand = Brand.objects.get(id=value)
-                weapon_translated['brand'] = brand.name
-            else:
-                weapon_translated[key] = value
-        weapons_translated.append(weapon_translated)
-    
-    for weapon in weapons_translated:
-        if not headers:
-            csv_writer.writerow(weapon.keys())
-            headers = True
-        csv_writer.writerow(weapon.values())
-        
-    return response
+    return download_csv(Weapon, weapons)
 
 
 # Refresh weapons list with Firebase

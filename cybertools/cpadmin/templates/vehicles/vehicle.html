@@ -12,7 +12,7 @@
                 <div class="modal fade" id="uploadVehicleModal" tabindex="-1" aria-labelledby="uploadVehicleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form action="{{ request.path }}/upload" method="POST" enctype="multipart/form-data">
+                            <form action="{%  url 'vehicles' %}{{ vehicle_type}}/upload" method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <input type="hidden" name="type" value="{{ vehicle_type }}"/>
                                 <div class="modal-header">
@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 
-                <a class="btn btn-primary" href="{{ request.path }}/download">
+                <a class="btn btn-primary" href="{%  url 'vehicles' %}{{ vehicle_type}}/download">
                     Descargar CSV <i class="fa-solid fa-download"></i>
                 </a>
 
@@ -47,7 +47,7 @@
                 <div class="modal fade" id="refreshToVehicleModal" tabindex="-1" aria-labelledby="refreshToVehicleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form action="{{ request.path }}/refresh" method="POST">
+                            <form action="{%  url 'vehicles' %}{{ vehicle_type}}/refresh" method="POST">
                                 {% csrf_token %}
                                 <input type="hidden" name="source" value="local"/>
                                 <input type="hidden" name="type" value="{{ vehicle_type }}"/>
@@ -79,7 +79,7 @@
                 <div class="modal fade" id="refreshFromVehicleModal" tabindex="-1" aria-labelledby="refreshFromVehicleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form action="{{ request.path }}/refresh" method="POST">
+                            <form action="{%  url 'vehicles' %}{{ vehicle_type}}/refresh" method="POST">
                                 {% csrf_token %}
                                 <input type="hidden" name="source" value="firebase"/>
                                 <input type="hidden" name="type" value="{{ vehicle_type }}"/>
@@ -111,7 +111,7 @@
                 <div class="modal fade" id="addVehicleModal" tabindex="-1" aria-labelledby="addVehicleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
-                            <form action="{{ request.path }}/create" method="POST">
+                            <form action="{%  url 'vehicles' %}{{ vehicle_type}}/create" method="POST">
                                 {% csrf_token %}
                                 <input type="hidden" name="type" value="{{ vehicle_type }}"/>
                                 <div class="modal-header">
@@ -353,7 +353,7 @@
                             <div class="modal fade" id="editVehicle{{ vehicle.id }}Modal" tabindex="-1" aria-labelledby="editVehicle{{ vehicle.id }}ModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
-                                        <form action="{{ request.path }}/update" method="POST">
+                                        <form action="{%  url 'vehicles' %}{{ vehicle_type}}/update" method="POST">
                                             {% csrf_token %}
                                             <input type="hidden" name="id" value="{{ vehicle.id }}"/>
                                             <input type="hidden" name="type" value="{{ vehicle.type }}"/>
@@ -470,7 +470,7 @@
                             <div class="modal fade" id="removeVehicle{{ vehicle.id }}Modal" tabindex="-1" aria-labelledby="removeVehicle{{ vehicle.id }}ModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
-                                        <form action="{{ request.path }}/delete" method="POST">
+                                        <form action="{%  url 'vehicles' %}{{ vehicle_type}}/delete" method="POST">
                                             {% csrf_token %}
                                             <input type="hidden" name="id" value="{{ vehicle.id }}"/>
                                             <input type="hidden" name="type" value="{{ vehicle.type }}"/>

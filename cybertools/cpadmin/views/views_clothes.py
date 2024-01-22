@@ -3,7 +3,7 @@ import csv
 from cpadmin.models import (
     ItemType, Category, Brand, Availability, Clothes
 )
-from cpadmin.config import get_database, get_type, get_translated_object
+from cpadmin.config import get_database, get_type, get_translated_object, download_csv
 
 
 # Show clothes list
@@ -111,34 +111,7 @@ def upload(request):
 # Download clothes list in CSV
 def download(request):
     clothess = Clothes.objects.all().order_by('name').values()
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="clothess.csv"'
-    csv_writer = csv.writer(response)
-    headers = False
-
-    clothess_translated = []
-    for clothes in clothess:
-        clothes_translated = {}
-        keys = clothes.keys()
-        for key in keys:
-            value = clothes[key]
-            if key == 'category_id':
-                category = Category.objects.get(id=value)
-                clothes_translated['category'] = category.code
-            elif key == 'brand_id': 
-                brand = Brand.objects.get(id=value)
-                clothes_translated['brand'] = brand.name
-            else:
-                clothes_translated[key] = value
-        clothess_translated.append(clothes_translated)
-    
-    for clothes in clothess_translated:
-        if not headers:
-            csv_writer.writerow(clothes.keys())
-            headers = True
-        csv_writer.writerow(clothes.values())
-        
-    return response
+    return download_csv(Clothes, clothess)
 
 
 # Refresh clothes list with Firebase

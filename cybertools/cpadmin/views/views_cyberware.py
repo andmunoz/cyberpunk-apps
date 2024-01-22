@@ -3,7 +3,7 @@ import csv
 from cpadmin.models import (
     ItemType, Category, Brand, Availability, Surgery, Cyberware
 )
-from cpadmin.config import get_database, get_type, get_translated_object
+from cpadmin.config import get_database, get_type, get_translated_object, download_csv
 
 
 # Show cyberware list
@@ -133,34 +133,7 @@ def upload(request):
 # Download cyberware list in CSV
 def download(request):
     cyberwares = Cyberware.objects.all().order_by('name').values()
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="cyberwares.csv"'
-    csv_writer = csv.writer(response)
-    headers = False
-
-    cyberwares_translated = []
-    for cyberware in cyberwares:
-        cyberware_translated = {}
-        keys = cyberware.keys()
-        for key in keys:
-            value = cyberware[key]
-            if key == 'category_id':
-                category = Category.objects.get(id=value)
-                cyberware_translated['category'] = category.code
-            elif key == 'brand_id': 
-                brand = Brand.objects.get(id=value)
-                cyberware_translated['brand'] = brand.name
-            else:
-                cyberware_translated[key] = value
-        cyberwares_translated.append(cyberware_translated)
-    
-    for cyberware in cyberwares_translated:
-        if not headers:
-            csv_writer.writerow(cyberware.keys())
-            headers = True
-        csv_writer.writerow(cyberware.values())
-        
-    return response
+    return download_csv(Cyberware, cyberwares)
 
 
 # Refresh cyberware list with Firebase

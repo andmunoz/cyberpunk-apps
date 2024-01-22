@@ -1,9 +1,11 @@
+from django.shortcuts import HttpResponse
+import csv
 import collections.abc
 import collections
 collections.MutableMapping = collections.abc.MutableMapping
 collections.Mapping = collections.abc.Mapping
 import pyrebase
-from .models import Category, Brand
+from .models import Category, Brand, Availability, Surgery, TimeUOM
 
 # Firebase Configurations
 config = {
@@ -51,25 +53,66 @@ def get_translated_object(Model, object):
     object_translated = {}
     for key in object.keys():
         if key == "category_id":
-            category = Category.objects.get(id=object["category_id"])
+            category = Category.objects.get(id=object[key])
             object_translated[Model._meta.get_field(key).verbose_name] = category.name
         elif key == "brand_id":
-            brand = Brand.objects.get(id=object["brand_id"])
+            brand = Brand.objects.get(id=object[key])
             object_translated[Model._meta.get_field(key).verbose_name] = brand.name
         elif key == "type":
             object_translated[Model._meta.get_field(key).verbose_name] = get_type(Model.Type, key=object[key])
+        elif key == "availability":
+            object_translated[Model._meta.get_field(key).verbose_name] = get_type(Availability, key=object[key])
+        elif key == "concealment":
+            object_translated[Model._meta.get_field(key).verbose_name] = get_type(Model.Concealment, key=object[key])
+        elif key == "reliability":
+            object_translated[Model._meta.get_field(key).verbose_name] = get_type(Model.Reliability, key=object[key])
+        elif key == "coverage":
+            object_translated[Model._meta.get_field(key).verbose_name] = get_type(Model.Coverage, key=object[key])
+        elif key == "slot":
+            object_translated[Model._meta.get_field(key).verbose_name] = get_type(Model.Slot, key=object[key])
+        elif key == "surgery_id":
+            surgery = Surgery.objects.get(id=object[key])
+            object_translated[Model._meta.get_field(key).verbose_name] = get_type(Surgery.Type, key=surgery.type)
+        elif key == "form":
+            object_translated[Model._meta.get_field(key).verbose_name] = get_type(Model.Form, key=object[key])
+        elif key == "legality":
+            object_translated[Model._meta.get_field(key).verbose_name] = get_type(Model.Legality, key=object[key])
+        elif key == "addiction":
+            object_translated[Model._meta.get_field(key).verbose_name] = get_type(Model.Addiction, key=object[key])
+        elif key == "quality":
+            object_translated[Model._meta.get_field(key).verbose_name] = get_type(Model.Quality, key=object[key])
+        elif key == "elapsed_time_uom":
+            object_translated[Model._meta.get_field(key).verbose_name] = get_type(TimeUOM, key=object[key])
         elif key == "top_speed":
-            object_translated[Model._meta.get_field(key).verbose_name] = "{:,}".format(object[key]) + " km/hr"
+            object_translated[Model._meta.get_field(key).verbose_name] = "{:,}".format(object[key]) + " km/hr" if object[key] else ""
         elif key == "acceleration" or key == "deceleration":
-            object_translated[Model._meta.get_field(key).verbose_name] = "{:,}".format(object[key]) + " m/s"
+            object_translated[Model._meta.get_field(key).verbose_name] = "{:,}".format(object[key]) + " m/s" if object[key] else ""
         elif key == "range":
-            object_translated[Model._meta.get_field(key).verbose_name] = "{:,}".format(object[key]) + " m"
+            object_translated[Model._meta.get_field(key).verbose_name] = "{:,}".format(object[key]) + " m" if object[key] else ""
         elif key == "autonomy":
-            object_translated[Model._meta.get_field(key).verbose_name] = "{:,}".format(object[key]) + " kms"
+            object_translated[Model._meta.get_field(key).verbose_name] = "{:,}".format(object[key]) + " kms" if object[key] else ""
         elif key == "cargo" or key == 'weight':
-            object_translated[Model._meta.get_field(key).verbose_name] = "{:,}".format(object[key]) + " kgs"
+            object_translated[Model._meta.get_field(key).verbose_name] = "{:,}".format(object[key]) + " kgs" if object[key] else ""
         elif key == "cost":
-            object_translated[Model._meta.get_field(key).verbose_name] = "{:,}".format(object[key]) + " creds"
+            object_translated[Model._meta.get_field(key).verbose_name] = "{:,}".format(object[key]) + " creds" if object[key] else ""
         else: 
-            object_translated[Model._meta.get_field(key).verbose_name] = object[key]
+            object_translated[Model._meta.get_field(key).verbose_name] = object[key] if object[key] else ""
     return object_translated
+
+
+# Get translated list of objects
+def download_csv(Model, objects):
+    filename = Model._meta.model_name
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
+    csv_writer = csv.writer(response)
+
+    headers = False
+    for object in objects.values():
+        translated_object = get_translated_object(Model, object)
+        if not headers:
+            csv_writer.writerow(translated_object.keys())
+            headers = True
+        csv_writer.writerow(translated_object.values())
+
+    return response

@@ -3,7 +3,7 @@ import csv
 from cpadmin.models import (
     ItemType, Category, Brand, Availability, Gear
 )
-from cpadmin.config import get_database, get_type, get_translated_object
+from cpadmin.config import get_database, get_type, get_translated_object, download_csv
 
 
 # Show gear list
@@ -111,34 +111,7 @@ def upload(request):
 # Download gear list in CSV
 def download(request):
     gears = Gear.objects.all().order_by('name').values()
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="gears.csv"'
-    csv_writer = csv.writer(response)
-    headers = False
-
-    gears_translated = []
-    for gear in gears:
-        gear_translated = {}
-        keys = gear.keys()
-        for key in keys:
-            value = gear[key]
-            if key == 'category_id':
-                category = Category.objects.get(id=value)
-                gear_translated['category'] = category.code
-            elif key == 'brand_id': 
-                brand = Brand.objects.get(id=value)
-                gear_translated['brand'] = brand.name
-            else:
-                gear_translated[key] = value
-        gears_translated.append(gear_translated)
-    
-    for gear in gears_translated:
-        if not headers:
-            csv_writer.writerow(gear.keys())
-            headers = True
-        csv_writer.writerow(gear.values())
-        
-    return response
+    return download_csv(Gear, gears)
 
 
 # Refresh gear list with Firebase

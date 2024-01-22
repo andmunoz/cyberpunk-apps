@@ -3,7 +3,7 @@ import csv
 from cpadmin.models import (
     ItemType, Category, Brand, Availability, Armor
 )
-from cpadmin.config import get_database, get_type, get_translated_object
+from cpadmin.config import get_database, get_type, get_translated_object, download_csv
 
 
 # Show armor list
@@ -122,34 +122,7 @@ def upload(request):
 # Download armor list in CSV
 def download(request):
     armors = Armor.objects.all().order_by('name').values()
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="armors.csv"'
-    csv_writer = csv.writer(response)
-    headers = False
-
-    armors_translated = []
-    for armor in armors:
-        armor_translated = {}
-        keys = armor.keys()
-        for key in keys:
-            value = armor[key]
-            if key == 'category_id':
-                category = Category.objects.get(id=value)
-                armor_translated['category'] = category.code
-            elif key == 'brand_id': 
-                brand = Brand.objects.get(id=value)
-                armor_translated['brand'] = brand.name
-            else:
-                armor_translated[key] = value
-        armors_translated.append(armor_translated)
-    
-    for armor in armors_translated:
-        if not headers:
-            csv_writer.writerow(armor.keys())
-            headers = True
-        csv_writer.writerow(armor.values())
-        
-    return response
+    return download_csv(Armor, armors)
 
 
 # Refresh armor list with Firebase

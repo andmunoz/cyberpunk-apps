@@ -3,7 +3,7 @@ import csv
 from cpadmin.models import (
     ItemType, Category, Brand, Availability, Medical
 )
-from cpadmin.config import get_database, get_type, get_translated_object
+from cpadmin.config import get_database, get_type, get_translated_object, download_csv
 
 
 # Show medical list
@@ -94,27 +94,7 @@ def upload(request):
 # Download medical list in CSV
 def download(request):
     medicals = Medical.objects.all().order_by('name').values()
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="medicals.csv"'
-    csv_writer = csv.writer(response)
-    headers = False
-
-    medicals_translated = []
-    for medical in medicals:
-        medical_translated = {}
-        keys = medical.keys()
-        for key in keys:
-            value = medical[key]
-            medical_translated[key] = value
-        medicals_translated.append(medical_translated)
-    
-    for medical in medicals_translated:
-        if not headers:
-            csv_writer.writerow(medical.keys())
-            headers = True
-        csv_writer.writerow(medical.values())
-        
-    return response
+    return download_csv(Medical, medicals)
 
 
 # Refresh medical list with Firebase

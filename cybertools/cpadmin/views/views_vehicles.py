@@ -3,11 +3,11 @@ import csv
 from cpadmin.models import (
     ItemType, Category, Brand, Vehicle
 )
-from cpadmin.config import get_database, get_type, get_translated_object
+from cpadmin.config import get_database, get_type, get_translated_object, download_csv
 
 
 # Show vehicle list
-def list(request, type):
+def list(request, type='LAND'):
     vehicles = Vehicle.objects.filter(type=get_type(Vehicle.Type, value=type)).order_by('name')
     vehicle_count = 0
     if vehicles:
@@ -31,7 +31,7 @@ def list(request, type):
 
 
 # Create an vehicle
-def create(request, type):
+def create(request, type='LAND'):
     form = request.POST
     category = Category.objects.get(id=form['category'])
     brand = Brand.objects.get(id=form['brand'])
@@ -61,7 +61,7 @@ def create(request, type):
 
 
 # Update an vehicle
-def update(request, type):
+def update(request, type='LAND'):
     form = request.POST
     vehicle = Vehicle.objects.get(id=form['id'])
     category = Category.objects.get(id=form['category'])
@@ -90,7 +90,7 @@ def update(request, type):
 
 
 # Delete an vehicle
-def delete(request, type):
+def delete(request, type='LAND'):
     form = request.POST
     vehicle = Vehicle.objects.get(id=form['id'])
     vehicle.delete()
@@ -98,7 +98,7 @@ def delete(request, type):
 
 
 # Upload vehicle list from CSV
-def upload(request, type):
+def upload(request, type='LAND'):
     csv_file = request.FILES['csv_file'].read().decode('utf-8').splitlines()
     csv_reader = csv.DictReader(csv_file)
 
@@ -136,25 +136,13 @@ def upload(request, type):
 
 
 # Download vehicle list in CSV
-def download(request, type):
+def download(request, type='LAND'):
     vehicles = Vehicle.objects.filter(type=get_type(Vehicle.Type, value=type)).order_by('name')
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="vehicles.csv"'
-    csv_writer = csv.writer(response)
-
-    headers = False
-    for vehicle in vehicles.values():
-        vehicle_translated = get_translated_object(vehicle)
-        if not headers:
-            csv_writer.writerow(vehicle_translated.keys())
-            headers = True
-        csv_writer.writerow(vehicle_translated.values())
-        
-    return response
+    return download_csv(Vehicle, vehicles)
 
 
 # Refresh vehicle list with Firebase
-def refresh(request, type):
+def refresh(request, type='LAND'):
     database = get_database()
     if database is None:
         return redirect('/vehicles/' + type)

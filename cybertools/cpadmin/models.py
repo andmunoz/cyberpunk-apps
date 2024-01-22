@@ -214,7 +214,6 @@ class Cyberware(models.Model):
         MRAM = 'MRAM', _('Chip de Memoria')
         CPART = 'CPART', _('Chip de Reflejos')
 
-
     class Slot(models.TextChoices):
         FULL = 'FUL', _('Cuerpo y Cabeza')
         HEAD = 'HEA', _('Cabeza')

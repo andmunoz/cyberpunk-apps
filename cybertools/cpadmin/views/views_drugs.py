@@ -4,7 +4,7 @@ from cpadmin.models import (
     ItemType, Category, 
     DrugEffect, DrugSideEffect, Drug
 )
-from cpadmin.config import get_database, get_type, get_translated_object
+from cpadmin.config import get_database, get_type, get_translated_object, download_csv
 
 
 # Show drug list
@@ -176,34 +176,7 @@ def upload(request):
 # Download drug list in CSV
 def download(request):
     drugs = Drug.objects.all().order_by('name').values()
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="drugs.csv"'
-    csv_writer = csv.writer(response)
-    headers = False
-
-    drugs_translated = []
-    for drug in drugs:
-        drug_translated = {}
-        keys = drug.keys()
-        for key in keys:
-            value = drug[key]
-            print(key)
-            if key == 'category_id':
-                category = Category.objects.get(id=value)
-                drug_translated['category'] = category.code
-            else:
-                drug_translated[key] = value
-        drugs_translated.append(drug_translated)
-    
-    # TODO: put effect and side effects list in csv
-    
-    for drug in drugs_translated:
-        if not headers:
-            csv_writer.writerow(drug.keys())
-            headers = True
-        csv_writer.writerow(drug.values())
-        
-    return response
+    return download_csv(Drug, drugs)
 
 
 # Refresh drug list with Firebase
