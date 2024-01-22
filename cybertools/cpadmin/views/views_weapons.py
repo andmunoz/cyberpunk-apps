@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, HttpResponse
 import csv
 from cpadmin.models import (
-    ItemType, Category, Brand, Availability, WeaponConcealment, WeaponReliability, Weapon
+    ItemType, Category, Brand, Availability, Weapon
 )
-from cpadmin.config import get_database
+from cpadmin.config import get_database, get_type, get_translated_object
 
 
 # Show weapon List
@@ -16,8 +16,8 @@ def list(request):
     categories = Category.objects.filter(type='WEAPON').order_by('name')
     brands = Brand.objects.filter(type='WEAPON').order_by('name')
     availabilities = Availability.choices
-    concealments = WeaponConcealment.choices
-    reliabilities = WeaponReliability.choices
+    concealments = Weapon.Concealment.choices
+    reliabilities = Weapon.Reliability.choices
 
     context = {
         'page_title': 'Armas',

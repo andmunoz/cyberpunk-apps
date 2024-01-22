@@ -8,7 +8,7 @@ from cpadmin.models import (
     Surgery, SurgeryAdmin,
     Cyberware, CyberwareAdmin,
     Clothes, ClothesAdmin, 
-    Drug, DrugEffect, DrugSideEffect, DrugAdmin,
+    Drug, DrugAdmin, DrugEffect, DrugEffectAdmin, DrugSideEffect, DrugSideEffectAdmin,
     Medical, MedicalAdmin, 
     Vehicle, VehicleAdmin,
 )
@@ -22,7 +22,7 @@ admin.site.register(Surgery, SurgeryAdmin)
 admin.site.register(Cyberware, CyberwareAdmin)
 admin.site.register(Clothes, ClothesAdmin)
 admin.site.register(Drug, DrugAdmin)
-admin.site.register(DrugEffect)
-admin.site.register(DrugSideEffect)
+admin.site.register(DrugEffect, DrugEffectAdmin)
+admin.site.register(DrugSideEffect, DrugSideEffectAdmin)
 admin.site.register(Medical, MedicalAdmin)
 admin.site.register(Vehicle, VehicleAdmin)

@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, HttpResponse
 import csv
 from cpadmin.models import (
-    ItemType, Category, Brand, Availability, MedicalType, MedicalQuality, Medical
+    ItemType, Category, Brand, Availability, Medical
 )
-from cpadmin.config import get_database
+from cpadmin.config import get_database, get_type, get_translated_object
 
 
 # Show medical list
@@ -13,8 +13,8 @@ def list(request):
     if medicals:
         medical_count = len(medicals)
 
-    medical_types = MedicalType.choices
-    medical_qualities = MedicalQuality.choices
+    medical_types = Medical.Type.choices
+    medical_qualities = Medical.Quality.choices
 
     context = {
         'page_title': 'Cuidados Médicos',

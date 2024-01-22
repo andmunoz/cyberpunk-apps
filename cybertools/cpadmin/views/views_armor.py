@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, HttpResponse
 import csv
 from cpadmin.models import (
-    ItemType, Category, Brand, Availability, ArmorCoverage, ArmorType, Armor
+    ItemType, Category, Brand, Availability, Armor
 )
-from cpadmin.config import get_database
+from cpadmin.config import get_database, get_type, get_translated_object
 
 
 # Show armor list
@@ -16,8 +16,8 @@ def list(request):
     categories = Category.objects.filter(type='ARMOR').order_by('name')
     brands = Brand.objects.filter(type='ARMOR').order_by('name')
     availabilities = Availability.choices
-    armor_types = ArmorType.choices
-    coverages = ArmorCoverage.choices
+    armor_types = Armor.Type.choices
+    coverages = Armor.Coverage.choices
 
     context = {
         'page_title': 'Blindaje',

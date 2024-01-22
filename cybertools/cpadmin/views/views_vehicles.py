@@ -1,52 +1,22 @@
 from django.shortcuts import render, redirect, HttpResponse
 import csv
 from cpadmin.models import (
-    ItemType, Category, Brand, Vehicle, VehicleType
+    ItemType, Category, Brand, Vehicle
 )
-from cpadmin.config import get_database
-
-
-# Get id of a Type Choice
-def get_type(value):
-    return VehicleType[value.upper()].value
-
-
-# Get humanized dictionary from Object
-def get_translated_object(vehicle):
-    return {
-        'id': vehicle.id,
-        'name': vehicle.name,
-        'brand': vehicle.brand.name,
-        'type': vehicle.get_type_display(),
-        'category': vehicle.category.name,
-        'top_speed': str(vehicle.top_speed) + ' km/h',
-        'acceleration': str(vehicle.acceleration) + ' m/s',
-        'deceleration': str(vehicle.deceleration) + ' m/s',
-        'range': str(vehicle.range) + ' kms',
-        'crew': vehicle.crew,
-        'passengers': vehicle.passengers,
-        'cargo': str(vehicle.cargo) + ' kgs',
-        'maneuverability': ('+' if vehicle.maneuverability > 0 else '') + str(vehicle.maneuverability),
-        'sp': vehicle.sp,
-        'sdp': vehicle.sdp,
-        'weight': str(vehicle.weight) + ' kgs',
-        'cost': str(vehicle.cost) + ' creds',
-        'description': vehicle.description,
-        'image': vehicle.image,
-    }
+from cpadmin.config import get_database, get_type, get_translated_object
 
 
 # Show vehicle list
 def list(request, type):
-    vehicles = Vehicle.objects.filter(type=get_type(type)).order_by('name')
+    vehicles = Vehicle.objects.filter(type=get_type(Vehicle.Type, value=type)).order_by('name')
     vehicle_count = 0
     if vehicles:
         vehicle_count = len(vehicles)
 
-    parents = Category.objects.filter(type='VEHICLE', code=get_type(type)).order_by('name')
+    parents = Category.objects.filter(type='VEHICLE', code=get_type(Vehicle.Type, value=type)).order_by('name')
     categories = Category.objects.filter(type='VEHICLE', parent=parents.first().id).order_by('name')
     brands = Brand.objects.filter(type='VEHICLE').order_by('name')
-    title = VehicleType(get_type(type)).label
+    title = Vehicle.Type(get_type(Vehicle.Type, value=type)).label
 
     context = {
         'page_title': title,
@@ -99,7 +69,7 @@ def update(request, type):
     vehicle.name = form['name']
     vehicle.category = category
     vehicle.brand = brand
-    vehicle.type = get_type(form['type'])
+    vehicle.type = get_type(Vehicle.Type, form['type'])
     vehicle.top_speed = int(form['top_speed'])
     vehicle.acceleration = int(form['acceleration'])
     vehicle.deceleration = int(form['deceleration'])
@@ -167,21 +137,18 @@ def upload(request, type):
 
 # Download vehicle list in CSV
 def download(request, type):
-    vehicles = Vehicle.objects.filter(type=get_type(type)).order_by('name')
+    vehicles = Vehicle.objects.filter(type=get_type(Vehicle.Type, value=type)).order_by('name')
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="vehicles.csv"'
     csv_writer = csv.writer(response)
 
-    vehicles_translated = []
-    for vehicle in vehicles:
-        vehicles_translated.append(get_translated_object(vehicle))
-    
     headers = False
-    for vehicle in vehicles_translated:
+    for vehicle in vehicles.values():
+        vehicle_translated = get_translated_object(vehicle)
         if not headers:
-            csv_writer.writerow(vehicle.keys())
+            csv_writer.writerow(vehicle_translated.keys())
             headers = True
-        csv_writer.writerow(vehicle.values())
+        csv_writer.writerow(vehicle_translated.values())
         
     return response
 

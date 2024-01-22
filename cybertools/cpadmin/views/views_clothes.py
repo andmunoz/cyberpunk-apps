@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, HttpResponse
 import csv
 from cpadmin.models import (
-    ItemType, Category, Brand, Availability, ClothesType, Clothes
+    ItemType, Category, Brand, Availability, Clothes
 )
-from cpadmin.config import get_database
+from cpadmin.config import get_database, get_type, get_translated_object
 
 
 # Show clothes list
@@ -16,7 +16,7 @@ def list(request):
     categories = Category.objects.filter(type='CLOTHES').order_by('name')
     brands = Brand.objects.filter(type='CLOTHES').order_by('name')
     availabilities = Availability.choices
-    clothes_types = ClothesType.choices
+    clothes_types = Clothes.Type.choices
 
     context = {
         'page_title': 'Moda',

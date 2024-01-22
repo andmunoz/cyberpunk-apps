@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, HttpResponse
 import csv
 from cpadmin.models import (
-    ItemType, Category, Brand, Availability, SurgeryTypes, Surgery, CyberType, CyberSlot, Cyberware
+    ItemType, Category, Brand, Availability, Surgery, Cyberware
 )
-from cpadmin.config import get_database
+from cpadmin.config import get_database, get_type, get_translated_object
 
 
 # Show cyberware list
@@ -16,9 +16,9 @@ def list(request):
     categories = Category.objects.filter(type='CYBER').order_by('name')
     brands = Brand.objects.filter(type='CYBER').order_by('name')
     availabilities = Availability.choices
-    cyberware_types = CyberType.choices
-    surgeries = SurgeryTypes.choices
-    slots = CyberSlot.choices
+    cyberware_types = Cyberware.Type.choices
+    surgeries = Surgery.Type.choices
+    slots = Cyberware.Slot.choices
 
     context = {
         'page_title': 'Ciberequipo',
