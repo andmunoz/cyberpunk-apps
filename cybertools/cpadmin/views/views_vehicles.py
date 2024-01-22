@@ -45,7 +45,7 @@ def create(request, type):
         deceleration=int(form['deceleration']),
         crew=int(form['crew']),
         passengers=int(form['passengers']),
-        range=int(form['range']),
+        autonomy=int(form['autonomy']),
         cargo=int(form['cargo']),
         maneuverability=int(form['maneuverability']),
         sp=int(form['sp']),
@@ -75,7 +75,7 @@ def update(request, type):
     vehicle.deceleration = int(form['deceleration'])
     vehicle.crew = int(form['crew'])
     vehicle.passengers = int(form['passengers'])
-    vehicle.range = int(form['range'])
+    vehicle.autonomy = int(form['autonomy'])
     vehicle.cargo = int(form['cargo'])
     vehicle.maneuverability = int(form['maneuverability'])
     vehicle.sp = int(form['sp'])
@@ -120,7 +120,7 @@ def upload(request, type):
                 deceleration=int(row['deceleration']),
                 crew=int(row['crew']),
                 passengers=int(row['passengers']),
-                range=int(row['range']),
+                autonomy=int(row['autonomy']),
                 cargo=int(row['cargo']),
                 maneuverability=int(row['maneuverability']),
                 sp=int(row['sp']),
@@ -185,7 +185,7 @@ def refresh(request, type):
                     deceleration=vehicle.deceleration,
                     crew=vehicle.crew,
                     passengers=vehicle.passengers,
-                    range=vehicle.range,
+                    autonomy=vehicle.autonomy,
                     cargo=vehicle.cargo,
                     maneuverability=vehicle.maneuverability,
                     sp=vehicle.sp,

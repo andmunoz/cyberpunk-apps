@@ -63,6 +63,8 @@ def get_translated_object(Model, object):
         elif key == "acceleration" or key == "deceleration":
             object_translated[Model._meta.get_field(key).verbose_name] = "{:,}".format(object[key]) + " m/s"
         elif key == "range":
+            object_translated[Model._meta.get_field(key).verbose_name] = "{:,}".format(object[key]) + " m"
+        elif key == "autonomy":
             object_translated[Model._meta.get_field(key).verbose_name] = "{:,}".format(object[key]) + " kms"
         elif key == "cargo" or key == 'weight':
             object_translated[Model._meta.get_field(key).verbose_name] = "{:,}".format(object[key]) + " kgs"

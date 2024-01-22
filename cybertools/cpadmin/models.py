@@ -434,7 +434,7 @@ class Vehicle(models.Model):
     deceleration = models.IntegerField(default=0, verbose_name="Desaceleración")
     crew = models.IntegerField(default=1, verbose_name="Tripulación")
     passengers = models.IntegerField(default=0, verbose_name="Pasajeros")
-    range = models.IntegerField(default=0, verbose_name="Autonomía")
+    autonomy = models.IntegerField(default=0, verbose_name="Autonomía")
     cargo = models.IntegerField(default=0, verbose_name="Carga")
     maneuverability = models.IntegerField(default=0, verbose_name="Maniobrabilidad")
     sp = models.IntegerField(default=0, verbose_name="CP")
