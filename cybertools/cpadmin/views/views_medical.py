@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponse
 import csv
-from cpadmin.models import (
-    ItemType, Category, Brand, Availability, Medical
-)
+from cpadmin.models.models_medical import Medical
 from cpadmin.config import get_database, get_type, get_translated_object, download_csv
 
 

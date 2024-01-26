@@ -1,17 +1,13 @@
 from django.contrib import admin
-from cpadmin.models import (
-    Category, CategoryAdmin, 
-    Brand, BrandAdmin,
-    Weapon, WeaponAdmin,
-    Armor, ArmorAdmin, 
-    Gear, GearAdmin, 
-    Surgery, SurgeryAdmin,
-    Cyberware, CyberwareAdmin,
-    Clothes, ClothesAdmin, 
-    Drug, DrugAdmin, DrugEffect, DrugEffectAdmin, DrugSideEffect, DrugSideEffectAdmin,
-    Medical, MedicalAdmin, 
-    Vehicle, VehicleAdmin,
-)
+from cpadmin.models.models import Category, CategoryAdmin, Brand, BrandAdmin, Surgery, SurgeryAdmin
+from cpadmin.models.models_weapon import Weapon, WeaponAdmin
+from cpadmin.models.models_armor import Armor, ArmorAdmin
+from cpadmin.models.models_gear import Gear, GearAdmin
+from cpadmin.models.models_cyberware import Cyberware, CyberwareAdmin
+from cpadmin.models.models_clothes import Clothes, ClothesAdmin
+from cpadmin.models.models_drugs import Drug, DrugAdmin, DrugEffect, DrugEffectAdmin, DrugSideEffect, DrugSideEffectAdmin
+from cpadmin.models.models_medical import Medical, MedicalAdmin
+from cpadmin.models.models_vehicle import Vehicle, VehicleAdmin
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Brand, BrandAdmin)

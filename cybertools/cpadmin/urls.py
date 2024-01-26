@@ -78,6 +78,14 @@ urlpatterns = [
     # Routes to vehicles section
     path('vehicles/', views.vehicles_home, name='vehicles'),
     
+    path('vehicles/spacecrafts', views.custom_404, name='spacecrafts'),
+
+    path('vehicles/acpa', views.custom_404, name='powered_armors'),
+
+    path('vehicles/remotes', views.custom_404, name='remotes'),
+
+    path('vehicles/options', views.custom_404, name='vehicle_options'),
+
     path('vehicles/<str:type>', views.vehicles_home, name='category_vehicles'),
     path('vehicles/<str:type>/create', views_vehicles.create),
     path('vehicles/<str:type>/update', views_vehicles.update),
@@ -86,14 +94,6 @@ urlpatterns = [
     path('vehicles/<str:type>/upload', views_vehicles.upload),
     path('vehicles/<str:type>/refresh', views_vehicles.refresh),
     
-    path('vehicles/spacecrafts', views.custom_404, name='spacecrafts'),
-
-    path('vehicles/acpa', views.custom_404, name='powered_armors'),
-
-    path('vehicles/droids', views.custom_404, name='droids'),
-
-    path('vehicles/options', views.custom_404, name='vehicle_options'),
-
     # Routes to netrunning section
     path('netrunning/', views.netrunning_home, name='netrunning'),
 

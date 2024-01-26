@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 import csv, json
-from cpadmin.models import (
-    ItemType, Category, Brand, Vehicle
-)
+from cpadmin.models.models import ItemType, Category, Brand
+from cpadmin.models.models_vehicle import Vehicle
 from cpadmin.config import get_database, get_type, get_translated_object, download_csv
 
 

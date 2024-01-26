@@ -1,5 +1,6 @@
 from ninja import NinjaAPI, Swagger, Redoc
-from cpadmin.models import Weapon, Category, Brand
+from cpadmin.models.models import Category, Brand
+from cpadmin.models.models_weapon import Weapon
 
 api = NinjaAPI(docs=Redoc())
 

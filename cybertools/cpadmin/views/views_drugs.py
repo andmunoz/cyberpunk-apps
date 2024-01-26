@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 import csv
-from cpadmin.models import (
-    ItemType, Category, 
-    DrugEffect, DrugSideEffect, Drug
-)
+from cpadmin.models.models import ItemType, Category
+from cpadmin.models.models_drugs import Drug, DrugEffect, DrugSideEffect
 from cpadmin.config import get_database, get_type, get_translated_object, download_csv
 
 

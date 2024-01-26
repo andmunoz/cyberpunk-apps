@@ -3,7 +3,7 @@ import csv, collections.abc, collections
 collections.MutableMapping = collections.abc.MutableMapping
 collections.Mapping = collections.abc.Mapping
 import pyrebase
-from .models import Category, Brand, Availability, Surgery, TimeUOM
+from .models.models import Category, Brand, Availability, Surgery, TimeUOM
 
 # Firebase Configurations
 config = {
