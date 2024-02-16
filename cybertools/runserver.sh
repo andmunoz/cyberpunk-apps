@@ -13,7 +13,7 @@ echo "### Activando entorno virtual $nombre_del_entorno..."
 source $nombre_del_entorno/bin/activate
 
 echo "### Instalando dependencias..."
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 
 echo "### Actualizando base de datos..."
 python manage.py makemigrations
