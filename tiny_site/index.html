@@ -25,6 +25,8 @@
     </head>
 
     <body data-bs-theme="dark">
+
+        <!-- Page Header -->
         <div id="section_header" class="container">
             <div class="row align-items-stretch">
                 <div class="col-lg-4 col-sm-12 d-lg-block align-items-center" style="height:100%; text-align:left;">
@@ -41,6 +43,7 @@
 
         <br />
 
+        <!-- Web and Mobile Menu -->
         <div id="section_menu" class="container">
             <div class="d-md-block d-none">
                 <ul class="nav nav-tabs nav-fill">
@@ -68,6 +71,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="loadData('Catalog/Netrunning', 'Netrunning', true);">Netrunning</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="loadTools('Herramientas');">Herramientas</a>
+                    </li>
                 </ul>    
                 <br/>
             </div>
@@ -87,12 +93,15 @@
 
         <br />
 
-        <div id="spinner" class="text-center" style="display: block">
+        <!-- Spinner for loading process -->
+        <div id="section_spinner" class="text-center" style="display: block">
             <i class="fa fa-spinner fa-spin fa-3x"></i>
         </div>
-        <div id="section_content" class="container" style="display: none">
-            <h1 id="dataTitle">Sin título</h1>
-            <table class="table table-striped table-hover align-middle nowrap w-100" id="dataResults">
+
+        <!-- Section for datatables -->
+        <div id="section_data" class="container" style="display: none">
+            <h2 id="data_title">Sin título</h2>
+            <table class="table table-striped table-hover align-middle nowrap w-100" id="data_results">
                 <thead>
                     <tr>
                         <th scope="col" class="text-center d-none d-md-table-cell">#</th>
@@ -107,8 +116,172 @@
             </table>
         </div>
 
+        <div id="section_tools" class="container" style="display: none">
+            <a href="#" class="mb-3" data-bs-toggle="collapse" data-bs-target="#subsection_lifepath" aria-expanded="false" aria-controls="subsection_lifepath">
+                <h2 id="tools_title_1">Vida Pasada</h2>
+            </a>
+            <p><i>Próximamente</i></p>
+            <div class="collapse" id="subsection_lifepath">
+            </div>
+            
+            <a href="#" class="mb-3" data-bs-toggle="collapse" data-bs-target="#subsection_shopping" aria-expanded="false" aria-controls="subsection_shopping">
+                <h2 id="tools_title_2">Shopping</h2>
+            </a>
+            <p><i>Próximamente</i></p>
+            <div class="collapse" id="subsection_shopping">
+            </div>
+            
+            <a href="#" class="mb-3" data-bs-toggle="collapse" data-bs-target="#subsection_armor" aria-expanded="false" aria-controls="subsection_armor">
+                <h2 id="tools_title_2">Blindaje Proporcional</h2>
+            </a>
+            <p><i>Próximamente</i></p>
+            <div class="collapse" id="subsection_armor">
+            </div>
+            
+            <a href="#" class="mb-3" data-bs-toggle="collapse" data-bs-target="#subsection_brawling" aria-expanded="false" aria-controls="subsection_brawling">
+                <h2 id="tools_title_3">Técnicas de Pelea</h2>
+            </a>
+            <p><i>Próximamente</i></p>
+            <div class="collapse" id="subsection_brawling">
+            </div>
+            
+            <a href="#" class="mb-3" data-bs-toggle="collapse" data-bs-target="#subsection_damage" aria-expanded="false" aria-controls="subsection_damage">
+                <h2 id="tools_title_4">Daño y Salud</h2>
+            </a>
+            <p>Calculadora de daños a blindajes y salud de un personaje durante combate.</p>
+            <div class="collapse" id="subsection_damage">
+                <div class="row">
+                    <form id="damage_form">
+                        <div class="row">
+                            <div class="mb-3 col-7">
+                                <table class="table table-hover align-middle nowrap w-100" id="damage_localized_cp">
+                                    <thead>
+                                        <tr>
+                                            <th width="40%">Localización</th>
+                                            <th>CPB</th>
+                                            <th>CPD</th>
+                                            <th>Mod</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Cabeza (1)</td>
+                                            <td><input class="form-control" size="4" type="text" id="cpb_locale_1" /></td>
+                                            <td><input class="form-control" size="4" type="text" id="cpd_locale_1" /></td>
+                                            <td><input class="form-control" size="4" type="text" id="cp_locale_1_mod" readonly="yes" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Torso (2-4)</td>
+                                            <td><input class="form-control" size="4" type="text" id="cpb_locale_2" /></td>
+                                            <td><input class="form-control" size="4" type="text" id="cpd_locale_2" /></td>
+                                            <td><input class="form-control" size="4" type="text" id="cp_locale_2_mod" readonly="yes" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Brazo Izquierdo (5)</td>
+                                            <td><input class="form-control" size="4" type="text" id="cpb_locale_5" /></td>
+                                            <td><input class="form-control" size="4" type="text" id="cpd_locale_5" /></td>
+                                            <td><input class="form-control" size="4" type="text" id="cp_locale_5_mod" readonly="yes" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Brazo Derecho (6)</td>
+                                            <td><input class="form-control" size="4" type="text" id="cpb_locale_6" /></td>
+                                            <td><input class="form-control" size="4" type="text" id="cpd_locale_6" /></td>
+                                            <td><input class="form-control" size="4" type="text" id="cp_locale_6_mod" readonly="yes" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pierna Izquierda (7-8)</td>
+                                            <td><input class="form-control" size="4" type="text" id="cpb_locale_7" /></td>
+                                            <td><input class="form-control" size="4" type="text" id="cpd_locale_7" /></td>
+                                            <td><input class="form-control" size="4" type="text" id="cp_locale_7_mod" readonly="yes" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pierna Derecha (9-10)</td>
+                                            <td><input class="form-control" size="4" type="text" id="cpb_locale_9" /></td>
+                                            <td><input class="form-control" size="4" type="text" id="cpd_locale_9" /></td>
+                                            <td><input class="form-control" size="4" type="text" id="cp_locale_9_mod" readonly="yes" /></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="mb-3 col-5">
+                                <table class="table table-hover align-middle nowrap w-100" id="damage_stats_table">
+                                    <thead>
+                                        <tr>
+                                            <th>Característica</th>
+                                            <th>Real</th>
+                                            <th>Mod</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td width="60%"><label class="form-label" for="REF">Reflejos (REF):</label></td>
+                                            <td><input class="form-control" type="text" id="REF"/></td>
+                                            <td><input class="form-control" type="text" id="REF_mod" readonly="yes"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="form-label" for="INT">Inteligencia (INT):</label></td>
+                                            <td><input class="form-control" type="text" id="INT"/></td>
+                                            <td><input class="form-control" type="text" id="INT_mod" readonly="yes"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="form-label" for="FRI">Frialdad (FRI):</label></td>
+                                            <td><input class="form-control" type="text" id="FRI"/></td>
+                                            <td><input class="form-control" type="text" id="FRI_mod" readonly="yes"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="form-label" for="BODY">Tipo Corporal (TCO):</label></td>
+                                            <td><input class="form-control" type="text" id="BODY" onchange="calculateMTCandSAVE(0, false)"/></td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="form-label" for="MTC">Modificador TCO (MTC):</label></td>
+                                            <td><input class="form-control" type="text" id="MTC" readonly="yes"/></td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="form-label" for="SAVE">Salvación:</label></td>
+                                            <td><input class="form-control" type="text" id="stun_save" readonly="yes" /></td>
+                                            <td><input class="form-control" type="text" id="death_save" readonly="yes" /></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-12">
+                                <table class="table table-striped table-hover align-middle nowrap w-100" id="damage_table">
+                                    <caption>(*) El CP Actual corresponde al CPB y CPD localizado menos el Daño recibido por el blindaje</caption>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Hit</th>
+                                            <th scope="col">Localización</th>
+                                            <th scope="col">Tipo</th>
+                                            <th scope="col">Daño Recibido</th>
+                                            <th scope="col">CP Actual*</th>
+                                            <th scope="col">Daño Real</th>
+                                            <th scope="col">Heridas Totales</th>
+                                            <th scope="col">Estado de Salud</th>
+                                            <th scope="col">Resultado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-12">
+                                <button type="button" class="btn btn-secondary" onclick="addDamageRow()">Agregar Tiro</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <hr />
 
+        <!-- Page Footer -->
         <div id="section_footer" class="container">
             <h6>Creada por Jazz Fortuna(c) 2023, todos los derechos reservados.</h6>
         </div>
