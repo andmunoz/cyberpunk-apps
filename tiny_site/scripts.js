@@ -102,20 +102,43 @@ function constructModal(item) {
     return modalHTML;
 }
 
-// Tools Functions
+// Tools General Functions
 let lifepathTables = [];
+
 let shoppingCart = [];
+let shoppingItems = 0;
+
+let armorTables = [];
+let armorRows = 0
+
 let brawlingTables = [];
+let brawlingRows = 0;
+
 let damageTables = [];
 let damageRows = 0;
+
+function calculateMixedCP(cpLayer1, cpLayer2) {
+    let diff = Math.abs(cpLayer1 - cpLayer2);
+    let cpMixed = Math.max(cpLayer1, cpLayer2);
+    if (diff <= 4) cpMixed += 5;
+    else if (diff <= 8) cpMixed += 4; 
+    else if (diff <= 14) cpMixed += 3; 
+    else if (diff <= 20) cpMixed += 2; 
+    else if (diff <= 26) cpMixed += 1; 
+    return cpMixed;
+}
 
 function loadTools(title) {
     toggleVisibility("#section_spinner", "#section_data", "#section_tools");
 
     lifepathTables = loadLifePathTables();
-    brawlingTables = loadBrawlingTables();
-    damageTables = loadDamageTables();
 
+    armorTables = loadArmorTables();
+    addArmorRow();
+
+    brawlingTables = loadBrawlingTables();
+
+    damageTables = loadDamageTables();
     addDamageRow();
 
     toggleVisibility("#section_tools", "#section_spinner");
@@ -127,6 +150,31 @@ function loadLifePathTables() {
 
 function loadBrawlingTables() {
     return [];
+}
+
+function loadArmorTables() {
+    let armorTypes = [{'type': 'Blando', 'code': 'cpb'}, 
+                      {'type': 'Duro', 'code': 'cpd'}];
+    let coverage =   [{'cover': 'Cabeza', 'from': 1, 'to': 1},
+                      {'cover': 'Torso', 'from': 2, 'to': 4}, 
+                      {'cover': 'Brazo Izquierdo', 'from': 5, 'to': 5},
+                      {'cover': 'Brazos Derecho', 'from': 6, 'to': 6},
+                      {'cover': 'Brazos', 'from': 5, 'to': 6},
+                      {'cover': 'Superior', 'from': 2, 'to': 6},
+                      {'cover': 'Pierna Izquierda', 'from': 7, 'to': 8},
+                      {'cover': 'Pierna Derecha', 'from': 9, 'to': 10},
+                      {'cover': 'Piernas', 'from': 7, 'to': 10},
+                      {'cover': 'Cuerpo', 'from': 2, 'to': 10}, 
+                      {'cover': 'Todo', 'from': 1, 'to': 10}];
+    let damageType = [{'code': 'cpn', 'CPB': 1, 'CPD': 1},
+                      {'code': 'cpp', 'CPB': 1, 'CPD': 0.5}, 
+                      {'code': 'cpf', 'CPB': 0.5, 'CPD': 1}, 
+                      {'code': 'cpm', 'CPB': 0.666, 'CPD': 0.333}];
+    return {
+        'armorTypes': armorTypes,
+        'coverage': coverage,
+        'damageTypes': damageType
+    };
 }
 
 function loadDamageTables() {
@@ -163,6 +211,114 @@ function loadDamageTables() {
     };
 }
 
+// Tools for Armor Functions
+function addArmorRow() {
+    armorRows++;
+    let newRow = '<tr class="armor_form_row">' +
+                '<td>' + armorRows + '</td>' +
+                '<td><input class="form-control" type="text" id="armor_name_' + armorRows + '"/></td>' +
+                '<td><select class="form-control" id="armor_type_' + armorRows + '" onchange="calculateArmor(' + armorRows + ')">' + fillArmorTypeSelect() + '</select></td>' +
+                '<td><select class="form-control" id="armor_coverage_' + armorRows + '" onchange="calculateArmor(' + armorRows + ')">' + fillCoverageSelect() + '</select></td>' +
+                '<td><input class="form-control" type="text" id="armor_cp_' + armorRows + '" onchange="calculateArmor(' + armorRows + ')"/></td>' +
+                '<td><input class="form-control" type="text" id="armor_ce_' + armorRows + '" onchange="calculateArmor(' + armorRows + ')"/></td>' +
+             '</tr>';
+    $('#armor_table>tbody').append(newRow);
+}
+
+function fillArmorTypeSelect() {
+    let selectList = '<option>Seleccione</option>';
+    let armorTypes = armorTables['armorTypes'];
+    let pos = 0;
+    armorTypes.forEach(armorType => {
+        selectList += '<option value="' + pos + '">' + 
+                        armorType['type'] +
+                      '</option>';
+        pos++;
+    });
+    return selectList;
+}
+
+function fillCoverageSelect() {
+    let selectList = '<option>Seleccione</option>';
+    let armorCoverages = armorTables['coverage'];
+    let pos = 0;
+    armorCoverages.forEach(coverage => {
+        selectList += '<option value="' + pos + '">' + 
+                        coverage['cover'] +
+                      '</option>';
+        pos++;
+    });
+    return selectList;
+}
+
+function calculateArmor(row) {
+    if ($('#armor_type_' + row).val() == '' || $('#armor_coverage_' + row).val() == '' || $('#armor_cp_' + row).val() == '' || $('#armor_ce_' + row).val() == '') return;
+    let localizedArmor = [
+        {'from': 1, 'to': 1, 'locale': 'Cabeza', 'armor_cpb':[], 'armor_cpd':[], 'armor_ce':[]},
+        {'from': 2, 'to': 4, 'locale': 'Torso', 'armor_cpb':[], 'armor_cpd':[], 'armor_ce':[]}, 
+        {'from': 5, 'to': 5, 'locale': 'Brazo Izquierdo', 'armor_cpb':[], 'armor_cpd':[], 'armor_ce':[]},
+        {'from': 6, 'to': 6, 'locale': 'Brazo Derecho', 'armor_cpb':[], 'armor_cpd':[], 'armor_ce':[]},
+        {'from': 7, 'to': 8, 'locale': 'Pierna Izquierda', 'armor_cpb':[], 'armor_cpd':[], 'armor_ce':[]},
+        {'from': 9, 'to': 10, 'locale': 'Pierna Derecha', 'armor_cpb':[], 'armor_cpd':[], 'armor_ce':[]}
+    ];
+    let actualCE = 0;
+    localizedArmor.forEach(armor => {
+        let localizedFrom = armor['from'];
+        let localizedTo = armor['to'];
+        for (let i = 1; i <= armorRows; i++) {
+            let armorType = armorTables['armorTypes'][$('#armor_type_' + i).val()];
+            let coverage = armorTables['coverage'][$('#armor_coverage_' + i).val()];
+            let coverageFrom = coverage['from'];
+            let coverageTo = coverage['to'];
+            if (coverageFrom >= localizedFrom && coverageFrom <= localizedTo || 
+                coverageTo >= localizedFrom && coverageTo <= localizedTo ||
+                localizedFrom >= coverageFrom && localizedFrom <= coverageTo || 
+                localizedTo >= coverageFrom && localizedTo <= coverageTo) {
+                    armor['armor_' + armorType['code']].push(parseInt($('#armor_cp_' + i).val()));
+                    armor['armor_ce'].push(parseInt($('#armor_ce_' + i).val()));
+            }
+        }
+
+        let localizedCPB = 0;
+        let armorCountB = 0;
+        armor['armor_cpb'].sort(function(a, b){return b - a;});
+        armor['armor_cpb'].forEach(cpValue => {
+            if (armorCountB == 0) localizedCPB = cpValue;
+            else localizedCPB = calculateMixedCP(localizedCPB, cpValue);
+            armorCountB++;
+        });
+
+        let localizedCPD = 0;
+        let armorCountD = 0;
+        armor['armor_cpd'].sort(function(a, b){return b - a;});
+        armor['armor_cpd'].forEach(cpValue => {
+            if (armorCountD == 0) localizedCPD = cpValue;
+            else localizedCPD = calculateMixedCP(localizedCPD, cpValue);
+            armorCountD++;
+        });
+
+        armorTables['damageTypes'].forEach(damageType =>{
+            let localizedCP = 0;
+            if (armorCountB > 0 && armorCountD > 0) {
+                localizedCP = calculateMixedCP(localizedCPB * damageType['CPB'], localizedCPD * damageType['CPD']);
+            }
+            else if (armorCountB > 0) localizedCP = localizedCPB * damageType['CPB'];
+            else if (armorCountD > 0) localizedCP = localizedCPD * damageType['CPD'];    
+            $('#' + damageType['code'] + '_locale_' + localizedFrom).val(Math.ceil(localizedCP));
+        });
+
+        let armorCount = armorCountB + armorCountD;
+        let localizedCE = 0;
+        armor['armor_ce'].forEach(ceValue => {
+            localizedCE += ceValue;
+        });
+        if (armorCount > 3) localizedCE -= armorCount - 3;
+        if (actualCE > localizedCE) actualCE = localizedCE;
+    });
+    $('#armor_ce').val(actualCE);
+}
+
+// Tools for Damage Functions
 function addDamageRow() {
     damageRows++;
     let newRow = '<tr class="damage_form_row">' +
@@ -241,17 +397,6 @@ let armor = {
     'cpd': 0, 
     'cp': 0 
 };
-
-function calculateMixedCP(cpb, cpd) {
-    let diff = Math.abs(cpb - cpd);
-    let base = Math.max(cpb, cpd);
-    if (diff <= 4) base += 5;
-    else if (diff <= 8) base += 4; 
-    else if (diff <= 14) base += 3; 
-    else if (diff <= 20) base += 2; 
-    else if (diff <= 26) base += 1; 
-    return base;
-}
 
 function calculateActualCP(row) {
     let locale = damageTables['localization'][$('#damage_locale_' + row).val()];

@@ -134,8 +134,117 @@
             <a href="#" class="mb-3" data-bs-toggle="collapse" data-bs-target="#subsection_armor" aria-expanded="false" aria-controls="subsection_armor">
                 <h2 id="tools_title_2">Blindaje Proporcional</h2>
             </a>
-            <p><i>Próximamente</i></p>
+            <p><i>Calculadora que le permite calcular el blindaje por capas utilizando las reglas del manual del jugador.</i></p>
             <div class="collapse" id="subsection_armor">
+                <div class="row">
+                    <form id="armor_form">
+                        <div class="row">
+                            <div class="mb-3 col-12">
+                                <table class="table table-striped table-hover align-middle nowrap w-100" id="armor_table">
+                                    <caption>(*) El CP Actual se calcula en base a un daño normal, perforante, filo y monofilo.</caption>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Capa</th>
+                                            <th scope="col">Blindaje</th>
+                                            <th scope="col">Tipo</th>
+                                            <th scope="col">Cobertura</th>
+                                            <th scope="col">CP</th>
+                                            <th scope="col">CE</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-12">
+                                <button type="button" class="btn btn-secondary" onclick="addArmorRow()">Agregar Capa</button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#armorCalculatedModal">Calcular</button>
+                                <div class="modal fade" id="armorCalculatedModal" tabindex="-1" aria-labelledby="armorCalculatedLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h3 class="modal-title fs-5" id="armorCalculatedLabel">Blindaje Calculado</h3>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="mb-3 col-12">
+                                                        <table class="table table-hover align-middle nowrap w-100" id="damage_localized_cp">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width="40%">Localización</th>
+                                                                    <th>Normal</th>
+                                                                    <th>Perforante</th>
+                                                                    <th>Filo</th>
+                                                                    <th>Monofilo</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Cabeza (1)</td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpn_locale_1" readonly="yes" value="0"/></td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpp_locale_1" readonly="yes" value="0"/></td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpf_locale_1" readonly="yes" value="0"/></td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpm_locale_1" readonly="yes" value="0"/></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Torso (2-4)</td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpn_locale_2" readonly="yes" value="0"/></td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpp_locale_2" readonly="yes" value="0"/></td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpf_locale_2" readonly="yes" value="0"/></td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpm_locale_2" readonly="yes" value="0"/></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Brazo Izquierdo (5)</td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpn_locale_5" readonly="yes" value="0"/></td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpp_locale_5" readonly="yes" value="0"/></td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpf_locale_5" readonly="yes" value="0"/></td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpm_locale_5" readonly="yes" value="0"/></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Brazo Derecho (6)</td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpn_locale_6" readonly="yes" value="0"/></td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpp_locale_6" readonly="yes" value="0"/></td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpf_locale_6" readonly="yes" value="0"/></td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpm_locale_6" readonly="yes" value="0"/></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Pierna Izquierda (7-8)</td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpn_locale_7" readonly="yes" value="0"/></td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpp_locale_7" readonly="yes" value="0"/></td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpf_locale_7" readonly="yes" value="0"/></td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpm_locale_7" readonly="yes" value="0"/></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Pierna Derecha (9-10)</td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpn_locale_9" readonly="yes" value="0"/></td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpp_locale_9" readonly="yes" value="0"/></td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpf_locale_9" readonly="yes" value="0"/></td>
+                                                                    <td><input class="form-control" size="4" type="text" id="cpm_locale_9" readonly="yes" value="0"/></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-3 col-4 offset-4">
+                                                        <label class="form-label" for="armor_ce">Capacidad de Estorbo (CE):</label>
+                                                        <input class="form-control" type="text" id="armor_ce"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
             
             <a href="#" class="mb-3" data-bs-toggle="collapse" data-bs-target="#subsection_brawling" aria-expanded="false" aria-controls="subsection_brawling">
