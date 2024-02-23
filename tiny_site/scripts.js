@@ -137,6 +137,27 @@ function loadTools(title) {
     addArmorRow();
 
     brawlingTables = loadBrawlingTables();
+    brawlingRows++;
+    let newRow = '<tr class="brawling_form_row">' +
+                '<td>' + brawlingRows + '</td>' +
+                '<td><input class="form-control" id="brawling_technique_' + brawlingRows + '" value="Pelea (1)" readonly="yes"/></td>' +
+                '<td><input class="form-control" type="text" id="brawling_level_' + brawlingRows + '" value="0" onchange="calculateBrawlingTecniques(' + brawlingRows + ')"/></td>' +
+             '</tr>';
+    $('#brawling_table>tbody').append(newRow);
+    brawlingRows++;
+    newRow = '<tr class="brawling_form_row">' +
+                '<td>' + brawlingRows + '</td>' +
+                '<td><input class="form-control" id="brawling_technique_' + brawlingRows + '" value="Esquivar (1)" readonly="yes"/></td>' +
+                '<td><input class="form-control" type="text" id="brawling_level_' + brawlingRows + '" value="0" onchange="calculateBrawlingTecniques(' + brawlingRows + ')"/></td>' +
+             '</tr>';
+    $('#brawling_table>tbody').append(newRow);
+    brawlingRows++;
+    newRow = '<tr class="brawling_form_row">' +
+                '<td>' + brawlingRows + '</td>' +
+                '<td><input class="form-control" id="brawling_technique_' + brawlingRows + '" value="Combate Cuerpo a Cuerpo (1)" readonly="yes"/></td>' +
+                '<td><input class="form-control" type="text" id="brawling_level_' + brawlingRows + '" value="0" onchange="calculateBrawlingTecniques(' + brawlingRows + ')"/></td>' +
+             '</tr>';
+    $('#brawling_table>tbody').append(newRow);
 
     damageTables = loadDamageTables();
     addDamageRow();
@@ -149,7 +170,117 @@ function loadLifePathTables() {
 }
 
 function loadBrawlingTables() {
-    return [];
+    $.ajax({  
+        type: "GET",  
+        url: SERVERAPI + 'Lists/Martial' + ".json",    
+        dataType: "json", 
+        success: function (data) {
+            let martialMap = Object.entries(data).map(([key, value]) => ({[key]: value}));
+            brawlingTables['martials'] = [];
+            martialMap.forEach(martial => {
+                let martialAbility = {
+                    'name': '',
+                    'difficult': 0,
+                    'count': 0,
+                    'techniques': [
+                        {'name': 'barrier', 'value': 0},
+                        {'name': 'block', 'value': 0},
+                        {'name': 'disarm', 'value': 0},
+                        {'name': 'dodge', 'value': 0},
+                        {'name': 'feint', 'value': 0},
+                        {'name': 'grapple', 'value': 0},
+                        {'name': 'kick', 'value': 0},
+                        {'name': 'prone', 'value': 0},
+                        {'name': 'punch', 'value': 0},
+                        {'name': 'quarry', 'value': 0},
+                        {'name': 'strangle', 'value': 0},
+                        {'name': 'throw', 'value': 0},
+                        {'name': 'weapon', 'value': 0}
+                    ]
+                };
+                let martialName = Object.keys(martial)[0];
+                let martialAttributes = Object.values(martial)[0];
+                martialAbility['name'] = martialName;
+                martialAbility['techniques'] = [];
+                let attributesMap = Object.entries(martialAttributes).map(([clave, valor]) => ({[clave]: valor}));
+                attributesMap.forEach(attribute => {
+                    let key = Object.keys(attribute)[0];
+                    let value = Object.values(attribute)[0];
+                    if (key == 'difficult') martialAbility['difficult'] = value;
+                    else if (key == 'techniques') martialAbility['count'] = value;
+                    else martialAbility['techniques'].push({
+                        'name': key,
+                        'value': value
+                    });
+                });
+                brawlingTables['martials'].push(martialAbility);
+            });
+        }, 
+    });    
+    return {
+        'abilities': [
+            {
+                'name': 'Pelea',
+                'difficult': 1,
+                'count': 10,
+                'techniques': [
+                    {'name': 'barrier', 'value': 1},
+                    {'name': 'block', 'value': 1},
+                    {'name': 'disarm', 'value': 1},
+                    {'name': 'dodge', 'value': 0},
+                    {'name': 'feint', 'value': 1},
+                    {'name': 'grapple', 'value': 1},
+                    {'name': 'kick', 'value': 1},
+                    {'name': 'prone', 'value': 1},
+                    {'name': 'punch', 'value': 1},
+                    {'name': 'quarry', 'value': 1},
+                    {'name': 'strangle', 'value': 1},
+                    {'name': 'throw', 'value': 1},
+                    {'name': 'weapon', 'value': 0}
+                ]
+            }, 
+            {
+                'name': 'Esquivar',
+                'difficult': 1,
+                'count': 1,
+                'techniques': [
+                    {'name': 'barrier', 'value': 0},
+                    {'name': 'block', 'value': 0},
+                    {'name': 'disarm', 'value': 0},
+                    {'name': 'dodge', 'value': 1},
+                    {'name': 'feint', 'value': 0},
+                    {'name': 'grapple', 'value': 0},
+                    {'name': 'kick', 'value': 0},
+                    {'name': 'prone', 'value': 0},
+                    {'name': 'punch', 'value': 0},
+                    {'name': 'quarry', 'value': 0},
+                    {'name': 'strangle', 'value': 0},
+                    {'name': 'throw', 'value': 0},
+                    {'name': 'weapon', 'value': 0}
+                ]
+            }, 
+            {
+                'name': 'Combate Cuerpo a Cuerpo',
+                'difficult': 1,
+                'count': 1,
+                'techniques': [
+                    {'name': 'barrier', 'value': 0},
+                    {'name': 'block', 'value': 0},
+                    {'name': 'disarm', 'value': 0},
+                    {'name': 'dodge', 'value': 0},
+                    {'name': 'feint', 'value': 0},
+                    {'name': 'grapple', 'value': 0},
+                    {'name': 'kick', 'value': 0},
+                    {'name': 'prone', 'value': 0},
+                    {'name': 'punch', 'value': 0},
+                    {'name': 'quarry', 'value': 0},
+                    {'name': 'strangle', 'value': 0},
+                    {'name': 'throw', 'value': 0},
+                    {'name': 'weapon', 'value': 1}
+                ]
+            }    
+        ]
+    };
 }
 
 function loadArmorTables() {
@@ -316,6 +447,76 @@ function calculateArmor(row) {
         if (actualCE > localizedCE) actualCE = localizedCE;
     });
     $('#armor_ce').val(actualCE);
+}
+
+// Tools for Brawling Functions
+function addBrawlingRow() {
+    brawlingRows++;
+    let newRow = '<tr class="brawling_form_row">' +
+                '<td>' + brawlingRows + '</td>' +
+                '<td><select class="form-control" id="brawling_technique_' + brawlingRows + '" onchange="calculateBrawlingTecniques(' + brawlingRows + ')">' + fillBrawlingTechniqueSelect() + '</select></td>' +
+                '<td><input class="form-control" type="text" id="brawling_level_' + brawlingRows + '" value="0" onchange="calculateBrawlingTecniques(' + brawlingRows + ')"/></td>' +
+             '</tr>';
+    $('#brawling_table>tbody').append(newRow);
+}
+
+function fillBrawlingTechniqueSelect() {
+    let selectList = '<option>Seleccione</option>';
+    let brawlingTechniques = brawlingTables['martials'];
+    let pos = 0;
+    brawlingTechniques.forEach(brawlingTechnique => {
+        selectList += '<option value="' + pos + '">' + 
+                        brawlingTechnique['name'] +
+                        ' (' + brawlingTechnique['difficult'] + ')' +
+                      '</option>';
+        pos++;
+    });
+    return selectList;
+}
+
+function calculateBrawlingTecniques(row) {
+    if ($('#brawling_technique_' + row).val() == '' || $('#brawling_level_' + row).val() == '') return;
+    let techniquesLevels = [
+        {'name': 'barrier', 'value': 0},
+        {'name': 'block', 'value': 0},
+        {'name': 'disarm', 'value': 0},
+        {'name': 'dodge', 'value': 0},
+        {'name': 'feint', 'value': 0},
+        {'name': 'grapple', 'value': 0},
+        {'name': 'kick', 'value': 0},
+        {'name': 'prone', 'value': 0},
+        {'name': 'punch', 'value': 0},
+        {'name': 'quarry', 'value': 0},
+        {'name': 'strangle', 'value': 0},
+        {'name': 'throw', 'value': 0},
+        {'name': 'weapon', 'value': 0}
+    ]
+    for(let i = 1; i <= brawlingRows; i++) {
+        let brawlingTechniques = [];
+        let selectedTechnique = '';
+        if (i < 4) {
+            brawlingTechniques = brawlingTables['abilities'];
+            selectedTechnique = $('#brawling_technique_' + i).val();
+        }
+        else {
+            brawlingTechniques = brawlingTables['martials'];
+            selectedTechnique = $('#brawling_technique_' + i + ' option:selected').text();
+        }
+        let match = selectedTechnique.match(/^(.*?)\s*\((\d+)\)$/);
+        let techniqueName = match[1];
+        let techniqueDifficult = parseInt(match[2]);
+        let techniqueLevel = parseInt($('#brawling_level_' + i).val());
+        let factor = Math.ceil(techniqueLevel / techniqueDifficult)
+        brawlingTechniques.forEach(technique => {
+            if (technique['name'] == techniqueName) {
+                for(let j = 0; j < 13; j++)
+                    techniquesLevels[j]['value'] += technique['techniques'][j]['value'] * factor;
+            }
+        });
+    }
+    techniquesLevels.forEach(technique => {
+        $('#brawling_technique_' + technique['name']).val(technique['value']);
+    });
 }
 
 // Tools for Damage Functions
