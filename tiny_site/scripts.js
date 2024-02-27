@@ -103,7 +103,7 @@ function constructModal(item) {
 }
 
 // Tools General Functions
-let lifepathTables = [];
+let lifepathTables = {};
 
 let shoppingCart = [];
 let shoppingItems = 0;
@@ -131,7 +131,7 @@ function calculateMixedCP(cpLayer1, cpLayer2) {
 function loadTools(title) {
     toggleVisibility("#section_spinner", "#section_data", "#section_tools");
 
-    lifepathTables = loadLifePathTables();
+    loadLifePathTables();
 
     armorTables = loadArmorTables();
     addArmorRow();
@@ -166,7 +166,56 @@ function loadTools(title) {
 }
 
 function loadLifePathTables() {
-    return [];
+    asyncLoadLifePathComponent('Clothes', 'Style');
+    asyncLoadLifePathComponent('Hair', 'Style');
+    asyncLoadLifePathComponent('Traits', 'Style');
+    asyncLoadLifePathComponent('Origin', 'Ethnic');
+
+    asyncLoadLifePathComponent('Personality', 'Motivations');
+    asyncLoadLifePathComponent('MostValuedPerson', 'Motivations');
+    asyncLoadLifePathComponent('MostValuable', 'Motivations');
+    asyncLoadLifePathComponent('MostValuedThing', 'Motivations');
+    asyncLoadLifePathComponent('PeopleOpinion', 'Motivations');
+
+    asyncLoadLifePathComponent('Class', 'Family');
+    asyncLoadLifePathComponent('Parents', 'Family');
+    asyncLoadLifePathComponent('ParentTragedy', 'Family');
+    asyncLoadLifePathComponent('FamilySituation', 'Family');
+    asyncLoadLifePathComponent('FamilyTragedy', 'Family');
+    asyncLoadLifePathComponent('Childhood', 'Family');
+    asyncLoadLifePathComponent('SiblingsQuantity', 'Family');
+    asyncLoadLifePathComponent('SiblingGender', 'Family');
+    asyncLoadLifePathComponent('SiblingOrder', 'Family');
+    asyncLoadLifePathComponent('SiblingRelationship', 'Family');
+
+    asyncLoadLifePathComponent('TypeOfEvent', 'Events');
+    asyncLoadLifePathComponent('EventSuccess', 'Events');
+    asyncLoadLifePathComponent('EventFailure', 'Events');
+    asyncLoadLifePathComponent('EventFriend', 'Events');
+    asyncLoadLifePathComponent('EventEnemy', 'Events');
+    asyncLoadLifePathComponent('EventLoveDate', 'Events');
+
+    return;
+}
+
+function asyncLoadLifePathComponent(component, parent) {
+    $.ajax({  
+        type: "GET",  
+        url: SERVERAPI + 'Lists/Lifepath/' + parent + '/' + component + '.json',    
+        dataType: "json", 
+        success: function (data) {
+            if (typeof lifepathTables[parent] === "undefined")
+                lifepathTables[parent] = {};
+            let componentMap = Object.entries(data).map(([key, value]) => ({[key]: value}));
+            let values = []
+            componentMap.forEach(item => {
+                let id = parseInt(Object.keys(item)[0]) - 1;
+                let content = Object.values(item)[0];
+                values[id] = content;
+            });
+            lifepathTables[parent][component] = values;
+        }, 
+    });    
 }
 
 function loadBrawlingTables() {
@@ -340,6 +389,133 @@ function loadDamageTables() {
         'healthStatus': healthStatus, 
         'damageTypes': damageTypes
     };
+}
+
+// Tools for Life Path
+function getRandomElementFrom(arrayValues) {
+    let selected = Math.floor(Math.random() * arrayValues.length);
+    return arrayValues[selected];
+}
+
+function generateStyleLifePath() {
+    let lifepathEthnicTables = lifepathTables['Ethnic'];
+    let lifepathStyleTables = lifepathTables['Style'];
+
+    let originObject = getRandomElementFrom(lifepathEthnicTables['Origin']);
+    $('#lifepath_origin').val(originObject['ethnic']);
+    $('#lifepath_languages').val(originObject['languages']);
+
+    let clothesObject = getRandomElementFrom(lifepathStyleTables['Clothes']);
+    $('#lifepath_clothes').val(clothesObject['clothes']);
+    let hairObject = getRandomElementFrom(lifepathStyleTables['Hair']);
+    $('#lifepath_hair').val(hairObject['hair']);
+    let traitsObject = getRandomElementFrom(lifepathStyleTables['Traits']);
+    $('#lifepath_traits').val(traitsObject['traits']);
+}
+
+function generateMotivationsLifePath() {
+    let lifepathMotivationsTables = lifepathTables['Motivations'];
+
+    let personalityObject = getRandomElementFrom(lifepathMotivationsTables['Personality']);
+    $('#lifepath_personality').val(personalityObject['personality']);
+    let mostValuedPersonObject = getRandomElementFrom(lifepathMotivationsTables['MostValuedPerson']);
+    $('#lifepath_most_valued_person').val(mostValuedPersonObject['person']);
+    let mostValuableObject = getRandomElementFrom(lifepathMotivationsTables['MostValuable']);
+    $('#lifepath_most_valuable').val(mostValuableObject['value']);
+    let mostValuedThingObject = getRandomElementFrom(lifepathMotivationsTables['MostValuedThing']);
+    $('#lifepath_most_valued_thing').val(mostValuedThingObject['thing']);
+    let peopleOpinionObject = getRandomElementFrom(lifepathMotivationsTables['PeopleOpinion']);
+    $('#lifepath_people_opinion').val(peopleOpinionObject['opinion']);
+}
+
+function addSiblingRow(row) {
+    let newRow = '<tr class="lifepath_siblings_row">' +
+            '<td>' + row + '</td>' +
+            '<td><input class="form-control" type="text" id="lifepath_sibling_gender_' + row + '" readonly="yes"/></td>' +
+            '<td><input class="form-control" type="text" id="lifepath_sibling_order_' + row + '" readonly="yes"/></td>' +
+            '<td><input class="form-control" type="text" id="lifepath_sibling_relationship_' + row + '" readonly="yes"/></td>' +
+        '</tr>';
+    $('#lifepath_siblings>tbody').append(newRow);    
+}
+
+function generateFamilyLifePath() {
+    let lifepathFamilyTables = lifepathTables['Family'];
+
+    let familyClassObject = getRandomElementFrom(lifepathFamilyTables['Class']);
+    $('#lifepath_class').val(familyClassObject['class'] + '. ');
+    let parentsObject = getRandomElementFrom(lifepathFamilyTables['Parents']);
+    $('#lifepath_parents').val(parentsObject['parents'] + '. ');
+    if (lifepathFamilyTables['Parents'].indexOf(parentsObject) >= 6) {
+        let parentTragedyObject = getRandomElementFrom(lifepathFamilyTables['ParentTragedy']);
+        $('#lifepath_parents').val(parentTragedyObject['parent_tragedy'] + '. ');
+    }
+    let familySituationObject = getRandomElementFrom(lifepathFamilyTables['FamilySituation']);
+    $('#lifepath_family_situation').val(familySituationObject['family_situation'] + '. ');
+    if (lifepathFamilyTables['FamilySituation'].indexOf(familySituationObject) <= 5) {
+        let familyTragedyObject = getRandomElementFrom(lifepathFamilyTables['FamilyTragedy']);
+        $('#lifepath_family_situation').val(familyTragedyObject['family_tragedy'] + '. ');
+    }
+    let childhoodObject = getRandomElementFrom(lifepathFamilyTables['Childhood']);
+    $('#lifepath_childhood').val(childhoodObject['childhood'] + '. ');
+
+    $('#lifepath_siblings tbody').empty();
+    let siblingsObject = getRandomElementFrom(lifepathFamilyTables['SiblingsQuantity']);
+    if (parseInt(siblingsObject['quantity']) > 0) {
+        let quantity = parseInt(siblingsObject['quantity']);
+        $('#lifepath_siblings caption').text('Tiene ' + quantity + ' hermanos.');
+        for (let i = 1; i <= quantity; i++ ) {
+            addSiblingRow(i);
+            $('#lifepath_sibling_gender_' + i).val(getRandomElementFrom(lifepathFamilyTables['SiblingGender'])['gender']);
+            $('#lifepath_sibling_order_' + i).val(getRandomElementFrom(lifepathFamilyTables['SiblingOrder'])['order']);
+            $('#lifepath_sibling_relationship_' + i).val(getRandomElementFrom(lifepathFamilyTables['SiblingRelationship'])['relationship']);
+        }
+    }
+    else 
+        $('#lifepath_siblings caption').text('No tiene hermanos.');
+
+}
+
+function getRandomAge() {
+    let age = 18 + Math.floor(Math.random() * 11);
+    $('#lifepath_age').val(age);
+}
+
+function addEventRow(row) {
+    let newRow = '<tr class="lifepath_events_row">' +
+            '<td>' + row + '</td>' +
+            '<td><input class="form-control" type="text" id="lifepath_event_description_' + row + '" readonly="yes"/></td>' +
+        '</tr>';
+    $('#lifepath_events>tbody').append(newRow);    
+}
+
+function generateEventsLifePath() {
+    if ($('#lifepath_age').val() == '') {
+        alert('Ingrese su edad para calcular los eventos de su vida.');
+        return;
+    }
+    let age = parseInt($('#lifepath_age').val());
+    if (age < 18) {
+        alert('Su edad debe ser mayor o igual a 18 años.');
+        return;
+    }
+
+    let lifepathEventTables = lifepathTables['Events'];
+
+    $('#lifepath_events tbody').empty();
+    for (let i = 16; i < age; i++) {
+        addEventRow(i);
+        let eventObject = getRandomElementFrom(lifepathEventTables['TypeOfEvent']);
+        let eventDescription = 'Nada importante';
+        if (eventObject['next'] != '') {
+            let typeOfEvent = eventObject['next'];
+            let eventDetailObject = getRandomElementFrom(lifepathEventTables[typeOfEvent]);
+            let keyName = Object.keys(eventDetailObject)[0];
+            eventDescription = eventDetailObject[keyName];
+        }
+        $('#lifepath_event_description_' + i).val(eventDescription);
+    }
+    addEventRow(age);
+    $('#lifepath_event_description_' + age).val('EL PRESENTE');
 }
 
 // Tools for Armor Functions

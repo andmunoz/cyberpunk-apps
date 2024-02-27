@@ -78,7 +78,7 @@
                 <br/>
             </div>
             <div class="d-md-none" style="height:100%; text-align:right;">
-                <select class="form-control" onchange="loadData('Catalog/'+this.value, '', true);">
+                <select class="form-control" onchange="loadData('Catalog/' + this.value, '', true);">
                     <option value="Weapon">Armas</option>
                     <option value="Armor">Blindaje</option>
                     <option value="Gear">Equipo</option>
@@ -120,8 +120,191 @@
             <a href="#" class="mb-3" data-bs-toggle="collapse" data-bs-target="#subsection_lifepath" aria-expanded="false" aria-controls="subsection_lifepath">
                 <h2 id="tools_title_1">Vida Pasada</h2>
             </a>
-            <p><i>Próximamente</i></p>
+            <p><i>Generador automático de estilo, etnia y vida pasada. Ideal para darle vida a un personaje nuevo de Cyberpunk 2020.</i></p>
             <div class="collapse" id="subsection_lifepath">
+                <div class="row">
+                    <h4>Orígen y Estilo Personal</h4>
+                    <form id="lifepath_style_form">
+                        <div class="mb-3 col-12">
+                            <button type="button" class="btn btn-primary" onclick="generateStyleLifePath()">Generar</button>
+                        </div>
+                    </form>
+                </div>
+                <div id="lifepath_style_results">
+                    <div class="row">
+                        <div class="mb-3 col-1"> 
+                            <label for="lifepath_origin">Etnia:</label>
+                        </div>
+                        <div class="mb-3 col-3">
+                            <input type="text" class="form-control" id="lifepath_origin" value="" readonly="yes"/>
+                        </div>
+                        <div class="mb-3 col-2"> 
+                            <label for="lifepath_languages">Idiomas (elija uno):</label>
+                        </div> 
+                        <div class="mb-3 col-6">
+                            <input type="text" class="form-control" id="lifepath_languages" value="" readonly="yes"/>
+                        </div>
+                    </div> 
+                    <div class="row">
+                        <div class="mb-3 col-1"> 
+                            <label for="lifepath_clothes">Ropas:</label>
+                        </div> 
+                        <div class="mb-3 col-3">
+                            <input type="text" class="form-control" id="lifepath_clothes" value="" readonly="yes"/>
+                        </div>
+                        <div class="mb-3 col-1"> 
+                            <label for="lifepath_hair">Peinado:</label>
+                        </div> 
+                        <div class="mb-3 col-3">
+                            <input type="text" class="form-control" id="lifepath_hair" value="" readonly="yes"/>
+                        </div>
+                        <div class="mb-3 col-1"> 
+                            <label for="lifepath_traits">Rasgos:</label>
+                        </div> 
+                        <div class="mb-3 col-3">
+                            <input type="text" class="form-control" id="lifepath_traits" value="" readonly="yes"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <h4>Motivaciones</h4>
+                    <form id="lifepath_motivations_form">
+                        <div class="row">
+                            <div class="mb-3 col-12">
+                                <button type="button" class="btn btn-primary" onclick="generateMotivationsLifePath()">Generar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="lifepath_motivations_results">
+                    <div class="row">
+                        <div class="mb-3 col-2"> 
+                            <label for="lifepath_personality">Personalidad:</label>
+                        </div>
+                        <div class="mb-3 col-4"> 
+                            <input type="text" class="form-control" id="lifepath_personality" value="" readonly="yes"/>
+                        </div>
+                        <div class="mb-3 col-2"> 
+                            <label for="lifepath_most_valued_person">Persona más Valiosa:</label>
+                        </div>
+                        <div class="mb-3 col-4"> 
+                            <input type="text" class="form-control" id="lifepath_most_valued_person" value="" readonly="yes"/>
+                        </div>
+                    </div> 
+                    <div class="row">
+                        <div class="mb-3 col-2"> 
+                            <label for="lifepath_most_valuable">Lo que más Valoras:</label>
+                        </div>
+                        <div class="mb-3 col-4"> 
+                            <input type="text" class="form-control" id="lifepath_most_valuable" value="" readonly="yes"/>
+                        </div>
+                        <div class="mb-3 col-2"> 
+                            <label for="lifepath_most_valued_thing">Posesión más Valiosa:</label>
+                        </div>
+                        <div class="mb-3 col-4"> 
+                            <input type="text" class="form-control" id="lifepath_most_valued_thing" value="" readonly="yes"/>
+                        </div>
+                    </div> 
+                    <div class="row">
+                        <div class="mb-3 col-2"> 
+                            <label for="lifepath_people_opinion">Opinión de la Gente:</label>
+                        </div>
+                        <div class="mb-3 col-10"> 
+                            <input type="text" class="form-control" id="lifepath_people_opinion" value="" readonly="yes"/>
+                        </div>
+                    </div> 
+                </div>
+                <div class="row">
+                    <h4>Entorno Familiar</h4>
+                    <form id="lifepath_family_form">
+                        <div class="row">
+                            <div class="mb-3 col-12">
+                                <button type="button" class="btn btn-primary" onclick="generateFamilyLifePath()">Generar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="lifepath_family_results">
+                    <div class="row">
+                        <div class="mb-3 col-2"> 
+                            <label for="lifepath_class">Clase Familiar:</label>
+                        </div>
+                        <div class="mb-3 col-4"> 
+                            <input type="text" class="form-control" id="lifepath_class" value="" readonly="yes"/>
+                        </div>
+                        <div class="mb-3 col-2"> 
+                            <label for="lifepath_parents">Padres:</label>
+                        </div>
+                        <div class="mb-3 col-4"> 
+                            <input type="text" class="form-control" id="lifepath_parents" value="" readonly="yes"/>
+                        </div>
+                    </div> 
+                    <div class="row">
+                        <div class="mb-3 col-2"> 
+                            <label for="lifepath_family_situation">Situación Familiar:</label>
+                        </div>
+                        <div class="mb-3 col-4"> 
+                            <input type="text" class="form-control" id="lifepath_family_situation" value="" readonly="yes"/>
+                        </div>
+                        <div class="mb-3 col-2"> 
+                            <label for="lifepath_childhood">Ambiente de Niñez:</label>
+                        </div>
+                        <div class="mb-3 col-4"> 
+                            <input type="text" class="form-control" id="lifepath_childhood" value="" readonly="yes"/>
+                        </div>
+                    </div> 
+                    <div class="row">
+                        <div class="mb-3 col-12">
+                            <table class="table table-hover align-middle nowrap w-100" id="lifepath_siblings">
+                                <caption></caption>
+                                <thead>
+                                    <tr>
+                                        <th width="10%">#</th>
+                                        <th>Tipo</th>
+                                        <th>Orden</th>
+                                        <th>Relación</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <h4>Acontecimientos</h4>
+                    <form id="lifepath_events_form">
+                        <div class="row">
+                            <div class="mb-3 col-1">
+                                <label for="lifepath_age">Edad:</label>
+                            </div>
+                            <div class="mb-3 col-1">
+                                <input type="text" id="lifepath_age" class="form-control" size="4"/>
+                            </div>
+                            <div class="mb-3 col-10">
+                                <button type="button" class="btn btn-secondary" onclick="getRandomAge()">Edad al Azar</button>
+                                <button type="button" class="btn btn-primary" onclick="generateEventsLifePath()">Generar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="lifepath_events_results">
+                    <div class="row">
+                        <div class="mb-3 col-12">
+                            <table class="table table-hover align-middle nowrap w-100" id="lifepath_events">
+                                <caption></caption>
+                                <thead>
+                                    <tr>
+                                        <th width="10%">Edad</th>
+                                        <th>Acontecimiento</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <a href="#" class="mb-3" data-bs-toggle="collapse" data-bs-target="#subsection_shopping" aria-expanded="false" aria-controls="subsection_shopping">
@@ -484,7 +667,7 @@
                                             <td>&nbsp;</td>
                                         </tr>
                                         <tr>
-                                            <td><label class="form-label" for="SAVE">Salvación:</label></td>
+                                            <td><label class="form-label" for="stun_save">Salvación:</label></td>
                                             <td><input class="form-control" type="text" id="stun_save" readonly="yes" /></td>
                                             <td><input class="form-control" type="text" id="death_save" readonly="yes" /></td>
                                         </tr>
