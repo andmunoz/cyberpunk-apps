@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/andres/Proyectos/cyberpunk-apps/cybertools/cybertools"
+VIRTUAL_ENV="/home/andres/OneDrive/Documentos/Juegos de Rol/Cyberpunk 2020/cyberpunk-apps/cybertools/cybertools"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

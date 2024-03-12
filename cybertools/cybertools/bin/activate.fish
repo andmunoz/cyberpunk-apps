@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/andres/Proyectos/cyberpunk-apps/cybertools/cybertools"
+set -gx VIRTUAL_ENV "/home/andres/OneDrive/Documentos/Juegos de Rol/Cyberpunk 2020/cyberpunk-apps/cybertools/cybertools"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

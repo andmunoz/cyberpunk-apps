@@ -8,7 +8,7 @@ alias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH "$_OLD_VIRTUAL_PA
 # Unset irrelevant variables.
 deactivate nondestructive
 
-setenv VIRTUAL_ENV "/home/andres/Proyectos/cyberpunk-apps/cybertools/cybertools"
+setenv VIRTUAL_ENV "/home/andres/OneDrive/Documentos/Juegos de Rol/Cyberpunk 2020/cyberpunk-apps/cybertools/cybertools"
 
 set _OLD_VIRTUAL_PATH="$PATH"
 setenv PATH "$VIRTUAL_ENV/bin:$PATH"
