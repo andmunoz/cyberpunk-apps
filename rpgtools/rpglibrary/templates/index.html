@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        
+        <h5>
+            Explorador de documentos: 
+            <a href="/">root</a>
+            {% for folder in actual_folder_list %} 
+                / <a href="/{{ folder.url }}">{{ folder.name }}</a>
+            {% endfor %}
+        </h5>
+
+        <ul class="collection">
+            {% if actual_folder != '' %}
+                <li class="collection-item">
+                    <a href="{{ parent_folder }}">📂 ..</a>
+                </li>
+            {% endif %}
+
+            {% for item in elements %}
+                <li class="collection-item">
+                    {% if item.tipo == "folder" %}
+                        <a href="{{ item.ruta }}">📂 {{ item.nombre }}</a>
+                    {% else %}
+                        <a href="{{ item.ruta }}" download>📄 {{ item.nombre }}</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

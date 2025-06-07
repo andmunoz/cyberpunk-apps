@@ -1,0 +1,30 @@
+<html>
+    <header>
+        <title>RPG Library Explorer</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+        <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet"/>
+        <style>
+            body {
+                font-family: "Anta", sans-serif;
+            }
+        </style>
+    </header>
+    <body>
+
+        <head>
+            {% include "header.html" %}
+        </head>
+
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="page-footer">
+            {% include "footer.html" %}
+        </footer>
+    </body>
+</html>
